@@ -407,6 +407,8 @@ function RevisarAprobarActividades(props) {
     //console.log("OTRO TIEMPO : ", actualizaTiempoActividad)
 
     //if (props.idUsuario === 0) {
+    //if (!rest.data) {
+    
     if (rest.data.length === 0 &&  (props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 26 )) {
         swal("Estado Orden", "La Actividad de la OT no Registra Firma, no se puede CERRAR", "warning", { button: "Aceptar" });
     }

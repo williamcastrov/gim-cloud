@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SaveIcon from '@material-ui/icons/Save';
 import swal from 'sweetalert';
 import Moment from 'moment';
+import { green, blue, blueGrey, red } from '@material-ui/core/colors';
 
 // Componentes de Conexion con el Backend
 import pendienteotServices from "../../../services/GestionOrdenes/PendienteOT";
@@ -38,7 +39,25 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: 16,
     color: "#ff3d00"
-  }
+  },
+  button: {
+    color: theme.palette.getContrastText(blueGrey[500]),
+    backgroundColor: green[700],
+    margin: theme.spacing(1),
+    fontSize: 12,
+    '&:hover': {
+      backgroundColor: blue[700],
+    },
+  },
+  button2: {
+    color: theme.palette.getContrastText(blueGrey[500]),
+    backgroundColor: red[700],
+    margin: theme.spacing(1),
+    fontSize: 12,
+    '&:hover': {
+      backgroundColor: blue[700],
+    },
+  },
 }));
 
 function GestionarPendientes() {
@@ -65,7 +84,7 @@ function GestionarPendientes() {
     tecnico3_pot: "",
     solicitudrepuesto_pot: "",
     respuestarepuesto_pot: "",
-    observacionrespuesta_pot: "",
+    observacionrespuesta_pot: 0,
     estado_pot: "",
     novedad_pot: "",
     fechacierre_pot: "",
@@ -132,9 +151,12 @@ function GestionarPendientes() {
 
   const crearPendiente = () => {
     {
-      setPendienteSeleccionado([{
+      const codigo = Date.parse(Moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
+      console.log("CODIGO : ", codigo)
+      
+      setPendientesSeleccionado([{
         id: 0,
-        id_pot: 3011,
+        id_pot: codigo,
         fecha_pot: fechaactual,
         repuesto_pot: 0,
         tecnico1_pot: 0,
@@ -142,9 +164,9 @@ function GestionarPendientes() {
         tecnico3_pot: 0,
         solicitudrepuesto_pot: 0,
         respuestarepuesto_pot: 0,
-        observacionrespuesta_pot: "",
+        observacionrespuesta_pot: 0,
         estado_pot: 84,
-        novedad_pot: "",
+        novedad_pot: 0,
         fechacierre_pot: fechaactual,
         descripcion_pot: observacionPendienteOT
       }])
@@ -156,9 +178,9 @@ function GestionarPendientes() {
     if (actividadPendiente) {
 
       async function grabarPendiente() {
-        console.log("DATOS PENDIENTE : ", pendienteSeleccionado)
+        console.log("DATOS PENDIENTE : ", pendientesSeleccionado)
 
-        const res = await pendienteotServices.save(pendienteSeleccionado[0]);
+        const res = await pendienteotServices.save(pendientesSeleccionado[0]);
 
         if (res.success) {
           swal("Pendiente OT", "Pendiente OT Creada de forma Correcta!", "success", { button: "Aceptar" });
@@ -168,7 +190,7 @@ function GestionarPendientes() {
           console.log(res.message);
         }
         setActividadPendiente(false)
-        //cerrarModalCrearPendienteOT();
+        abrirCerrarModalCrearPendienteOT();
       }
       grabarPendiente();
     }
@@ -453,20 +475,20 @@ function GestionarPendientes() {
   )
 
   const crearPendienteOT = (
-    <div>
+    <div className={styles.modal}>
       <Typography align="center" className={styles.typography} variant="button" display="block" >
-        Crear Pendiente Sin OT
+        Crear Pendiente sin OT
       </Typography>
       <Grid container spacing={2} >
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={12}>
           <TextField name="descripcion_pot" label="Ingrese descripción del pendiente" fullWidth
             onChange={(e) => setObservacionPendienteOT(e.target.value)}
           />
         </Grid>
       </Grid>
       <div>
-        <Button type="primary" danger onClick={cerrarModalCrearPendienteOT} > Cancelar </Button>,
-        <Button type="primary" onClick={crearPendiente} > Enviar </Button>
+        <Button className={styles.button2} danger onClick={abrirCerrarModalCrearPendienteOT} > Cancelar </Button>,
+        <Button className={styles.button} onClick={crearPendiente} > Enviar </Button>
       </div>
     </div >
   )
@@ -475,8 +497,8 @@ function GestionarPendientes() {
     <div className={styles.modal}>
       <p>Estás seguro que deseas eliminar el Pendiente de la OT <b>{pendientesSeleccionado && pendientesSeleccionado.descripcion_pot}</b>? </p>
       <div align="right">
-        <Button color="secondary" onClick={() => borrarUnidad()}> Confirmar </Button>
-        <Button onClick={() => abrirCerrarModalEliminar()}> Cancelar </Button>
+        <Button className={styles.button} onClick={() => borrarUnidad()}> Confirmar </Button>
+        <Button className={styles.button} onClick={() => abrirCerrarModalEliminar()}> Cancelar </Button>
       </div>
     </div>
   )
@@ -484,7 +506,7 @@ function GestionarPendientes() {
   return (
     <div className="App">
       <br />
-      <Button color="secondary" onClick={() => abrirCerrarModalCrearPendienteOT()}>
+      <Button className={styles.button} onClick={() => abrirCerrarModalCrearPendienteOT()}>
         CREAR PENDIENTE OT
       </Button>
       <MaterialTable
