@@ -111,6 +111,7 @@ function InformeOT() {
                         <th>#OT FECHA</th>
                         <th>TIPO SERVICIO</th>
                         <th>TIPO DE FALLA</th>
+                        <th>ESTADO DE LA ORDEN</th>
                         <th>ACTIVIDAD REALIZADA</th>
                         <th>TIEMPO DE ACTIVIDAD</th>
                         <th>TIEMPO DE TRANSPORTE</th>
@@ -118,7 +119,8 @@ function InformeOT() {
                         <th>TIPO DE RUEDA</th>
                         <th>CANTIDAD</th>
                         <th>LADO CAMBIADO</th>
-                        <th>TECNICO</th>
+                        <th>TECNICO UNO</th>
+                        <th>TECNICO DOS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,6 +137,7 @@ function InformeOT() {
                                     <td>{ordenes.fechainicia_otr}</td>
                                     <td>{ordenes.descripcion_tmt}</td>
                                     <td>{ordenes.descripcion_fmt}</td>
+                                    <td>{ordenes.nombre_est}</td>
                                     <td>{ordenes.descripcion_cosv}</td>
                                     <td>{ordenes.tiempoactividad_cosv}</td>
                                     <td>{ordenes.tiempotransporte_otr}</td>
@@ -143,6 +146,7 @@ function InformeOT() {
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.primer_nombre_emp}{" "} {ordenes.primer_apellido_emp}</td>
+                                    <td>{ordenes.nombretecnicodos}</td>
                                 </tr>
                             )
                         })

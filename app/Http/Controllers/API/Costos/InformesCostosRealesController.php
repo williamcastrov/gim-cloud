@@ -204,8 +204,10 @@ and  t4.id_ciu   = t3.ciudad_ubi and t3.estado_ubi = 31 and t2.estado_ctr != 60"
         try { 
         
          $resultado = substr($codigo, 5, 5);
+         //$per = substr($codigo, 1, 4);
          $mt = '"'.$resultado.'"';  
 //echo $mt; // imprime "ue"
+//echo $per;
 //exit;
           $data = DB::select("SELECT t0.*, t1.valorenlibros_act, t2.valorrentames_ctr, 
           t1.depreciacionacumulada_act, t1.depreciacionmensual_act, t4.nombre_ciu,
@@ -213,7 +215,7 @@ and  t4.id_ciu   = t3.ciudad_ubi and t3.estado_ubi = 31 and t2.estado_ctr != 60"
           seguros.valorcomercial_seg
 FROM      equipos as t0 INNER JOIN vista_activoscostos AS t1 INNER JOIN contratos as t2
                         INNER JOIN ubicaciones         as t3 INNER JOIN ciudades  as t4
-								INNER JOIN datoscostoscontratacionesconsumos AS t5
+					    INNER JOIN datoscostoscontratacionesconsumos AS t5
  left join seguros on (seguros.equipo_seg = t0.id_equ and activo_seg = 'S' and seguros.estado_seg != 45)   
 WHERE t0.codigo_equ = $mt AND t5.idequipo = t0.id_equ  and t5.codigomtanno = $codigo
   and t0.tipo_equ   = 8   AND t1.codigo_act = t0.id_equ and t2.id_ctr = t0.id_equ and t3.equipo_ubi = t0.id_equ

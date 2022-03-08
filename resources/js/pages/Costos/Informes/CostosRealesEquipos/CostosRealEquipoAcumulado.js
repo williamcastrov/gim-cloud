@@ -83,11 +83,11 @@ function CostosRealEquipoAcumulado() {
         async function fetchDataEquiposTotalRenta() {
             const res = await informecostorealServices.equipostotalesrenta();
             setEquipoTotalRenta(res.data[0].totalequiposrenta);
-            console.log("Equipos Total Renta : ", res.data);
+            //console.log("Equipos Total Renta : ", res.data);
 
             const rest = await informecostorealServices.equipostotales();
             setEquipoTotal(rest.data[0].totalequipos);
-            console.log("Equipos Total : ", rest.data);
+            //console.log("Equipos Total : ", rest.data);
         }
         fetchDataEquiposTotalRenta();
     }, [])
@@ -136,7 +136,8 @@ function CostosRealEquipoAcumulado() {
 
     const procesarInforme = async () => {
         let codigo = '"' + anno + codigoEquipo + '"';
-        console.log("AÑO : ", anno)
+        //console.log("CODIGO : ", codigo)
+        //console.log("AÑO : ", anno)
 
         async function fetchDataCostoVariablePeriodo(dat) {
             const res = await informecostorealServices.costosvariableanno(dat);
@@ -155,6 +156,7 @@ function CostosRealEquipoAcumulado() {
     }
 
     const leerDatosEquipos = (codigo) => {
+        console.log("CODIGO EQUIPO : ", cod)
         async function fetchDataLeeInformacionEquipos(cod) {
             const res = await informecostorealServices.leeinformacionacumuladaequipos(cod);
             setListarEquipos(res.data);
@@ -178,7 +180,7 @@ function CostosRealEquipoAcumulado() {
                     Generar Informe
                 </Button>
 
-                <Button className={styles.button} className={styles.button} color="primary" >
+                <Button className={styles.button} color="primary" >
                     <ReactHTMLTableToExcel
                         table="costosreales"
                         filename="InformacionCostosReales"

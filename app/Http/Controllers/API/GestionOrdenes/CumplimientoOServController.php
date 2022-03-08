@@ -50,6 +50,7 @@ class CumplimientoOServController extends Controller
           $insert['cofreseriecomponentes']      = $request['cofreseriecomponentes'];
           $insert['estadocomponentes']          = $request['estadocomponentes'];
           $insert['estadooperacionequipo_cosv'] = $request['estadooperacionequipo_cosv'];
+          $insert['comentarios_cosv']           = $request['comentarios_cosv'];
 
           CumplimientoOServ::insert($insert);
       
@@ -282,6 +283,33 @@ class CumplimientoOServController extends Controller
           return $response;
       }
 
+      public function calificacionot($id_actividad){
+        try { 
+          $data = DB::select("SELECT t0.*, t1.*, concat(t2.primer_nombre_emp,' ',t2.primer_apellido_emp) as nombreempleado,
+                                     t3.razonsocial_cli
+          FROM calificacionservicioot as t0 INNER JOIN cumplimientooserv as t1 INNER JOIN interlocutores_emp as t2
+                                            INNER JOIN interlocutores_cli as t3 INNER JOIN ordenservicio as t4
+          WHERE t0.ot_cse = t1.id_actividad and t1.operario_cosv = t2.id_emp and t1.id_cosv = t4.id_otr
+            and t4.cliente_otr = t3.id_cli");
+
+          if ($data) {
+              $response['data'] = $data;
+              $response['message'] = "Load successful";
+              $response['success'] = true;
+          }
+          else {
+              $response['data'] = null;
+              $response['message'] = "Not found data ot_cse => $ot_cse";
+              $response['success'] = false;
+          }
+          } catch (\Exception $e) {
+              $response['message'] = $e->getMessage();
+              $response['success'] = false;
+          }
+          return $response;
+      }
+
+
       public function actividadestotalesxot($id_cosv){
         try { 
           $data = DB::select("SELECT Count(*) as actividadestotalesxot
@@ -364,6 +392,7 @@ class CumplimientoOServController extends Controller
           $data['cofreseriecomponentes']      = $request['cofreseriecomponentes'];
           $data['estadocomponentes']          = $request['estadocomponentes'];
           $data['estadooperacionequipo_cosv'] = $request['estadooperacionequipo_cosv'];
+          $data['comentarios_cosv']           = $request['comentarios_cosv'];
     
           $res = CumplimientoOServ::where("id",$id)->update($data);
     

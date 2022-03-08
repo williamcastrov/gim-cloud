@@ -136,6 +136,7 @@ Route::put('/contactos/update/{id}', 'App\Http\Controllers\API\Interlocutores\Co
 
 // Rutas Gestión Usuarios
 Route::get('/usuarios/listar_usuarios', 'App\Http\Controllers\API\UsuariosController@listar_usuarios');
+Route::get('/usuarios/listar_usuariosservicios', 'App\Http\Controllers\API\UsuariosController@listar_usuariosservicios');
 Route::get('/usuarios/leer_usuario/{id}', 'App\Http\Controllers\API\UsuariosController@leer_usuario');
 Route::post('/usuarios/create', 'App\Http\Controllers\API\UsuariosController@create');
 Route::get('/usuarios/get/{id}', 'App\Http\Controllers\API\UsuariosController@get');
@@ -328,6 +329,8 @@ Route::get('/equipos/get/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposC
 Route::get('/equipos/fecharetornaequipo/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposController@fecharetornaequipo');
 Route::delete('/equipos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposController@delete');
 Route::put('/equipos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposController@update');
+Route::get('/equipos/informecomfiabilidad', 'App\Http\Controllers\API\Mantenimiento\EquiposController@informecomfiabilidad');
+Route::get('/equipos/totalcorrectivomtperiodo', 'App\Http\Controllers\API\Mantenimiento\EquiposController@totalcorrectivomtperiodo');
 
 Route::get('/extrasequipos/listar_extrasequipos', 'App\Http\Controllers\API\Mantenimiento\ExtrasEquiposController@listar_extrasequipos');
 Route::post('/extrasequipos/create', 'App\Http\Controllers\API\Mantenimiento\ExtrasEquiposController@create');
@@ -495,12 +498,15 @@ Route::get('/cumplimiento/listar_actividadesotrevision', 'App\Http\Controllers\A
 Route::delete('/cumplimiento/delete/{id}', 'App\Http\Controllers\API\GestionOrdenes\CumplimientoOServController@delete');
 Route::put('/cumplimiento/update/{id}', 'App\Http\Controllers\API\GestionOrdenes\CumplimientoOServController@update');
 Route::put('/cumplimiento/cerraractividad/{id}', 'App\Http\Controllers\API\GestionOrdenes\CumplimientoOServController@cerraractividad');
+Route::get('/cumplimiento/calificacionot/{id}', 'App\Http\Controllers\API\GestionOrdenes\CumplimientoOServController@calificacionot');
 
 Route::get('/pendienteot/listar_pendienteOT/{id}', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@listar_pendienteOT');
 Route::get('/pendienteot/listar_pendientes', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@listar_pendientes');
 Route::post('/pendienteot/create', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@create');
 Route::delete('/pendienteot/delete/{id}', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@delete');
 Route::put('/pendienteot/update/{id}', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@update');
+Route::get('/pendienteot/listar_pendientesinot', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@listar_pendientesinot');
+Route::get('/pendienteot/listar_pendientesactivos', 'App\Http\Controllers\API\GestionOrdenes\PendienteOTController@listar_pendientesactivos');
 
 // Rutas Administración Lista de Chequeo
 Route::get('/inventarios/listar_chequeorecepcion', 'App\Http\Controllers\API\Almacenes\InventariosController@listar_chequeorecepcion');
@@ -525,6 +531,12 @@ Route::post('/plandecuentas/create', 'App\Http\Controllers\API\Activos\PlandeCue
 Route::get('/plandecuentas/get/{id}', 'App\Http\Controllers\API\Activos\PlandeCuentasController@get');
 Route::delete('/plandecuentas/delete/{id}', 'App\Http\Controllers\API\Activos\PlandeCuentasController@delete');
 Route::put('/plandecuentas/update/{id}', 'App\Http\Controllers\API\Activos\PlandeCuentasController@update');
+
+Route::get('/usuariosequipos/listar_usuariosporequipo', 'App\Http\Controllers\API\Mantenimiento\EquiposUsuariosController@listar_usuariosporequipo');
+Route::post('/usuariosequipos/create', 'App\Http\Controllers\API\Mantenimiento\EquiposUsuariosController@create');
+Route::get('/usuariosequipos/get/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposUsuariosController@get');
+Route::delete('/usuariosequipos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposUsuariosController@delete');
+Route::put('/usuariosequipos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposUsuariosController@update');
 
 Route::get('/activos/listar_activos', 'App\Http\Controllers\API\Activos\ActivosController@listar_activos');
 Route::get('/activos/leeactivodepreciar/{id}', 'App\Http\Controllers\API\Activos\ActivosController@leeactivodepreciar');
@@ -556,6 +568,7 @@ Route::get('/rentabilidad/generarperiodorentabilidad/{id}', 'App\Http\Controller
 Route::get('/rentabilidad/get/{id}', 'App\Http\Controllers\API\Importar\ConceptosRentabilidadController@get');
 Route::delete('/rentabilidad/delete/{id}', 'App\Http\Controllers\API\Importar\ConceptosRentabilidadController@delete');
 Route::put('/rentabilidad/update/{id}', 'App\Http\Controllers\API\Importar\ConceptosRentabilidadController@update');
+Route::post('/rentabilidad/create', 'App\Http\Controllers\API\Importar\DatosFactContratosConsumosController@create');
 
 Route::get('/rentabilidadperiodo/listar_rentabilidadperiodo', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@listar_rentabilidadperiodo');
 Route::post('/rentabilidadperiodo/create', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@create');
@@ -564,6 +577,7 @@ Route::get('/rentabilidadperiodo/get/{id}', 'App\Http\Controllers\API\Importar\R
 Route::delete('/rentabilidadperiodo/delete/{id}', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@delete');
 Route::put('/rentabilidadperiodo/consumorptorentabilidadperiodo/{id}', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@consumorptorentabilidadperiodo');
 Route::put('/rentabilidadperiodo/update/{id}', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@update');
+Route::get('/rentabilidadperiodo/listar_factcontratacionrepuestosperiodo/{id}', 'App\Http\Controllers\API\Importar\RentabilidadPeriodoController@listar_factcontratacionrepuestosperiodo');
 
 // RUtas para administrar Costos Variables
 Route::get('/costosvariables/listar_costosvariables', 'App\Http\Controllers\API\Costos\CostosVariablesController@listar_costosvariables');

@@ -7,6 +7,8 @@ import BarSessionUno from "./BarSessionUno";
 import BarSessionDos from "./BarSessionDos";
 import BarSessionTres from "./BarSessionTres";
 import BarSessionCuatro from "./BarSessionCuatro";
+import BarSessionCinco from "./BarSessionCinco";
+import BarSessionSeis from "./BarSessionSeis";
 
 export default function SelectMenuBar(props) {
   const { tipousuario, idusuario } = props;
@@ -18,7 +20,7 @@ export default function SelectMenuBar(props) {
 
   const handlerForm = () => {
     //setSelectedForm(tipo_usu)
-    //console.log("TIPO DE USUARIO : ", tipousuario)
+    console.log("TIPO DE USUARIO : ", tipousuario)
     switch (tipousuario) {
       case 13:
         return <BarSessionSuperAdmin />
@@ -28,6 +30,10 @@ export default function SelectMenuBar(props) {
         return <BarSessionUno />
       case 12:
         return <BarSessionDos />
+      case 18:
+          return <BarSessionCinco />
+      case 19:
+            return <BarSessionSeis />
       case 17:
         return <BarSessionCuatro />
       default:

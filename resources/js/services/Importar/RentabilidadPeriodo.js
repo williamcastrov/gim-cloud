@@ -30,6 +30,15 @@ rentabilidadperiodo.listarrentabilidadperiodoequipo = async (periodo) => {
     return res;
 }
 
+rentabilidadperiodo.listar_factcontratacionrepuestosperiodo = async (periodo) => {
+    const urlList = baseUrl+"/listar_factcontratacionrepuestosperiodo/"+periodo
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 rentabilidadperiodo.sumartiempoactividades = async (periodo) => {
     //console.log("DATA PROGRAMADA : ", periodo);
     const urlUpdate = baseUrl+"/consumorptorentabilidadperiodo/"+periodo

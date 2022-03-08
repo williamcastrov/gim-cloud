@@ -65,7 +65,6 @@ equipos.listEquiposMontacargasusuario = async () => {
     return res;
 }
 
-
 equipos.listaralertasestadosequipos = async (totequipos) => {
     const urlList = baseUrl+"/listar_alertasestadosequipos/"+totequipos
     const res = await axios.get(urlList)
@@ -104,6 +103,24 @@ equipos.listEquiposAccesorios = async () => {
 
 equipos.listActivosRenta = async () => {
     const urlList = baseUrl+"/listar_activosrenta"
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
+equipos.informecomfiabilidad = async () => {
+    const urlList = baseUrl+"/informecomfiabilidad"
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
+equipos.totalcorrectivomtperiodo = async () => {
+    const urlList = baseUrl+"/totalcorrectivomtperiodo"
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })
     .catch(error=>{ return error; })

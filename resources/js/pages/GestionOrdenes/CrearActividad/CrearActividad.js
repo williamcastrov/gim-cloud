@@ -60,6 +60,7 @@ function CrearActividad(props) {
     const history = useHistory();
     const [operario, setOperario] = React.useState(0);
     const [operarioDos, setOperarioDos] = React.useState(0);
+    const [comentarios, setComentarios] = React.useState(0);
     const [grabar, setGrabar] = React.useState(false);
 
     const [listarOrdenes, setListarOrdenes] = useState([]);
@@ -110,6 +111,7 @@ function CrearActividad(props) {
         cofreseriecomponentes: 0,
         estadocomponentes: 0,
         estadooperacionequipo_cosv: 81,
+        comentarios_cosv: comentarios
     });
 
     const agregarActividad = (e) => {
@@ -169,6 +171,7 @@ function CrearActividad(props) {
                     cofreseriecomponentes: 0,
                     estadocomponentes: 0,
                     estadooperacionequipo_cosv: 81,
+                    comentarios_cosv: comentarios
                 }])
             ))
         }
@@ -307,12 +310,13 @@ function CrearActividad(props) {
                                 }
                             </Select>
                         </FormControl>
+                        <TextField name="comentarios_cosv" label="Comentarios para el Técnico" fullWidth
+                                   onChange={(e) => setComentarios(e.target.value)} />
                         <div >
                             <Button className={styles.button} variant="contained" type="submit" size="small" color="secondary" >
                                 Actualizar
                             </Button>
                         </div>
-
                     </form>
                 </Grid>
 

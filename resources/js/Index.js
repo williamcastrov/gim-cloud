@@ -24,11 +24,12 @@ function Index() {
         console.log(currentUser ? "Estamos Logueados" : "No estamos logueados")
         if (currentUser) {
             setMetadata(currentUser.metadata.a);
-            //console.log("CURRENT USER : ", currentUser.metadata.a);
+            console.log("CURRENT USER : ", currentUser.metadata.a);
             setUser(true);
             
             async function fetchDataUsuarios() {
               const res = await usuariosServices.leerUsuario(currentUser.metadata.a);
+              //console.log("TIPO USUARIO EN INDEX : ", res)
               setTipoUsuario(res.data[0].tipo_usu);
               setComponente(res.data[0].dashboard_usu);
               setIdUsu(res.data[0].id_usu);

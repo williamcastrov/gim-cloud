@@ -101,12 +101,6 @@ function Ordenes() {
                 </ListItemIcon>
                 <ListItemText primary="Gestionar Pendientes" />
               </ListItem>
-              <ListItem  component={Link} button to="/pdf/imprimirot" className={classes.nested}>
-                <ListItemIcon>
-                  <ReceiptIcon />
-                </ListItemIcon>
-                <ListItemText primary="Imprimir/Descargar" />
-              </ListItem>
               <ListItem  component={Link} button to="/pdf/imprimirotcliente" className={classes.nested}>
                 <ListItemIcon>
                   <ReceiptIcon />

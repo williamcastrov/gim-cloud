@@ -129,12 +129,6 @@ function Ordenes() {
                 </ListItemIcon>
                 <ListItemText primary="Crear/Listar/Modificar" />
               </ListItem>
-              <ListItem  component={Link} button to="/pdf/imprimirot" className={classes.nested}>
-                <ListItemIcon>
-                  <ReceiptIcon />
-                </ListItemIcon>
-                <ListItemText primary="Imprimir/Descargar" />
-              </ListItem>
             </List>
           </Collapse>
           <Divider />

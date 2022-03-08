@@ -13,6 +13,7 @@ import estadosServices from "../../../services/Parameters/Estados";
 import empresasServices from "../../../services/Empresa";
 import ordenesServices from "../../../services/GestionOrdenes/CrearOrdenes";
 import empleadosServices from "../../../services/Interlocutores/Empleados";
+import equiposServices from "../../../services/Mantenimiento/Equipos";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -36,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0),
     minWidth: 200,
   },
+  formControl2: {
+    margin: theme.spacing(0),
+    minWidth: 415,
+  },
   typography: {
     fontSize: 16,
     color: "#ff3d00"
@@ -58,6 +63,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: blue[700],
     },
   },
+  button3: {
+    color: theme.palette.getContrastText(blueGrey[500]),
+    backgroundColor: blue[700],
+    margin: theme.spacing(1),
+    fontSize: 12,
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
 }));
 
 function GestionarPendientes() {
@@ -73,8 +87,14 @@ function GestionarPendientes() {
   const [listarEstados, setListarEstados] = useState([]);
   const [actualiza, setActualiza] = useState(false);
   const [observacionPendienteOT, setObservacionPendienteOT] = useState("");
+  const [codigoMT, setCodigoMT] = useState("");
   const [actividadPendiente, setActividadPendiente] = React.useState(false);
   const fechaactual = Moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  const [pendienteSinOT, setpendienteSinOT] = React.useState(false);
+  const [colorCrearPendiente, setColorCrearPendiente] = React.useState(false);
+  const [colorConsultarPendiente, setColorConsultarPendiente] = React.useState(false);
+  const [colorTodosPendiente, setColorTodosPendiente] = React.useState(false);
+  const [listarEquipos, setListarEquipos] = useState([]);
   const [pendientesSeleccionado, setPendientesSeleccionado] = useState({
     id: "",
     id_pot: "",
@@ -92,8 +112,17 @@ function GestionarPendientes() {
   })
 
   useEffect(() => {
+    async function fetchDataEquipos() {
+      const res = await equiposServices.listEquiposMontacargas();
+      setListarEquipos(res.data);
+      //console.log(res.data);
+    }
+    fetchDataEquipos();
+  }, [])
+
+  useEffect(() => {
     async function fetchDataPendientes() {
-      const res = await pendienteotServices.listpendientes();
+      const res = await pendienteotServices.listar_pendientesactivos();
       setListPendientes(res.data);
       setActualiza(false);
     }
@@ -146,14 +175,22 @@ function GestionarPendientes() {
   }
 
   const abrirCerrarModalCrearPendienteOT = () => {
+    setColorCrearPendiente(true);
+    setColorConsultarPendiente(false);
+    setColorTodosPendiente(false);
     setModalCrearPendienteOT(!modalCrearPendienteOT);
   }
 
   const crearPendiente = () => {
     {
-      const codigo = Date.parse(Moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
-      console.log("CODIGO : ", codigo)
-      
+      var caracteres = "012346789";
+      var codigo = 0;
+      for (var i = 0; i < 6; i++)
+        codigo += caracteres.charAt(
+          Math.floor(Math.random() * caracteres.length)
+        );
+      //let cadena = codigoid; //shortid();
+
       setPendientesSeleccionado([{
         id: 0,
         id_pot: codigo,
@@ -166,7 +203,7 @@ function GestionarPendientes() {
         respuestarepuesto_pot: 0,
         observacionrespuesta_pot: 0,
         estado_pot: 84,
-        novedad_pot: 0,
+        novedad_pot: codigoMT,
         fechacierre_pot: fechaactual,
         descripcion_pot: observacionPendienteOT
       }])
@@ -195,6 +232,33 @@ function GestionarPendientes() {
       grabarPendiente();
     }
   }, [actividadPendiente])
+
+  const consultarPendientes = async () => {
+    setColorCrearPendiente(false);
+    setColorConsultarPendiente(true);
+    setColorTodosPendiente(false);
+
+    setpendienteSinOT(true);
+    async function fetchDataPendientes() {
+      const res = await pendienteotServices.listar_pendientesinot();
+      setListPendientes(res.data);
+      setActualiza(false);
+    }
+    fetchDataPendientes();
+  }
+
+  const consultarTodosPendientes = async () => {
+    setColorCrearPendiente(false);
+    setColorConsultarPendiente(false);
+    setColorTodosPendiente(true);
+    setpendienteSinOT(true);
+    async function fetchDataPendientes() {
+      const res = await pendienteotServices.listpendientes();
+      setListPendientes(res.data);
+      setActualiza(false);
+    }
+    fetchDataPendientes();
+  }
 
 
   const actualizarPendiente = async () => {
@@ -291,8 +355,8 @@ function GestionarPendientes() {
     setActualiza(true);
   }
   // "string","boolean","numeric","date","datetime","time","currency"
-  const columnas = [
 
+  const columnas = [
     {
       title: '#Orden',
       field: 'id_otr',
@@ -323,10 +387,6 @@ function GestionarPendientes() {
       field: 'respuestarepuesto_pot'
     },
     {
-      title: 'Novedad',
-      field: 'novedad_pot'
-    },
-    {
       title: 'Fecha de Cierre',
       field: 'fechacierre_pot',
     },
@@ -340,6 +400,35 @@ function GestionarPendientes() {
       cellStyle: { minWidth: 200 }
     }
   ]
+
+  const columnassinot = [
+    {
+      title: '#Pendiente',
+      field: 'id_pot',
+      cellStyle: { maxWidth: 50 }
+    },
+    {
+      title: 'Equipo',
+      field: 'codigo_equ'
+    },
+    {
+      title: 'Descripción Equipo',
+      field: 'descripcion_equ'
+    },
+    {
+      title: 'Fecha Creación',
+      field: 'fecha_pot',
+    },
+    {
+      title: 'Descripciín pendiente',
+      field: 'descripcion_pot',
+    },
+    {
+      title: 'Estado',
+      field: 'nombre_est'
+    },
+  ]
+
   // value={pendientesSeleccionado && pendientesSeleccionado.fecha_pot}
 
   const unidadEditar = (
@@ -481,6 +570,27 @@ function GestionarPendientes() {
       </Typography>
       <Grid container spacing={2} >
         <Grid item xs={12} md={12}>
+          <FormControl className={styles.formControl2}>
+            <InputLabel id="idselectnovedad_pot">Equipo</InputLabel>
+            <Select
+              labelId="selectnovedad_pot"
+              name="novedad_pot"
+              id="idselectnovedad_pot"
+              fullWidth
+              onChange={(e) => setCodigoMT(e.target.value)}
+            >
+              <MenuItem value=""> <em>None</em> </MenuItem>
+              {
+                listarEquipos && listarEquipos.map((itemselect) => {
+                  return (
+                    <MenuItem value={itemselect.id_equ}>{itemselect.codigo_equ}{" "}{itemselect.descripcion_equ} </MenuItem>
+                  )
+                })
+              }
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={12}>
           <TextField name="descripcion_pot" label="Ingrese descripción del pendiente" fullWidth
             onChange={(e) => setObservacionPendienteOT(e.target.value)}
           />
@@ -497,65 +607,171 @@ function GestionarPendientes() {
     <div className={styles.modal}>
       <p>Estás seguro que deseas eliminar el Pendiente de la OT <b>{pendientesSeleccionado && pendientesSeleccionado.descripcion_pot}</b>? </p>
       <div align="right">
-        <Button className={styles.button} onClick={() => borrarUnidad()}> Confirmar </Button>
+        <Button className={styles.button} onClick={() => borrarPendiente()}> Confirmar </Button>
         <Button className={styles.button} onClick={() => abrirCerrarModalEliminar()}> Cancelar </Button>
       </div>
     </div>
   )
+  /*
+ const [colorCrearPendiente, setColorCrearPendiente] = React.useState(false);
+  const [colorConsultarPendiente, setColorConsultarPendiente] = React.useState(false);
+  const [colorTodosPendiente, setColorTodosPendiente] = React.useState(false);
+  */
 
   return (
     <div className="App">
       <br />
-      <Button className={styles.button} onClick={() => abrirCerrarModalCrearPendienteOT()}>
-        CREAR PENDIENTE OT
-      </Button>
-      <MaterialTable
-        columns={columnas}
-        data={listPendientes}
-        title="CONSULTAR PENDIENTES"
-        actions={[
-          {
-            icon: 'edit',
-            tooltip: 'Editar Pendiente',
-            onClick: (event, rowData) => seleccionarPendientes(rowData, "Editar")
-          },
-          {
-            icon: 'delete',
-            tooltip: 'Borrar Pendiente',
-            onClick: (event, rowData) => seleccionarPendientes(rowData, "Eliminar")
-          }
-        ]}
-        options={{
-          actionsColumnIndex: -1
-        }}
-        localization={{
-          header: {
-            actions: "Acciones"
-          }
-        }}
-        detailPanel={[
-          {
-            tooltip: 'Información de Pendientes',
-            render: rowData => {
-              return (
-                <div
-                  style={{
-                    fontSize: 14,
-                    textAlign: 'center',
-                    color: 'white',
-                    backgroundColor: '#0277bd',
-                  }}
-                >
-                  <Button variant="contained">Técnico Dos : {rowData.nombretecnicodos}</Button> { }
-                  <Button variant="contained">Técnico Tres  : {rowData.nombretecnicotres}</Button> { }
-                  <Button variant="contained">Observación :{rowData.observacionrespuesta_pot}</Button> { }
-                  <Button variant="contained">Comentarios :{rowData.descripcion_pot}</Button>
-                </div>
-              )
-            },
-          },
-        ]}
-      />{ }
+      {
+        !colorCrearPendiente ?
+          (
+            <Button className={styles.button3} onClick={() => abrirCerrarModalCrearPendienteOT()}>
+              CREAR PENDIENTE OT
+            </Button>
+
+          )
+          :
+          (
+            <Button className={styles.button} onClick={() => abrirCerrarModalCrearPendienteOT()}>
+              CREAR PENDIENTE OT
+            </Button>
+          )
+      }
+
+      {
+        !colorConsultarPendiente ?
+          (
+            <Button className={styles.button3} onClick={() => consultarPendientes()}>
+              CONSULTAR PENDIENTE SIN OT
+            </Button>
+          )
+          :
+          (
+            <Button className={styles.button} onClick={() => consultarPendientes()}>
+              CONSULTAR PENDIENTE SIN OT
+            </Button>
+          )
+      }
+      {
+        !colorTodosPendiente ?
+          (
+            <Button className={styles.button3} onClick={() => consultarTodosPendientes()}>
+              TODOS LOS PENDIENTES
+            </Button>
+          )
+          :
+          (
+            <Button className={styles.button} onClick={() => consultarTodosPendientes()}>
+              TODOS LOS PENDIENTES
+            </Button>
+          )
+      }
+
+      {
+        !pendienteSinOT ?
+          (
+            <div>
+              <MaterialTable
+                columns={columnas}
+                data={listPendientes}
+                title="CONSULTAR PENDIENTES"
+                actions={[
+                  {
+                    icon: 'edit',
+                    tooltip: 'Editar Pendiente',
+                    onClick: (event, rowData) => seleccionarPendientes(rowData, "Editar")
+                  },
+                  {
+                    icon: 'delete',
+                    tooltip: 'Borrar Pendiente',
+                    onClick: (event, rowData) => seleccionarPendientes(rowData, "Eliminar")
+                  }
+                ]}
+                options={{
+                  actionsColumnIndex: -1
+                }}
+                localization={{
+                  header: {
+                    actions: "Acciones"
+                  }
+                }}
+                detailPanel={[
+                  {
+                    tooltip: 'Información de Pendientes',
+                    render: rowData => {
+                      return (
+                        <div
+                          style={{
+                            fontSize: 14,
+                            textAlign: 'center',
+                            color: 'white',
+                            backgroundColor: '#0277bd',
+                          }}
+                        >
+                          <Button variant="contained">Técnico Dos : {rowData.nombretecnicodos}</Button> { }
+                          <Button variant="contained">Técnico Tres  : {rowData.nombretecnicotres}</Button> { }
+                          <Button variant="contained">Observación :{rowData.observacionrespuesta_pot}</Button> { }
+                          <Button variant="contained">Comentarios :{rowData.descripcion_pot}</Button>
+                        </div>
+                      )
+                    },
+                  },
+                ]}
+              />
+            </div>
+          )
+          :
+          (
+            <div>
+              <MaterialTable
+                columns={columnassinot}
+                data={listPendientes}
+                title="CONSULTAR PENDIENTES"
+                actions={[
+                  {
+                    icon: 'edit',
+                    tooltip: 'Editar Pendiente',
+                    onClick: (event, rowData) => seleccionarPendientes(rowData, "Editar")
+                  },
+                  {
+                    icon: 'delete',
+                    tooltip: 'Borrar Pendiente',
+                    onClick: (event, rowData) => seleccionarPendientes(rowData, "Eliminar")
+                  }
+                ]}
+                options={{
+                  actionsColumnIndex: -1
+                }}
+                localization={{
+                  header: {
+                    actions: "Acciones"
+                  }
+                }}
+                detailPanel={[
+                  {
+                    tooltip: 'Información de Pendientes',
+                    render: rowData => {
+                      return (
+                        <div
+                          style={{
+                            fontSize: 14,
+                            textAlign: 'center',
+                            color: 'white',
+                            backgroundColor: '#0277bd',
+                          }}
+                        >
+                          <Button variant="contained">Técnico Dos : {rowData.nombretecnicodos}</Button> { }
+                          <Button variant="contained">Técnico Tres  : {rowData.nombretecnicotres}</Button> { }
+                          <Button variant="contained">Observación :{rowData.observacionrespuesta_pot}</Button> { }
+                          <Button variant="contained">Comentarios :{rowData.descripcion_pot}</Button>
+                        </div>
+                      )
+                    },
+                  },
+                ]}
+              />
+            </div>
+          )
+      }
 
       <Modal
         open={modalEditar}

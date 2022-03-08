@@ -392,6 +392,46 @@ class EquiposController extends Controller
           return $response;
       }
 
+      public function informecomfiabilidad(){  
+        try {
+          //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
+          $data = DB::select("SELECT t0.*
+          FROM vista_comfiabilidadMT as t0
+          ORDER BY t0.codigo_equ ASC");
+        
+          $response['data'] = $data;
+          
+          // $response['data'] = $data1;
+          $response['message'] = "load successful";
+          $response['success'] = true;
+      
+        } catch (\Exception $e) {
+          $response['message'] = $e->getMessage();
+          $response['success'] = false;
+        }
+          return $response;
+      }
+
+      public function totalcorrectivomtperiodo(){  
+        try {
+          //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
+          $data = DB::select("SELECT t0.*
+          FROM vista_otactividades as t0
+          ORDER BY t0.equipo_otr ASC");
+        
+          $response['data'] = $data;
+          
+          // $response['data'] = $data1;
+          $response['message'] = "load successful";
+          $response['success'] = true;
+      
+        } catch (\Exception $e) {
+          $response['message'] = $e->getMessage();
+          $response['success'] = false;
+        }
+          return $response;
+      }
+
       public function leerultimoequipo(){  
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1

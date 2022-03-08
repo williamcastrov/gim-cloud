@@ -48,7 +48,8 @@ class CumplimientoOServ extends Model
 		'celdasreferenciacomponente',
 		'cofreseriecomponentes',
 		'estadocomponentes',
-		'estadooperacionequipo_cosv'
+		'estadooperacionequipo_cosv',
+		'comentarios_cosv'
     ];
 
     public $timestamps = false;

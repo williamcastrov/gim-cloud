@@ -53,6 +53,10 @@ const BarSessionCuatro = (props) => {
         history.push("/gestionordenes/ordenes");
     }  
 
+    const irapendientes = () => {
+        history.push("/gestionordenes/gestionarpendientes");
+    }
+
     const [state, setState] = React.useState({
         left: false,
         right: false,
@@ -96,6 +100,7 @@ const BarSessionCuatro = (props) => {
                 <div className={classes.sectionDesktop} >
                     <Button size="large" onClick={IraInicio} variant="outlined" color="inherit" > Ir a Inicio </Button>
                     <Button size="large" onClick={IraOrdenes} variant="outlined" color="inherit" > Ir a Ordenes </Button>
+                    <Button size="large" onClick={irapendientes} variant="outlined" color="inherit" > Ir a Pendientes </Button>
                 </div>
 
                 <div className={classes.grow} ></div>

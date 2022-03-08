@@ -30,6 +30,24 @@ pendienteot.listpendientes = async () => {
     return res;
 }
 
+pendienteot.listar_pendientesinot = async () => {
+    const urlList = baseUrl+"/listar_pendientesinot"
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
+pendienteot.listar_pendientesactivos = async () => {
+    const urlList = baseUrl+"/listar_pendientesactivos"
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 pendienteot.update = async (data) => {
     //console.log(data);
     //console.log("DATA : ", data.id);

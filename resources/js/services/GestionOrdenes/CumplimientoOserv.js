@@ -48,6 +48,15 @@ cumplimientooserv.listUnCumplimiento = async (id_actividad) => {
     return res;
 }
 
+cumplimientooserv.calificacionot = async (id_actividad) => {
+    const urlList = baseUrl+"/calificacionot/"+id_actividad
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 cumplimientooserv.leeractividadesmaquina = async (equipo_otr) => {
     const urlList = baseUrl+"/leeractividadesmaquina/"+equipo_otr
     const res = await axios.get(urlList)

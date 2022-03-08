@@ -48,7 +48,25 @@ class UsuariosController extends Controller
 
         $data = DB::select("SELECT t0.*, t1.nombre_est, t2.nombre_ciu, t3.descripcion_und
         FROM usuarios as t0 INNER JOIN estados as t1 INNER JOIN ciudades as t2  INNER JOIN unidades as t3
-        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13) and t0.tipo_usu = t3.id_und");
+        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13,17,18,19) and t0.tipo_usu = t3.id_und");
+
+        $response['data'] = $data;
+        $response['message'] = "load successful";
+        $response['success'] = true;
+
+      } catch (\Exception $e) {
+        $response['message'] = $e->getMessage();
+        $response['success'] = false;
+      }
+      return $response;
+    }
+
+    public function listar_usuariosservicios(){
+  
+      try {
+        $data = DB::select("SELECT t0.*, t1.nombre_est, t2.nombre_ciu, t3.descripcion_und
+        FROM usuarios as t0 INNER JOIN estados as t1 INNER JOIN ciudades as t2  INNER JOIN unidades as t3
+        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (17) and t0.tipo_usu = t3.id_und");
 
         $response['data'] = $data;
         $response['message'] = "load successful";
@@ -65,7 +83,7 @@ class UsuariosController extends Controller
       try {
         $data = DB::select("SELECT t0.*, t1.nombre_est, t2.nombre_ciu, t3.descripcion_und
         FROM usuarios as t0 INNER JOIN estados as t1 INNER JOIN ciudades as t2  INNER JOIN unidades as t3
-        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13,17) and t0.tipo_usu = t3.id_und and
+        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13,17,18,19) and t0.tipo_usu = t3.id_und and
               t0.uidfirebase_usu like $uidfirebase_usu");
 
         if ($data) {
@@ -90,7 +108,7 @@ class UsuariosController extends Controller
       try {
         $data = DB::select("SELECT t0.*, t1.nombre_est, t2.nombre_ciu, t3.descripcion_und
         FROM usuarios as t0 INNER JOIN estados as t1 INNER JOIN ciudades as t2  INNER JOIN unidades as t3
-        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13) and t0.tipo_usu = t3.id_und and
+        WHERE t0.estado_usu = t1.id_est and t0.ciudad_usu = t2.id_ciu and t0.tipo_usu IN (10,11,12,13,17,18,19) and t0.tipo_usu = t3.id_und and
               t0.id_usu = $id_usu");
 
         if ($data) {

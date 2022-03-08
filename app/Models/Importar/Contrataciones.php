@@ -17,6 +17,7 @@ class Contrataciones extends Model
         'id',
         'anno',
         'mes',
+        'periodo',
         'cuenta',
         'nombrecuenta',
         'nit',

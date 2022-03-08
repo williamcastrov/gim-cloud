@@ -55,6 +55,7 @@ import ClasificacionABC from './pages/Mantenimiento/ClasificacionABC';
 import EstadosClientes from './pages/Mantenimiento/EstadosClientes';
 import EstadosMtto from './pages/Mantenimiento/EstadosMtto';
 import EstadosCalidad from './pages/Mantenimiento/EstadosCalidad/EstadosCalidad';
+import UsuariosEquipos from "./pages/Mantenimiento/UsuariosEquipos";
 
 // Componentes Modulo Gestión Ordenes de Servicios
 import Tiposmtto from './pages/GestionOrdenes/Parameters/Tiposmtto';
@@ -137,6 +138,8 @@ import InformeEquipos from "./pages/Informes/FlotaRenta/InformeEquipos";
 import InformeOT from "./pages/Informes/FlotaRenta/InformeOT";
 import InformeHojaVidaEquipos from "./pages/Informes/FlotaRenta/HojaVidaEquipo";
 import InformeUbicacionesEquipos from "./pages/Informes/FlotaRenta/UbicacionesEquipos";
+import InformeCalificacionOT from "./pages/Informes/FlotaRenta/CalificacionOT";
+import ConfiabilidadMT from "./pages/Informes/FlotaRenta/ConfiabilidadMT";
 
 //Imagenes
 import Images from "./pages/Images";
@@ -154,6 +157,8 @@ import Error404 from "./pages/Error404";
 //Rutas Dashboard
 import Rentabilidad from "./pages/Dashboard/Rentabilidad";
 import Facturacion from "./pages/Dashboard/Facturacion";
+import DatosFacturacion from "./pages/Importar/ExportarDatosFacturacion";
+import SubirFacturacion from "./pages/Importar/DatosFactContratosConsumos";
 import CardsHeader from "./components/Dashboard/CardsHeader";
 import Cards from "./components/Dashboard/Cards";
 import Graphics from "./components/Dashboard/Graphics";
@@ -167,7 +172,7 @@ import CostosRealEquipoAcumulado from "./pages/Costos/Informes/CostosRealesEquip
 
 function Main(props) {
   const { metadata, componente, tipousuario, user, idUsu } = props;
-  //console.log("TIPO DE USUARIO EN MAIN : ", tipousuario)
+  console.log("TIPO DE USUARIO EN MAIN : ", tipousuario)
 
   return (
     <>
@@ -262,6 +267,7 @@ function Main(props) {
               <Route path="/mantenimiento/ubicaciones" component={Ubicaciones} />
               <Route path="/mantenimiento/seguros" component={Seguros} />
               <Route path="/mantenimiento/datoshorometro" component={DatosHorometro} />
+              <Route path="/mantenimiento/usuariosequipos" component={UsuariosEquipos} />
 
               <Route path="/gestionordenes/ordenes" component={LeeUsuarioOrdenes} />
               <Route path="/gestionordenes/crearordenes" component={CrearOrdenes} />
@@ -290,8 +296,6 @@ function Main(props) {
               <Route path="/activos/depreciacion" component={Depreciacion} />
               <Route path="/activos/exportardepreciacion" component={ExportarDepreciacion} />
               <Route path="/activos/exportaractivos" component={ExportarActivos} />
-
-              <Route path="/pdf/imprimirot" component={ImprimirOT} />
 
               <Route path="/pdf/imprimirotcliente">
                 <ImprimirOTCliente  metadata={metadata} idUsu={idUsu} />
@@ -323,7 +327,9 @@ function Main(props) {
               <Route path="/flotarenta/informependientes" component={InformePendientes} />
               <Route path="/flotarenta/informehojavidaequipos" component={InformeHojaVidaEquipos} />
               <Route path="/flotarenta/informeubicacionesequipos" component={InformeUbicacionesEquipos} />
+              <Route path="/flotarenta/calificacionot" component={InformeCalificacionOT} />
               <Route path="/flotarenta/controlalzas" component={ControlAlzas} />
+              <Route path="/flotarenta/confiabilidadMT" component={ConfiabilidadMT } />
 
               <Route path="/rentabilidad/cardsheader" component={CardsHeader} />
               <Route path="/rentabilidad/cards" component={Cards} />
@@ -331,6 +337,8 @@ function Main(props) {
               <Route path="/rentabilidad/groupedbar" component={GroupedBar} />
 
               <Route path="/rentabilidad/facturacion" component={Facturacion} />
+              <Route path="/importar/datosfacturacion" component={DatosFacturacion} />
+              <Route path="/importar/subirfacturacion" component={SubirFacturacion} />
               <Route path="/images/images" component={Images} />
               <Route path="/pdfs/pdfcontratos" component={PdfContratos} />
 

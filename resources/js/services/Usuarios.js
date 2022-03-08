@@ -20,9 +20,19 @@ usuarios.listUsuarios = async () => {
     return res;
 }
 
-usuarios.leerUsuario = async(email_usu) => {
+usuarios.listar_usuariosservicios = async () => {
+    const urlList = baseUrl+"/listar_usuariosservicios"
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
+
+usuarios.leerUsuario = async(idusuario) => {
     //console.log("DATA USUARIO : ", email_usu)
-    const urlList = baseUrl+"/leer_usuario/"+email_usu
+    const urlList = baseUrl+"/leer_usuario/"+idusuario
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })
     .catch(error=>{ return error; })

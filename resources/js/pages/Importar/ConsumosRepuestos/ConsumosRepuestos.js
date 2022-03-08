@@ -69,7 +69,7 @@ function ConsumosRepuestos() {
   const [loading, setLoading] = useState(false);
 
   const readExcel = (file) => {
-
+  //console.log("FILE : ", file)
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
@@ -127,6 +127,7 @@ function ConsumosRepuestos() {
         //abrirCerrarModalCancelar();
       }
       setLoading(false);
+  
     }
     addContrataciones();
   }

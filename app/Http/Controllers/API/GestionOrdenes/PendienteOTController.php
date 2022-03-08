@@ -46,21 +46,74 @@ class PendienteOTController extends Controller
       public function listar_pendientes(){  
         try {
           
-            $data = DB::select("SELECT t0.*, t1.*, t2.nombre_est, t3.codigo_equ, t4.nombre_est as estadoot, 
-                                       t4.descripcion_tope, t5.razonsocial_cli, CONCAT(t6.primer_nombre_emp,' ',t6.primer_apellido_emp)
+            $data = DB::select("SELECT t0.*, t1.*, t2.nombre_est, t3.codigo_equ, /*t4.nombre_est as estadoot, 
+                                       t4.descripcion_tope*/, t5.razonsocial_cli, CONCAT(t6.primer_nombre_emp,' ',t6.primer_apellido_emp)
                                        as nombretecnicouno,  CONCAT(t7.primer_nombre_emp,' ',t7.primer_apellido_emp)
                                        as nombretecnicodos,  CONCAT(t8.primer_nombre_emp,' ',t8.primer_apellido_emp)
                                        as nombretecnicotres, t9.descripcion_tser, t10.descripcion_tmt, t11.descripcion_mar
             FROM  pendienteoserv as t0 INNER JOIN ordenservicio      as t1 INNER JOIN estados            as t2 INNER JOIN equipos as t3
-                                       INNER JOIN vista_pendientes   as t4 INNER JOIN interlocutores_cli as t5 
+                                       /*INNER JOIN vista_pendientes   as t4 */INNER JOIN interlocutores_cli as t5 
                                        INNER JOIN interlocutores_emp as t6 INNER JOIN vista_empleados1   as t7
                                        INNER JOIN vista_empleados2   as t8 INNER JOIN tiposservicio      as t9 
                                        INNER JOIN tiposmantenimiento as t10 INNER JOIN marcas            as t11
                                        INNER JOIN cumplimientooserv  as t12
             WHERE t0.id_pot     = t12.id_actividad and t0.estado_pot  = t2.id_est       and t1.equipo_otr = t3.id_equ 
-              and t4.id_pot     = t0.id_pot        and t1.cliente_otr = t5.id_cli       and t6.id_emp     = t0.tecnico1_pot 
+              and /*t4.id_pot     = t0.id_pot        and */ t1.cliente_otr = t5.id_cli       and t6.id_emp     = t0.tecnico1_pot 
               and t7.id_emp     = t0.tecnico2_pot  and t8.id_emp      = t0.tecnico3_pot and t1.tiposervicio_otr = t9.id_tser
               and t12.tipo_cosv = t10.id_tmt       and t3.marca_equ   = t11.id_mar      AND t12.id_cosv   = t1.id_otr
+            ORDER BY id_pot DESC");
+  
+            $response['data'] = $data;
+            // $response['data'] = $data1;
+            $response['message'] = "load successful";
+            $response['success'] = true;
+      
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['success'] = false;
+        }
+            return $response;
+      }
+
+      public function listar_pendientesactivos(){  
+        try {
+          
+            $data = DB::select("SELECT t0.*, t1.*, t2.nombre_est, t3.codigo_equ, /*t4.nombre_est as estadoot, 
+                                       t4.descripcion_tope,*/ t5.razonsocial_cli, CONCAT(t6.primer_nombre_emp,' ',t6.primer_apellido_emp)
+                                       as nombretecnicouno,  CONCAT(t7.primer_nombre_emp,' ',t7.primer_apellido_emp)
+                                       as nombretecnicodos,  CONCAT(t8.primer_nombre_emp,' ',t8.primer_apellido_emp)
+                                       as nombretecnicotres, t9.descripcion_tser, t10.descripcion_tmt, t11.descripcion_mar
+            FROM  pendienteoserv as t0 INNER JOIN ordenservicio      as t1 INNER JOIN estados            as t2 INNER JOIN equipos as t3
+                                       /*INNER JOIN vista_pendientes   as t4*/ INNER JOIN interlocutores_cli as t5 
+                                       INNER JOIN interlocutores_emp as t6 INNER JOIN vista_empleados1   as t7
+                                       INNER JOIN vista_empleados2   as t8 INNER JOIN tiposservicio      as t9 
+                                       INNER JOIN tiposmantenimiento as t10 INNER JOIN marcas            as t11
+                                       INNER JOIN cumplimientooserv  as t12
+            WHERE t0.id_pot     = t12.id_actividad and t0.estado_pot  = t2.id_est       and t1.equipo_otr = t3.id_equ 
+              and /*t4.id_pot     = t0.id_pot        and */t1.cliente_otr = t5.id_cli       and t6.id_emp     = t0.tecnico1_pot 
+              and t7.id_emp     = t0.tecnico2_pot  and t8.id_emp      = t0.tecnico3_pot and t1.tiposervicio_otr = t9.id_tser
+              and t12.tipo_cosv = t10.id_tmt       and t3.marca_equ   = t11.id_mar      AND t12.id_cosv   = t1.id_otr
+              and t0.estado_pot  != 85
+            ORDER BY id_pot DESC");
+  
+            $response['data'] = $data;
+            // $response['data'] = $data1;
+            $response['message'] = "load successful";
+            $response['success'] = true;
+      
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['success'] = false;
+        }
+            return $response;
+      }
+
+      public function listar_pendientesinot(){  
+        try {
+          
+            $data = DB::select("SELECT t0.*, t2.nombre_est, t3.codigo_equ, t3.descripcion_equ
+            FROM  pendienteoserv as t0 INNER JOIN estados as t2 INNER JOIN equipos as t3
+            WHERE t0.estado_pot  = t2.id_est and t0.novedad_pot = t3.id_equ and t0.id_pot > 100000
             ORDER BY id_pot DESC");
   
             $response['data'] = $data;

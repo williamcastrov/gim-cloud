@@ -161,7 +161,7 @@ ORDER BY id_otr DESC");
           
           if($longitud === 1){
               $fecha1 = $data1[0]->fechafinal_cosv;
-              $actividad1 = substr($data1[0]->descripcion_cosv, 0, 200);
+              $actividad1 = substr($data1[0]->descripcion_cosv, 0, 300);
               $palabra = substr($data1[0]->observacion_cosv, 0, 500); 
               $fechainicia1 = $data1[0]->fechainicia_cosv;
               $fechafinal1  = $data1[0]->fechafinal_cosv;
@@ -259,25 +259,19 @@ ORDER BY id_otr DESC");
           <table border="0" cellspacing="1" cellpadding="1" style="font-family: Arial, Helvetica, sans-serif !important; font-size: 10px !important;">
           
             <tr style="text-align: center !important; background-color: #F5F5F5; font-size: 9px !important " >
-              <td width="193px">ACTIVIDAD REALIZADA</td>
+              <td width="210px">ACTIVIDAD REALIZADA</td>
               <td>FECHA_HORA_INICIAL</td>
               <td>FECHA_HORA_FINAL</td>
             </tr>
             <tr style="text-align: center !important; background-color: #F5F5F5; font-size: 9px !important" >
-              <td  width="193px">
-                  '.$actividad1.'
-                <br/>
-                  '.$actividad2.'
+              <td  width="210px">
+                '.$actividad1.'
               </td>  
               <td >
                 '.$fechainicia1.'
-                <br/>
-                '.$fechafinal1.'
-              </td>
+                </td>
               <td >
-                '.$fechainicia2.'
-                <br/>
-                '.$fechafinal2.'
+                '.$fechafinal1.'
               </td>
               <td>FECHA_HORA_INICIAL</td>
               <td>FECHA_HORA_FINAL</td>
@@ -438,7 +432,8 @@ ORDER BY id_otr DESC");
                                       ordenservicio.subgrupoequipo_otr = t8.id_sgre  and ordenservicio.equipo_otr          = t10.id_equ and
                                       ordenservicio.prioridad_otr 	   = t11.id_abc  and ordenservicio.tipo_otr      	     = t12.id_tmt and
                                       t10.marca_equ  	                 = t13.id_mar  and ordenservicio.tiposervicio_otr    = t15.id_tser and
-                                      ordenservicio.tipooperacion_otr  = t16.id_tope and (ordenservicio.estado_otr IN (21,22,23,25,34 ))");
+                                      ordenservicio.tipooperacion_otr  = t16.id_tope and (ordenservicio.estado_otr IN (21,22,23,25,34 ))
+                              ORDER BY id_otr DESC");
 
           $response['data'] = $data;
           
@@ -782,7 +777,8 @@ ORDER BY id_otr DESC");
                                      contactos.email_con, t10.codigo_equ,      t10.antiguedad_equ,  t10.marca_equ,  t11.descripcion_abc,
                                      t12.descripcion_tmt, t13.descripcion_mar, t15.descripcion_tser,t16.descripcion_tope,
                                      datosadicionalequipos.modelo_dequ, datosadicionalequipos.serie_dequ, datosadicionalequipos.referencia_dequ,
-                                     datosadicionalequipos.nombrealterno_dequ, t17.*, t18.descripcion_fmt, ' ' as blanco
+                                     datosadicionalequipos.nombrealterno_dequ, t17.*, t18.descripcion_fmt, ' ' as blanco,
+                                     CONCAT(vista_empleados1.primer_nombre_emp,' ',vista_empleados1.primer_apellido_emp) as nombretecnicodos
                               FROM   ordenservicio  INNER JOIN empresa as t1 INNER JOIN estados        as t2 
                                      INNER JOIN ciudades           as t3  INNER JOIN interlocutores    as t4  INNER JOIN interlocutores_cli as t5
                                      INNER JOIN interlocutores_emp as t6  INNER JOIN subgrupopartes    as t8
@@ -790,8 +786,8 @@ ORDER BY id_otr DESC");
                                      INNER JOIN tiposmantenimiento as t12 INNER JOIN marcas            as t13 INNER JOIN tiposservicio as t15
                                      INNER JOIN tipooperacion      as t16 INNER JOIN cumplimientooserv as t17 INNER JOIN fallasdemtto  as t18
                                      left join datosadicionalequipos on (datosadicionalequipos.id_dequ = ordenservicio.equipo_otr)
-                                     left join contactos on (contactos.identificacion_con = ordenservicio.nitcliente_otr and 
-                                                             estado_con = 31 )
+                                     left join contactos on (contactos.identificacion_con = ordenservicio.nitcliente_otr and estado_con = 31 )
+                                     LEFT JOIN vista_empleados1 ON (t17.operariodos_cosv = vista_empleados1.id_emp)
                               WHERE ((ordenservicio.tipooperacion_otr != 3)         and (ordenservicio.tipooperacion_otr != 4))         and  
                                       ordenservicio.empresa_otr        = t1.id_emp  and ordenservicio.estado_otr          = t2.id_est   and
                                       ordenservicio.ciudad_otr         = t3.id_ciu  and ordenservicio.proveedor_otr       = t4.id_int   and
@@ -801,7 +797,6 @@ ORDER BY id_otr DESC");
                                       t10.marca_equ  	                 = t13.id_mar and ordenservicio.tiposervicio_otr    = t15.id_tser and
                                       ordenservicio.tipooperacion_otr  = t16.id_tope and ordenservicio.id_otr             = t17.id_cosv and
                                       t17.tipofallamtto_cosv           = t18.id_fmt
-
                               ORDER BY id_otr DESC");
 
           $response['data'] = $data;

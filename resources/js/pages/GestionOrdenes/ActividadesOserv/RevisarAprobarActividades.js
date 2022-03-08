@@ -166,7 +166,7 @@ function RevisarAprobarActividades(props) {
 
   //const { tiempoParo } = props.tiempoParo;
   //console.log("CODIGO OPERARIO APROBAR : ", props.idUsuario )
-  
+
   const history = useHistory();
   const styles = useStyles();
   const [listUnaOrden, setListUnaOrden] = useState([]);
@@ -400,24 +400,58 @@ function RevisarAprobarActividades(props) {
 
   const cerrarOrden = async () => {
     //console.log("CUMPLIMIENTO : ", props.ordenSeleccionado)
-  
+
     const rest = await firmarotServices.listfirmasot(props.ordenSeleccionado.id_actividad);
     console.log("FIRMAS : ", rest.data.length)
-  
+
     //console.log("OTRO TIEMPO : ", actualizaTiempoActividad)
 
-    //if (props.idUsuario === 0) {
-    //if (!rest.data) {
-    
-    if (rest.data.length === 0 &&  (props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 26 )) {
+    if (props.idUsuario != 1 && props.idUsuario != 2 && props.idUsuario != 3 && props.idUsuario != 4 && props.idUsuario != 26) {
+      if ((rest.data.length === 0 && (props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 26)) &&
+        (props.idUsuario != 1 || props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 4 || props.idUsuario != 26)
+      ) {
         swal("Estado Orden", "La Actividad de la OT no Registra Firma, no se puede CERRAR", "warning", { button: "Aceptar" });
-    }
-    else {
+      }
+      else {
+        if (estado_otr === 24 || estado_otr === 27) {
+          swal("Estado Orden", "El estado de la Actividad OT no permite CERRAR", "warning", { button: "Aceptar" });
+        } else {
+          if (horometro_otr === 0) {
+            swal("Horometro", "El valor del Horometro no puede ser CERO", "warning", { button: "Aceptar" });
+          } else {
+            const res = await cumplimientooservServices.cerraractividad(actualizaTiempoActividad);
+
+            if (res.success) {
+              swal("Actividad OT", "Actividad de la OT Cerrada!", "success", { button: "Aceptar" });
+              //history.push("/gim");
+              //window.location.reload();
+              // Web service actualiza Tiempo Paro OT
+              const result = await crearordenesServices.updatiempoparo(actualizaTiempoParo);
+
+              if (result.success) {
+                swal("Tiempo Paro OT", "Tiempo paro OT actualizado de forma correcta!", "success", { button: "Aceptar" });
+                console.log(res.message)
+              } else {
+                swal("Tiempo Paro OT", "Error actualizando tiempo paro!", "error", { button: "Aceptar" });
+                console.log(res.message);
+              }
+              window.location.reload();
+            }
+            else {
+              swal("Actividad OT", "Error Cerrando Actividad de la OT!", "success", { button: "Aceptar" });
+              //history.push("/gim");
+            }
+            setActualiza(true);
+            console.log(res.message)
+          }
+        }
+      }
+    } else {
       if (estado_otr === 24 || estado_otr === 27) {
-         swal("Estado Orden", "El estado de la Actividad OT no permite CERRAR", "warning", { button: "Aceptar" });
+        swal("Estado Orden", "El estado de la Actividad OT no permite CERRAR", "warning", { button: "Aceptar" });
       } else {
         if (horometro_otr === 0) {
-           swal("Horometro", "El valor del Horometro no puede ser CERO", "warning", { button: "Aceptar" });
+          swal("Horometro", "El valor del Horometro no puede ser CERO", "warning", { button: "Aceptar" });
         } else {
           const res = await cumplimientooservServices.cerraractividad(actualizaTiempoActividad);
 

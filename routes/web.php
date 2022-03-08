@@ -76,6 +76,7 @@ Route::get('/mantenimiento/bajasequiposhistoricos', 'App\Http\Controllers\GimCon
 Route::get('/mantenimiento/accesorios', 'App\Http\Controllers\GimController@index');
 Route::get('/mantenimiento/extrasequipos', 'App\Http\Controllers\GimController@index');
 Route::get('/mantenimiento/componentes', 'App\Http\Controllers\GimController@index');
+Route::get('/mantenimiento/usuariosequipos', 'App\Http\Controllers\GimController@index');
 
 // Rutas del Modulo Gestion de Ordenes de Servicio
 Route::get('/gestionordenes/ordenes', 'App\Http\Controllers\GimController@index');
@@ -140,6 +141,8 @@ Route::get('/importar/inventariosalmacen', 'App\Http\Controllers\GimController@i
 Route::get('/importar/contrataciones', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/repuestos', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/facturacion', 'App\Http\Controllers\GimController@index');
+Route::get('/importar/datosfacturacion', 'App\Http\Controllers\GimController@index');
+Route::get('/importar/subirfacturacion', 'App\Http\Controllers\GimController@index');
 
 // Rutas Informes
 Route::get('/flotarenta/activosrenta', 'App\Http\Controllers\GimController@index');
@@ -150,9 +153,10 @@ Route::get('/flotarenta/informependientes', 'App\Http\Controllers\GimController@
 Route::get('/flotarenta/controlalzas', 'App\Http\Controllers\GimController@index');
 Route::get('/flotarenta/informehojavidaequipos', 'App\Http\Controllers\GimController@index');
 Route::get('/flotarenta/informeubicacionesequipos', 'App\Http\Controllers\GimController@index');
+Route::get('/flotarenta/confiabilidadMT', 'App\Http\Controllers\GimController@index');
+Route::get('/flotarenta/calificacionot', 'App\Http\Controllers\GimController@index');
 Route::get('/rentabilidad/conceptosrentabilidad', 'App\Http\Controllers\GimController@index');
 Route::get('/rentabilidad/conceptosrentabilidadperiodo', 'App\Http\Controllers\GimController@index');
-
 
 // Rutas Costos
 Route::get('/costos/costosvariables', 'App\Http\Controllers\GimController@index');
