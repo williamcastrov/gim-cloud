@@ -100,7 +100,8 @@ function ExportarDatosFacturacion() {
 
     const procesarPeriodo = async () => {
         let periodo = anno + mes;
-
+        console.log("PERIODO : ", periodo);
+        
         async function fetchDataPeriodo() {
             const res = await rentabilidadService.listar_factcontratacionrepuestosperiodo(periodo);
             setFacturacionEquipos(res.data);

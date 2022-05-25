@@ -67,7 +67,7 @@ function Mantenimiento() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
 
-          <ListItem button className={classes.nested} button onClick={handleClickGA} >
+          <ListItem button className={classes.nested} onClick={handleClickGA} >
             <ListItemIcon>
               <ViewHeadlineIcon />
             </ListItemIcon>
@@ -158,7 +158,7 @@ function Mantenimiento() {
           </Collapse>
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickGM} >
+          <ListItem button className={classes.nested} onClick={handleClickGM} >
             <ListItemIcon>
               < PermDataSettingIcon />
             </ListItemIcon>
@@ -198,12 +198,13 @@ function Mantenimiento() {
                 </ListItemIcon>
                 <ListItemText primary="Control Valor Horometro" />
               </ListItem>
-              <ListItem component={Link} button to="/mantenimiento/remisiones" className={classes.nested}>
+             {/* <ListItem component={Link} button to="/mantenimiento/remisiones" className={classes.nested}>
                 <ListItemIcon>
                   <CalendarViewDayIcon />
                 </ListItemIcon>
                 <ListItemText primary="Crear Remision" />
               </ListItem>
+              */}
               <ListItem component={Link} button to="/mantenimiento/cambioelementos" className={classes.nested}>
                 <ListItemIcon>
                   <CalendarViewDayIcon />
@@ -216,12 +217,14 @@ function Mantenimiento() {
                 </ListItemIcon>
                 <ListItemText primary="Contrataciones" />
               </ListItem>
+              {/* 
               <ListItem component={Link} button to="/mantenimiento/incrementocanon" className={classes.nested}>
                 <ListItemIcon>
                   <CalendarViewDayIcon />
                 </ListItemIcon>
                 <ListItemText primary="Incremento Canon" />
               </ListItem>
+              */}
               <ListItem component={Link} button to="/mantenimiento/repuestos" className={classes.nested}>
                 <ListItemIcon>
                   <CalendarViewDayIcon />
@@ -232,7 +235,7 @@ function Mantenimiento() {
           </Collapse>
 
           <Divider />
-          <ListItem button className={classes.nested} button onClick={handleClickIM} >
+          <ListItem button className={classes.nested} onClick={handleClickIM} >
             <ListItemIcon>
               < PrintIcon />
             </ListItemIcon>
@@ -242,12 +245,14 @@ function Mantenimiento() {
 
           <Collapse in={openIM} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
+              {/*
               <ListItem component={Link} button to="/pdf/imprimirremision" className={classes.nested}>
                 <ListItemIcon>
                   <PictureAsPdfIcon />
                 </ListItemIcon>
                 <ListItemText primary="Imprimir Remisión" />
               </ListItem>
+             */}
               <ListItem component={Link} button to="/pdf/imprimircambioelemento" className={classes.nested}>
                 <ListItemIcon>
                   <PictureAsPdfIcon />

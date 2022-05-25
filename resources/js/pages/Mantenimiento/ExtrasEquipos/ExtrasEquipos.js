@@ -124,6 +124,8 @@ NumberFormatCustom.propTypes = {
 
 function ExtrasEquipos(props) {
   const { equipoID, equipoCodigo } = props;
+  //console.log("ID EQUIPO : ",equipoID)
+  //console.log("CODIGO EQUIPO : ",equipoCodigo)
 
   const styles = useStyles();
   const [listarExtrasEquipos, setListarExtrasEquipos] = useState([]);
@@ -181,10 +183,13 @@ function ExtrasEquipos(props) {
 
   useEffect(() => {
     async function fetchDataExtrasEquipos() {
-      const res = await extrasequiposServices.listExtrasEquipos();
+      let equipo = '"'+equipoCodigo+'"'
+      //console.log("BUSCAR EQUIPO : ", equipo)
+      const res = await equiposServices.listar_combogrupoequipo(equipo);
       setListarExtrasEquipos(res.data);
-      setActualiza(false);
-      //console.log(res.data)
+      //console.log("ACCESORIOS EQUIPO : ",res.data)
+      //setActualiza(false);
+      
     }
     fetchDataExtrasEquipos();
   }, [actualiza])
@@ -587,36 +592,30 @@ function ExtrasEquipos(props) {
   // "string","boolean","numeric","date","datetime","time","currency"
   const columnas = [
     {
-      field: 'codigo_ext',
+      field: 'codigo_equ',
       title: 'Codigo',
       cellStyle: { minWidth: 50 }
     },
     {
-      field: 'descripcion_ext',
+      field: 'descripcion_equ',
       title: 'Descripción Accesorio',
       cellStyle: { minWidth: 220 }
     },
     {
-      field: 'nombre_emp',
-      title: 'Propietario',
-      cellStyle: { minWidth: 150 }
+      field: 'combogrupo_equ',
+      title: 'Combo',
+      cellStyle: { minWidth: 50 }
     },
     {
-      field: 'razonsocial_int',
-      title: 'Nombre del Cliente',
-      cellStyle: { minWidth: 150 }
+      field: 'descripcion_sgre',
+      title: 'SubGrupo',
+      cellStyle: { minWidth: 100 }
     },
     {
       field: 'descripcion_mar',
-      title: 'Marca del Equipo'
+      title: 'Marca Accesorio'
     },
-    {
-      field: 'antiguedad_ext',
-      title: 'Antiguedad Años',
-      cellStyle: { width: 10, maxWidth: 10 },
-      headerStyle: { width: 10, maxWidth: 10 }
-
-    },
+    
     {
       field: 'codigogrupo_grp',
       title: 'Grupo Equipo',
@@ -628,8 +627,9 @@ function ExtrasEquipos(props) {
       cellStyle: { minWidth: 180 }
     },
     {
-      field: 'valoradquisicion_ext',
-      title: 'Valor de Compra',
+      field: 'valoradquisicion_equ',
+      title: 'Valor Adquisición',
+      cellStyle: { width: 10, maxWidth: 10 }
     }
   ]
 
@@ -1056,7 +1056,7 @@ function ExtrasEquipos(props) {
         columns={columnas}
         data={listarExtrasEquipos}
         title="ACCESORIOS ADICIONALES A LOS EQUIPOS"
-        actions={[
+        /*actions={[
           {
             icon: 'edit',
             tooltip: 'Editar Accesorio',
@@ -1067,7 +1067,7 @@ function ExtrasEquipos(props) {
             tooltip: 'Borrar Accesorio',
             onClick: (event, rowData) => seleccionarExtrasEquipo(rowData, "Eliminar")
           }
-        ]}
+        ]}*/
         options={{
           actionsColumnIndex: 11
         }}

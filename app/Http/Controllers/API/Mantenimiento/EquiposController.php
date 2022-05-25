@@ -66,17 +66,20 @@ class EquiposController extends Controller
       public function listar_equipos(){  
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
-          $data = DB::select("SELECT t0.*, t1.nombre_emp, t2.descripcion_fre,  t3.razonsocial_int, t4.descripcion_mar,
-                                     t5.descripcion_grp,  t5.codigogrupo_grp,  t6.nombre_est, t7.nombre_estcli, t8.nombre_estmtto,
-                                     t9.codigo_sgre,      t9.descripcion_sgre, t5.id_grp, t9.id_sgre, t10.nombre_estcal, t11.*  
-          FROM equipos as t0 INNER JOIN empresa        as t1  INNER JOIN frecuencias           as t2 INNER JOIN interlocutores as t3
-                             INNER JOIN marcas         as t4  INNER JOIN gruposequipos         as t5 INNER JOIN estados        as t6
-                             INNER JOIN estadoscliente as t7  INNER JOIN estadosmtto           as t8 INNER JOIN subgrupopartes as t9
-                             INNER JOIN estadoscalidad as t10 INNER JOIN datosadicionalequipos as t11
-          WHERE t0.empresa_equ        = t1.id_emp and t0.frecuencia_equ    = t2.id_fre    and t0.propietario_equ   = t3.id_int  and
-                t0.marca_equ          = t4.id_mar and t0.grupoequipo_equ   = t5.id_grp    and t0.subgrupoparte_equ = t9.id_sgre and
-                t0.estadocontable_equ = t6.id_est and t0.estadocliente_equ = t7.id_estcli and t0.estadomtto_equ    = t8.id_estmtto and
-                t0.estadocalidad_equ  = t10.id_estcal and t0.id_equ = t11.id_dequ");
+          $data = DB::select("SELECT t0.*, t1.descripcion_fre, t3.razonsocial_int, t4.descripcion_mar, t5.descripcion_grp,  
+                                     t5.codigogrupo_grp,  t6.nombre_est, t7.nombre_estcli, t8.nombre_estmtto,
+                                     t9.codigo_sgre,      t9.descripcion_sgre, t9.id_sgre, t5.id_grp,
+                                     t10.nombre_estcal, t11.*
+                              FROM equipos as t0 INNER JOIN frecuencias AS t1	INNER JOIN interlocutores as t3
+                                                 INNER JOIN marcas      as t4 INNER JOIN gruposequipos  as t5 
+                                                 INNER JOIN estados     as t6 INNER JOIN estadoscliente as t7
+                                                 INNER JOIN estadosmtto as t8 INNER JOIN estadoscalidad as t10
+                                                 INNER JOIN subgrupopartes as t9 INNER JOIN datosadicionalequipos as t11
+                  WHERE t0.frecuencia_equ     = t1.id_fre and t0.propietario_equ   = t3.id_int  
+                    and t0.marca_equ          = t4.id_mar and t0.grupoequipo_equ   = t5.id_grp
+                    AND t0.estadocontable_equ = t6.id_est and t0.estadocliente_equ = t7.id_estcli 
+                    and t0.estadomtto_equ     = t8.id_estmtto and t0.estadocalidad_equ = t10.id_estcal
+                    and t0.id_equ             = t11.id_dequ   and t0.subgrupoparte_equ = t9.id_sgre");
   
           $response['data'] = $data;
           
@@ -110,8 +113,6 @@ class EquiposController extends Controller
                                      t16.estado_ctr,	t16.valorrentames_ctr,	t16.valorfacturadomes_ctr, t16.fechaalza_ctr,
                                      t16.diafacturacion_ctr, t16.horastrabajocontratadas_ctr, t16.estadocontrato, t16.asesorcomercial,
                                     '' as blanco
-                                     
-                                     
                 FROM equipos as t0 INNER JOIN empresa        as t1  INNER JOIN frecuencias           as t2  INNER JOIN interlocutores as t3
                                    INNER JOIN marcas         as t4  INNER JOIN gruposequipos         as t5  INNER JOIN estados        as t6
                                    INNER JOIN estadoscliente as t7  INNER JOIN estadosmtto           as t8  INNER JOIN subgrupopartes as t9
@@ -378,6 +379,34 @@ class EquiposController extends Controller
                 t0.marca_equ          = t4.id_mar  and t0.grupoequipo_equ   = t5.id_grp    and t0.tipo_equ        = 9             and
                 t0.estadocontable_equ = t6.id_est  and t0.estadocliente_equ = t7.id_estcli and t0.estadomtto_equ  = t8.id_estmtto and
                 t0.subgrupoparte_equ  = t9.id_sgre and t0.estadocalidad_equ = t10.id_estcal");
+  
+          $response['data'] = $data;
+          
+          // $response['data'] = $data1;
+          $response['message'] = "load successful";
+          $response['success'] = true;
+      
+        } catch (\Exception $e) {
+          $response['message'] = $e->getMessage();
+          $response['success'] = false;
+        }
+          return $response;
+      }
+
+      public function listar_combogrupoequipo($equipo){  
+        try {
+          //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
+          $data = DB::select("SELECT t0.*, t1.nombre_emp, t2.descripcion_fre, t3.razonsocial_int, t4.descripcion_mar,
+                                     t5.descripcion_grp,  t5.codigogrupo_grp, t6.nombre_est, t7.nombre_estcli, t8.nombre_estmtto,
+                                     t9.codigo_sgre,      t9.descripcion_sgre, t5.id_grp, t9.id_sgre, t10.nombre_estcal
+          FROM equipos as t0 INNER JOIN empresa        as t1 INNER JOIN frecuencias   as t2 INNER JOIN interlocutores as t3
+                             INNER JOIN marcas         as t4 INNER JOIN gruposequipos as t5 INNER JOIN estados        as t6
+                             INNER JOIN estadoscliente as t7 INNER JOIN estadosmtto   as t8 INNER JOIN subgrupopartes as t9
+                             INNER JOIN estadoscalidad as t10
+          WHERE t0.empresa_equ        = t1.id_emp  and t0.frecuencia_equ    = t2.id_fre    and t0.propietario_equ = t3.id_int     and
+                t0.marca_equ          = t4.id_mar  and t0.grupoequipo_equ   = t5.id_grp    and t0.tipo_equ        = 9             and
+                t0.estadocontable_equ = t6.id_est  and t0.estadocliente_equ = t7.id_estcli and t0.estadomtto_equ  = t8.id_estmtto and
+                t0.subgrupoparte_equ  = t9.id_sgre and t0.estadocalidad_equ = t10.id_estcal and t0.combogrupo_equ = $equipo");
   
           $response['data'] = $data;
           

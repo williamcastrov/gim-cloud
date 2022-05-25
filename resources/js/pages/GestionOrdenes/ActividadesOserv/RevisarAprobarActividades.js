@@ -186,7 +186,7 @@ function RevisarAprobarActividades(props) {
   const [grabarCambios, setGrabarCambios] = React.useState(false);
   const [controlHorometro, setControlHorometro] = React.useState(false);
   const fechaactual = Moment(new Date()).format('YYYY-MM-DD:HH:mm:ss');
-  const horaactual = Moment(new Date()).format('HH:mm:ss');
+  const horaactual = Moment(new Date()).format('HH:mm:ss');tiempoActividad
   const [activo, setActivo] = useState(false);
   const [actualiza, setActualiza] = useState(false);
 
@@ -255,11 +255,6 @@ function RevisarAprobarActividades(props) {
   const [actualizaTiempoParo, setActualizaTiempoParo] = useState({
     id_otr: id_otr,
     tiempoparo: props.tiempoParo
-  });
-
-  const [actualizaTiempoActividad, setActualizaTiempoActividad] = useState({
-    id_actividad: props.ordenSeleccionado.id_actividad,
-    tiempoactividad: props.tiempoActividad
   });
 
   useEffect(() => {
@@ -404,7 +399,17 @@ function RevisarAprobarActividades(props) {
     const rest = await firmarotServices.listfirmasot(props.ordenSeleccionado.id_actividad);
     console.log("FIRMAS : ", rest.data.length)
 
-    //console.log("OTRO TIEMPO : ", actualizaTiempoActividad)
+    let tiempo = 0;
+    if(props.ordenServicio.tiempoactividad_cosv){
+      tiempo = props.ordenServicio.tiempoactividad_cosv;
+    }
+
+    const actualizaTiempoActividad = {
+      id_actividad: props.ordenSeleccionado.id_actividad,
+      tiempoactividad: tiempo
+    }
+  
+    console.log("OTRO TIEMPO : ", actualizaTiempoActividad)
 
     if (props.idUsuario != 1 && props.idUsuario != 2 && props.idUsuario != 3 && props.idUsuario != 4 && props.idUsuario != 26) {
       if ((rest.data.length === 0 && (props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 26)) &&
@@ -454,8 +459,8 @@ function RevisarAprobarActividades(props) {
           swal("Horometro", "El valor del Horometro no puede ser CERO", "warning", { button: "Aceptar" });
         } else {
           const res = await cumplimientooservServices.cerraractividad(actualizaTiempoActividad);
-
-          if (res.success) {
+          console.log("RESULTADO : ", res)
+          if (res) {
             swal("Actividad OT", "Actividad de la OT Cerrada!", "success", { button: "Aceptar" });
             //history.push("/gim");
             //window.location.reload();
@@ -469,9 +474,10 @@ function RevisarAprobarActividades(props) {
               swal("Tiempo Paro OT", "Error actualizando tiempo paro!", "error", { button: "Aceptar" });
               console.log(res.message);
             }
-            window.location.reload();
+            //window.location.reload();
           }
           else {
+            alert("ENTRE")
             swal("Actividad OT", "Error Cerrando Actividad de la OT!", "success", { button: "Aceptar" });
             //history.push("/gim");
           }
@@ -760,7 +766,8 @@ function RevisarAprobarActividades(props) {
                 id="idselecttipooperacion_cosv"
                 value={tipooperacion}
                 onChange={(e) => setOperario(e.target.value)}
-                fullWidth onChange={handleChange}
+                fullWidth 
+                //onChange={handleChange}
               >
                 <MenuItem value=""> <em>None</em> </MenuItem>
                 {
@@ -913,8 +920,6 @@ function RevisarAprobarActividades(props) {
                 labelId="selecttipooperacion_cosv"
                 name="tipooperacion_cosv"
                 id="idselecttipooperacion_cosv"
-                value={tipooperacion}
-                onChange={handleChange}
                 fullWidth onChange={handleChange}
                 value={cumplimientoSeleccionado && cumplimientoSeleccionado.tipooperacion_cosv}
               >
@@ -931,7 +936,6 @@ function RevisarAprobarActividades(props) {
           </Grid>
           <Grid item xs={12} md={4}>
             <TextField name="referencia_cosv" label="Referencia Producto"
-              value={referencia}
               onChange={handleChange}
               fullWidth
               disabled="true"
@@ -982,7 +986,7 @@ function RevisarAprobarActividades(props) {
           </Grid>
           <Grid item xs={12} md={12}>
             <TextField className={styles.inputMaterial} label="Actividad Realizada" name="descripcion_cosv"
-              value={actividadrealizada} onChange={handleChange}
+              onChange={handleChange}
               value={cumplimientoSeleccionado && cumplimientoSeleccionado.descripcion_cosv} />
           </Grid>
           <Grid item xs={12} md={4}>
@@ -1016,12 +1020,12 @@ function RevisarAprobarActividades(props) {
           </Grid>
           <Grid item xs={12} md={4}>
             <TextField className={styles.inputMaterial} name="cantidad_cosv" InputLabelProps={{ shrink: true }}
-              value={cantidad} onChange={handleChange} label="Cantidad" fullWidth
+              onChange={handleChange} label="Cantidad" fullWidth
               value={cumplimientoSeleccionado && cumplimientoSeleccionado.cantidad_cosv} />
           </Grid>
           <Grid item xs={12} md={12}>
             <TextField className={styles.inputMaterial} label="Observaciones o Comentarios" name="observacion_cosv"
-              value={observacion} onChange={handleChange}
+              onChange={handleChange}
               value={cumplimientoSeleccionado && cumplimientoSeleccionado.observacion_cosv} />
           </Grid>
         </Grid>
@@ -1094,12 +1098,14 @@ function RevisarAprobarActividades(props) {
         </Grid>
         <Grid item xs={12} md={4}>
           <TextField type="datetime-local" InputLabelProps={{ shrink: true }} name="iniciatransporte_otr"
-            label="Hora Inicia Transporte" fullWidth defaultValue={Moment(fechaactual).format('YYYY-MM-DD HH:mm:ss')}
+            label="Hora Inicia Transporte" 
+            fullWidth defaultValue={Moment(props.ordenServicio.iniciatransporte_cosv).format('YYYY-MM-DD HH:mm:ss')}
             onChange={(e) => setFechaIniciaTransporte(e.target.value)} />
         </Grid>
         <Grid item xs={12} md={4}>
           <TextField type="datetime-local" InputLabelProps={{ shrink: true }} name="finaltransporte_otr"
-            label="Hora Finaliza Transporte" fullWidth defaultValue={Moment(fechaactual).format('YYYY-MM-DD HH:mm:ss')}
+            label="Hora Finaliza Transporte" 
+            fullWidth defaultValue={Moment(props.ordenServicio.finaltransporte_cosv).format('YYYY-MM-DD HH:mm:ss')}
             onChange={(e) => setFechaFinalTransporte(e.target.value)} />
         </Grid>
       </Grid>
@@ -1109,6 +1115,8 @@ function RevisarAprobarActividades(props) {
       </div>
     </div>
   )
+
+  //iniciatransporte_cosv, finaltransporte_cosv, tiempotransporte_cosv, tipooperacion_cosv, finaltransporte_cosv
 
   const ActividadEliminar = (
     <div className={styles.modal}>
@@ -1149,7 +1157,7 @@ function RevisarAprobarActividades(props) {
         <Button >SERIE : {serie_dequ}  </Button>
         <Button >ID INTERNO : {codigo_equ}  </Button>
         <Button variant="contained" color="primary" onClick={() => abrirCerrarModalGrabarHorometro()} >
-          HOROMETRO : {horometro} </Button>
+          HOROMETRO : {props.ordenServicio.horometro_cosv} </Button>
       </ButtonGroup>
       <ButtonGroup className={styles.button} color="primary" aria-label="outlined primary button group">
         <Button >TIPO DE SERVICIO : {descripcion_tser} </Button>
@@ -1157,13 +1165,13 @@ function RevisarAprobarActividades(props) {
       </ButtonGroup>
       <ButtonGroup className={styles.button} color="primary" aria-label="outlined primary button group">
         <Button variant="contained" color="primary" onClick={() => abrirCerrarModalGrabarHorometro()} >
-          INICIA TRANSPORTE : {fechaIniciaTransporte}
+          INICIA TRANSPORTE : {props.ordenServicio.iniciatransporte_cosv}
         </Button>
         <Button variant="contained" color="primary" onClick={() => abrirCerrarModalGrabarHorometro()} >
-          FINALIZA TRANSPORTE : {fechaFinalTransporte}
+          FINALIZA TRANSPORTE : {props.ordenServicio.finaltransporte_cosv}
         </Button>
-        <Button > TIEMPO DE TRANSPORTE : {tiempoTransporte} </Button>
-        <Button > TIEMPO DE LA ORDEN : {tiempoorden_otr} </Button>
+        <Button > TIEMPO DE TRANSPORTE : {props.ordenServicio.tiempotransporte_cosv} </Button>
+        <Button > TIEMPO DE LA ORDEN : {props.ordenServicio.tiempoactividad_cosv} </Button>
       </ButtonGroup>
 
       <Typography align="center" className={styles.typography} variant="button" display="block" >

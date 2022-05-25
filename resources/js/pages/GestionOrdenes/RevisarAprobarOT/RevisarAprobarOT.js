@@ -223,7 +223,7 @@ function RevisarAprobarOT(props) {
   }
 
   const seleccionarOrden = (actividad, caso) => {
-    //console.log("DATOS ACTIVIDAD ORDEN : ", actividad)
+    console.log("DATOS ACTIVIDAD ORDEN : ", actividad)
     setOrdenServicio(actividad);
     setOrdenSeleccionado(actividad);
     var a = Moment(actividad.iniciaparomaquina_otr, "YYYY-MM-DD HH:mm:ss")
@@ -402,7 +402,7 @@ function RevisarAprobarOT(props) {
     <div className="App" >
       <div className={styles.modal}>
         <ActividadesOserv ordenSeleccionado={ordenSeleccionado} tiempoParo={tiempoParo} tiempoActividad={tiempoActividad}
-                          idUsuario={idUsuario}
+                          idUsuario={idUsuario} ordenServicio={ordenServicio}
         />
       </div>
     </div>

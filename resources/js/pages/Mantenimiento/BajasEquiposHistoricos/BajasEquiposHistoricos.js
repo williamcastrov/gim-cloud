@@ -6,6 +6,8 @@ import { green, blue, blueGrey, red } from '@material-ui/core/colors';
 import { makeStyles } from "@material-ui/core/styles";
 import SaveIcon from '@material-ui/icons/Save';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import NumberFormat from 'react-number-format';
 import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
@@ -26,6 +28,8 @@ import activosServices from "../../../services/Activos/Activos";
 
 // Datos Adicionales de los Equipos
 import MenuEquipos from "../../DatosEquipos/MenuEquipos";
+import FotosBajasEquipos from "../../Images/FotosBajasEquipos";
+import ConsultarFotosBajasEquipos from "../../Images/FotosBajasEquipos/ConsultarFotosBajasEquipos";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -164,6 +168,8 @@ function RegistraEquipos(props) {
   const [listarEmpresas, setListarEmpresas] = useState([]);
   const [listarEstados, setListarEstados] = useState([]);
   const [listarEstadosClientes, setListarEstadosClientes] = useState([]);
+  const [modalGrabarFoto, setModalGrabarFoto] = useState(false);
+  const [modalConsultarFotoEquipos, setModalConsultarFotoEquipos] = useState(false);
   const [listarEstadosMtto, setListarEstadosMtto] = useState([]);
   const [listarEstadosCalidad, setListarEstadosCalidad] = useState([]);
   const [listarFrecuencias, setListarFrecuencias] = useState([]);
@@ -174,6 +180,7 @@ function RegistraEquipos(props) {
   const [fechaHoy, setFechaHoy] = useState(new Date());
   const [actualiza, setActualiza] = useState(false);
   const [tipo, setTipo] = useState("EQ");
+  const [listarCodigoEquipo, setListarCodigoEquipo] = useState([]);
 
   let frecuencia = 2
 
@@ -310,8 +317,8 @@ function RegistraEquipos(props) {
   }
 
   const seleccionarEquipo = (equipo, caso) => {
-    if (idUsu !== 25) {
-      swal("Activo", "Usuario no Habilitado para Modificar Equipis Baja Historico!", "warning", { button: "Aceptar" });
+    if (idUsu !== 25 && idUsu !== 3) {
+      swal("Activo", "Usuario no Habilitado para Modificar Equipos Baja Historico!", "warning", { button: "Aceptar" });
       return
     }
     setEquiposSeleccionado(equipo);
@@ -326,8 +333,25 @@ function RegistraEquipos(props) {
     setModalEditar(!modalEditar);
   }
 
+  
+  const abrirCerrarModalGrabarFoto = () => {
+    setModalGrabarFoto(!modalGrabarFoto);
+  }
+
+  const abrirCerrarModalConsultarFotoEquipo = () => {
+    setModalConsultarFotoEquipos(!modalConsultarFotoEquipos);
+  }
+
   const abrirCerrarModalEliminar = () => {
     setModalEliminar(!modalEliminar);
+  }
+
+  const seleccionarFotoEquipo = (foto, caso) => {
+    //console.log("DATOS FOTOS : ", pdf.codigocontrato_ctr)
+    let codigoequipo = foto.id_equ;
+    console.log("DATOS EQUIPO : ", codigoequipo);
+    setListarCodigoEquipo(codigoequipo);
+    (caso === "GrabarFoto") ? abrirCerrarModalGrabarFoto() : abrirCerrarModalConsultarFotoEquipo()
   }
 
   useEffect(() => {
@@ -1190,6 +1214,14 @@ function RegistraEquipos(props) {
   //<Button variant="contained" startIcon={<SaveIcon />} color="primary" onClick={() => abrirCerrarModalInsertar()} >Agregar Equipo</Button>
   //<br />
 
+  const grabarFoto = (
+    <FotosBajasEquipos codigoequipo={listarCodigoEquipo} />
+  )
+
+  const consultarFotosEquipo = (
+    <ConsultarFotosBajasEquipos codigoequipo={listarCodigoEquipo} />
+  )
+
   return (
     <div className="App">
       <br />
@@ -1208,6 +1240,16 @@ function RegistraEquipos(props) {
             icon: 'delete',
             tooltip: 'Borrar Equipo',
             onClick: (event, rowData) => seleccionarEquipo(rowData, "Eliminar")
+          },
+          {
+            icon: CloudUploadIcon,
+            tooltip: 'Grabar Foto Equipo',
+            onClick: (event, rowData) => seleccionarFotoEquipo(rowData, "GrabarFoto")
+          },
+          {
+            icon: PictureAsPdfIcon,
+            tooltip: 'Consultar Foto',
+            onClick: (event, rowData) => seleccionarFotoEquipo(rowData, "ConsultarFoto")
           }
         ]}
         options={{
@@ -1259,7 +1301,7 @@ function RegistraEquipos(props) {
                   <Button variant="contained">Cta Contable : {rowData.ctacontable_equ}</Button> {" "}
                   <Button variant="contained">Cta Depreciación : {rowData.ctadepreciacion_equ}</Button> {" "}
                   <Button variant="contained">Observaciones : {rowData.observacion1_equ}</Button> {":"}
-                  <Button variant="contained"> {rowData.observacion2_equ}</Button> { }
+                  <Button variant="contained">{rowData.observacion2_equ}</Button> { }
                 </div>
               )
             },
@@ -1284,6 +1326,19 @@ function RegistraEquipos(props) {
         onClose={abrirCerrarModalEliminar}
       >
         {equipoEliminar}
+      </Modal>
+      <Modal
+        open={modalGrabarFoto}
+        onClose={abrirCerrarModalGrabarFoto}
+      >
+        {grabarFoto}
+      </Modal>
+
+      <Modal
+        open={modalConsultarFotoEquipos}
+        onClose={abrirCerrarModalConsultarFotoEquipo}
+      >
+        {consultarFotosEquipo}
       </Modal>
     </div>
   );

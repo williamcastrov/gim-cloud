@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MenuEquipos(props) {
-  const { equipoID, equipoCodigo, tipo } = props;
+  const { equipoID, equipoCodigo, tipo, idUsu } = props;
 
   const styles = useStyles();
   const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +105,7 @@ export default function MenuEquipos(props) {
   
   const contratos = (
     <div>
-      <Contratos equipoID={equipoID} equipoCodigo={equipoCodigo} />
+      <Contratos equipoID={equipoID} equipoCodigo={equipoCodigo} idUsu={idUsu} />
     </div>
   )
 
@@ -167,13 +167,14 @@ export default function MenuEquipos(props) {
 
   return (
     <div>
+      {/*
       <Modal
         open={modalGarantias}
         onClose={abrirCerrarModalGarantias}
       >
         {garantias}
       </Modal>
-
+    */}
       <Modal
         open={modalDatosEquipos}
         onClose={abrirCerrarModalDatosEquipos}
@@ -219,6 +220,7 @@ export default function MenuEquipos(props) {
       <Modal
         open={modalHojaVida}
         onClose={abrirCerrarModalHojaVida}
+        style={{ overflow: 'scroll' }}
       >
         {hojavida}
       </Modal>
@@ -262,12 +264,12 @@ export default function MenuEquipos(props) {
           styles={{ backgroundColor: darkColors.purple, color: lightColors.white }}
           onClick={() => setModalUbicaciones(true)} ><RoomIcon />
         </Button>
-        <Button
+        {/*<Button
           tooltip="Garantias"
           rotate={true}
           styles={{ backgroundColor: darkColors.green, color: lightColors.white }}
           onClick={() => setModalGarantias(true)} ><VerifiedUserIcon />
-        </Button>
+        </Button>*/}
         <Button
           tooltip="Ficha Técnica"
           rotate={true}

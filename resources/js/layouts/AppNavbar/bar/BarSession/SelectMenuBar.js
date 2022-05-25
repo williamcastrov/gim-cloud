@@ -9,6 +9,8 @@ import BarSessionTres from "./BarSessionTres";
 import BarSessionCuatro from "./BarSessionCuatro";
 import BarSessionCinco from "./BarSessionCinco";
 import BarSessionSeis from "./BarSessionSeis";
+import BarSessionSiete from "./BarSessionSiete";
+import BarSessionOcho from "./BarSessionOcho";
 
 export default function SelectMenuBar(props) {
   const { tipousuario, idusuario } = props;
@@ -33,7 +35,11 @@ export default function SelectMenuBar(props) {
       case 18:
           return <BarSessionCinco />
       case 19:
-            return <BarSessionSeis />
+          return <BarSessionSeis />
+      case 20:
+          return <BarSessionSiete />
+      case 21:
+          return <BarSessionOcho />
       case 17:
         return <BarSessionCuatro />
       default:

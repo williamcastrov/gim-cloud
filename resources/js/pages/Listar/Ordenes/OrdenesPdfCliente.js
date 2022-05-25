@@ -122,30 +122,31 @@ function OrdenesPdfCliente(props) {
 
   const leerOrdenes = () => {
     async function fetchDataOrdenes() {
-      if (idUsu === 14) {
+      /*if (idUsu === 14) {
         const res = await crearordenesServices.listOrdenesServUsuario();
         setListarOrdenes(res.data);
       }
-      else {
+      else {*/
         const res = await crearordenesServices.listOrdenesServ();
         setListarOrdenes(res.data);
         //console.log("Lee Ordenes Manual", res.data);
-      }
+      //}
     }
     fetchDataOrdenes();
   }
 
   const leerOrdenesActivas = () => {
     async function fetchDataOrdenes() {
+      /*
       if (idUsu === 14) {
         const res = await crearordenesServices.listOrdenesServUsuario();
         setListarOrdenes(res.data);
       }
-      else {
+      else {*/
         const res = await crearordenesServices.listOrdenesServActivas();
         setListarOrdenes(res.data);
         //console.log("Cargar Una Orden", res.data);
-      }
+      //}
     }
     fetchDataOrdenes();
   }
@@ -153,15 +154,15 @@ function OrdenesPdfCliente(props) {
   useEffect(() => {
     if (idUsu != 0) {
       async function fetchDataOrdenes() {
-        if (idUsu === 14) {
+        /*if (idUsu === 14) {
           const res = await crearordenesServices.listOrdenesServUsuario();
           setListarOrdenes(res.data);
         }
-        else {
+        else { */
           const res = await crearordenesServices.listOrdenesServ();
           setListarOrdenes(res.data);
           console.log("Lee Ordenes Automaticas", res.data);
-        }
+        //}
       }
       fetchDataOrdenes();
     }
@@ -179,16 +180,16 @@ function OrdenesPdfCliente(props) {
   const seleccionarOrden = async (orden, caso) => {
     const numeroactividadesOT = await cumplimientootServices.actividadestotalesxot(orden.id_otr);
     if (numeroactividadesOT > 1) {
-
+      console.log("OT : ", orden.id_otr, "Sin Actividades")
     } else {
       console.log("ORDEN SELECCIONADA : ", orden)
-      const res = await imagenesotServices.listimagenesot(orden.id_actividad);
+      const res = await imagenesotServices.listimagenesot(7721);
       console.log("DATOS IMAGENES : ", res.data)
       setListarImagenesDb(res.data);
 
       console.log("DATOS IMAGENES DB : ", res.data)
       const rest = await firmarotServices.listfirmasot(orden.id_actividad);
-      console.log("FIRMAS : ", rest.data.length)
+      //console.log("FIRMAS : ", rest.data.length)
 
       const result = await cumplimientooserv.listUnCumplimiento(orden.id_actividad);
       console.log("CUMPLIMIENTO : ", result.data)

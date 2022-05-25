@@ -47,7 +47,7 @@ class PendienteOTController extends Controller
         try {
           
             $data = DB::select("SELECT t0.*, t1.*, t2.nombre_est, t3.codigo_equ, /*t4.nombre_est as estadoot, 
-                                       t4.descripcion_tope*/, t5.razonsocial_cli, CONCAT(t6.primer_nombre_emp,' ',t6.primer_apellido_emp)
+                                       t4.descripcion_tope,*/ t5.razonsocial_cli, CONCAT(t6.primer_nombre_emp,' ',t6.primer_apellido_emp)
                                        as nombretecnicouno,  CONCAT(t7.primer_nombre_emp,' ',t7.primer_apellido_emp)
                                        as nombretecnicodos,  CONCAT(t8.primer_nombre_emp,' ',t8.primer_apellido_emp)
                                        as nombretecnicotres, t9.descripcion_tser, t10.descripcion_tmt, t11.descripcion_mar

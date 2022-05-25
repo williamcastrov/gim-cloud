@@ -205,7 +205,11 @@ function FacturacionVsGastos(props) {
             for (var i = 0; i < longcontrataciones; i++) {
                 async function fetchDataFactContrataciones() {
                     const res = await facturacionServices.leerfactcodigomes("'" + veinteContrataciones[i] + "'");
-                    facturacion[indice] = res.data[0].valor_fac;
+                    console.log("DATOS FACTURACION : ",res.data)
+                    if(res.data.length > 0)
+                      facturacion[indice] = res.data[0].valorrentames;
+                    else
+                        facturacion[indice] = 0;
                     indice++;
                 }
                 fetchDataFactContrataciones();
@@ -214,7 +218,12 @@ function FacturacionVsGastos(props) {
             for (var i = 0; i < longconsumos; i++) {
                 async function fetchDataFactConsumos() {
                     const res = await facturacionServices.leerfactcodigomes("'" + veinteConsumos[i] + "'");
-                    facturacion[indice] = res.data[0].valor_fac;
+                    console.log("DATOS FACTURACION: ",res.data)
+                    //facturacion[indice] = res.data[0].valorrentames;
+                    if(res.data.length > 0)
+                      facturacion[indice] = res.data[0].valorrentames;
+                    else
+                        facturacion[indice] = 0;
                     indice++;
                 }
                 fetchDataFactConsumos();
@@ -240,11 +249,11 @@ function FacturacionVsGastos(props) {
             <Grid container spacing={2} >
                 <Grid item xs={12} md={3}></Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth 
                         onChange={(e) => setAnno(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth
                         onChange={(e) => setMes(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>

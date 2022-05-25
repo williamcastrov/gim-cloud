@@ -29,8 +29,17 @@ subgrupospartes.listUnSubGrupopartes = async (id_sgre) => {
     return res;
 }
 
-subgrupospartes.listSubGrupospartesequipos = async () => {
-    const urlList = baseUrl+"/listar_subgrupospartesequipos"
+subgrupospartes.listSubGrupospartesequipos = async (codigo) => {
+    const urlList = baseUrl+"/listar_subgrupospartesequipos/"+codigo
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
+subgrupospartes.listConsecutivoGrupoSubGrupo = async (codigo) => {
+    const urlList = baseUrl+"/listar_consecutivogruposubgrupo/"+codigo
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })
     .catch(error=>{ return error; })

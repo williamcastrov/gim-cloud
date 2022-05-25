@@ -59,9 +59,10 @@ class ContratosController extends Controller
           $data = DB::select("SELECT t0.*, t1.nombre_ciu, t2.nombre_est, t3.descripcion_equ, t4.razonsocial_cli, t5.primer_nombre_emp,
                                            t5.segundo_nombre_emp, t5.primer_apellido_emp, t5.segundo_apellido_emp, t3.codigo_equ
           FROM contratos as t0 INNER JOIN ciudades           as t1 INNER JOIN estados            as t2 INNER JOIN equipos as t3
-                               INNER JOIN interlocutores_cli as t4 INNER JOIN interlocutores_emp as t5
-          WHERE t0.ciudad_ctr  = t1.id_ciu and t0.estado_ctr          = t2.id_est and t0.id_ctr = t3.id_equ and
-                t0.cliente_ctr = t4.id_cli and t0.asesorcomercial_ctr = t5.id_emp and t0.estado_ctr != 60");
+                               INNER JOIN interlocutores_cli as t4 INNER JOIN interlocutores_emp as t5 INNER JOIN ubicaciones as t6
+          WHERE t0.estado_ctr  = t2.id_est and t0.id_ctr = t3.id_equ and t3.tipo_equ = 8
+            and t6.equipo_ubi  = t3.id_equ and t6.ciudad_ubi          = t1.id_ciu and t6.estado_ubi  = 31
+            and t0.cliente_ctr = t4.id_cli and t0.asesorcomercial_ctr = t5.id_emp and t0.estado_ctr != 60");
   
           $response['data'] = $data;
           // $response['data'] = $data1;
@@ -159,7 +160,7 @@ class ContratosController extends Controller
     public function listar_vencimientocontratos($fecha){  
         try {
           $data = DB::select("SELECT t0.*, t1.nombre_ciu, t2.nombre_est, t3.descripcion_equ, t4.razonsocial_cli, t5.primer_nombre_emp,
-                                           t5.segundo_nombre_emp, t5.primer_apellido_emp, t5.segundo_apellido_emp, t3.codigo_equexi 
+                                           t5.segundo_nombre_emp, t5.primer_apellido_emp, t5.segundo_apellido_emp, t3.codigo_equ 
           FROM contratos as t0 INNER JOIN ciudades           as t1 INNER JOIN estados            as t2 INNER JOIN equipos as t3
                                INNER JOIN interlocutores_cli as t4 INNER JOIN interlocutores_emp as t5
           WHERE t0.ciudad_ctr  = t1.id_ciu and t0.estado_ctr          = t2.id_est and t0.id_ctr = t3.id_equ and
@@ -184,7 +185,7 @@ class ContratosController extends Controller
                                                                        EXTRACT(MONTH FROM DATE(NOW())) AS mes,
                                                                        EXTRACT(YEAR FROM DATE(NOW())) AS año
         FROM  contratos as t0 INNER JOIN equipos as t1
-        WHERE t0.id_ctr = t1.id_equ and t1.tipo_equ = 8 and 
+        WHERE t0.id_ctr = t1.id_equ and t1.tipo_equ = 8 and t0.estado_ctr != 60 and
               t0.controldiafactura_ctr != concat(EXTRACT(YEAR FROM DATE(NOW())),EXTRACT(MONTH FROM DATE(NOW())))
         GROUP BY t0.diafacturacion_ctr;");
 
@@ -210,6 +211,7 @@ class ContratosController extends Controller
                              INNER JOIN interlocutores_cli as t4 INNER JOIN interlocutores_emp as t5
         WHERE t0.ciudad_ctr  = t1.id_ciu and t0.estado_ctr          = t2.id_est and t0.id_ctr = t3.id_equ and t3.tipo_equ = 8 and 
               t0.cliente_ctr = t4.id_cli and t0.asesorcomercial_ctr = t5.id_emp and t0.diafacturacion_ctr = $dia and
+              t0.estado_ctr != 60 and
               t0.controldiafactura_ctr != concat(EXTRACT(YEAR FROM DATE(NOW())),EXTRACT(MONTH FROM DATE(NOW()))) ");
 
     $response['data'] = $data;

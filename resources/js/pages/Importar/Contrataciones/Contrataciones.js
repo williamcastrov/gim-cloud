@@ -159,6 +159,7 @@ function Contrataciones() {
             <th scope="col">Documento</th>
             <th scope="col">Detalle</th>
             <th scope="col">Centrocosto</th>
+            <th scope="col">Tipogasto</th>
             <th scope="col">Costomtto</th>
           </tr>
         </thead>
@@ -179,6 +180,7 @@ function Contrataciones() {
                 <td>{d.documento}</td>
                 <td>{d.detalle}</td>
                 <td>{d.centrocosto}</td>
+                <td>{d.tipogasto}</td>
                 <td>{d.costomtto}</td>
               </tr>
             ))

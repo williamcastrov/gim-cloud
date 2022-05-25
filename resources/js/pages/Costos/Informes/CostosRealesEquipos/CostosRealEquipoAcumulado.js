@@ -156,7 +156,7 @@ function CostosRealEquipoAcumulado() {
     }
 
     const leerDatosEquipos = (codigo) => {
-        console.log("CODIGO EQUIPO : ", cod)
+        console.log("CODIGO EQUIPO : ", codigo)
         async function fetchDataLeeInformacionEquipos(cod) {
             const res = await informecostorealServices.leeinformacionacumuladaequipos(cod);
             setListarEquipos(res.data);

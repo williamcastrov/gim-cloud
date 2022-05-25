@@ -117,7 +117,6 @@ const useStyles = makeStyles((theme) => ({
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
-
   return (
     <NumberFormat
       {...other}
@@ -607,22 +606,22 @@ function Accesorios(props) {
           abrirCerrarModalEditarTipoEquipo();
         else
           abrirCerrarModalEditar();
-          /*
-        delete equiposSeleccionado.codigo_equ;
-        delete equiposSeleccionado.descripcion_equ;
-        delete equiposSeleccionado.empresa_equ;
-        delete equiposSeleccionado.frecuencia_equ;
-        delete equiposSeleccionado.propietario_equ;
-        delete equiposSeleccionado.marca_equ;
-        delete equiposSeleccionado.antiguedad_equ;
-        delete equiposSeleccionado.grupoequipo_equ;
-        delete equiposSeleccionado.subgrupoparte_equ;
-        delete equiposSeleccionado.valoradquisicion_equ;
-        delete equiposSeleccionado.estadocontable_equ;
-        delete equiposSeleccionado.estadocliente_equ;
-        delete equiposSeleccionado.estadomtto_equ;
-        delete equiposSeleccionado.ctacontable_equ;
-        */
+        /*
+      delete equiposSeleccionado.codigo_equ;
+      delete equiposSeleccionado.descripcion_equ;
+      delete equiposSeleccionado.empresa_equ;
+      delete equiposSeleccionado.frecuencia_equ;
+      delete equiposSeleccionado.propietario_equ;
+      delete equiposSeleccionado.marca_equ;
+      delete equiposSeleccionado.antiguedad_equ;
+      delete equiposSeleccionado.grupoequipo_equ;
+      delete equiposSeleccionado.subgrupoparte_equ;
+      delete equiposSeleccionado.valoradquisicion_equ;
+      delete equiposSeleccionado.estadocontable_equ;
+      delete equiposSeleccionado.estadocliente_equ;
+      delete equiposSeleccionado.estadomtto_equ;
+      delete equiposSeleccionado.ctacontable_equ;
+      */
       } else {
         swal("Componente", "Error Actualizando el Equipo!", "error", { button: "Aceptar" });
         console.log(res.message);
@@ -975,7 +974,7 @@ function Accesorios(props) {
           fullWidth onChange={handleChange} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcalidad_equ" label="Dato Auxiliar de Calidad"
-          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ}  />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ} />
         </Grid>
       </Grid>
       <div align="right">
@@ -1264,14 +1263,19 @@ function Accesorios(props) {
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaraquimejora_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcalidad_equ" label="Dato Auxiliar de Calidad"
-          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ}  />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ} />
         </Grid>
       </Grid>
       <div align="right">
-        <Button className={styles.button} color="primary" onClick={() => actualizarEquipo()} >Editar</Button>
+        {
+          idUsu == 54 ?
+            null
+            :
+          <Button className={styles.button} color="primary" onClick={() => actualizarEquipo()} >Editar</Button>
+        }
         <Button className={styles.button2} onClick={() => abrirCerrarModalEditar()}>Cancelar</Button>
       </div>
-      <MenuEquipos equipoID={equiposSeleccionado.id_equ} equipoCodigo={equiposSeleccionado.codigo_equ} tipo={tipo} />
+      <MenuEquipos equipoID={equiposSeleccionado.id_equ} equipoCodigo={equiposSeleccionado.codigo_equ} tipo={tipo} idUsu={idUsu} />
     </div>
   )
 
@@ -1570,7 +1574,7 @@ function Accesorios(props) {
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaraquimejora_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcalidad_equ" label="Dato Auxiliar de Calidad"
-          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ}  />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ} />
         </Grid>
       </Grid>
       <div align="right">

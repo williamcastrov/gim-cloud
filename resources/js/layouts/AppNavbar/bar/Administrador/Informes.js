@@ -57,7 +57,7 @@ function Informes() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
 
-          <ListItem button className={classes.nested} button onClick={handleClickPG} >
+          <ListItem button className={classes.nested} onClick={handleClickPG} >
             <ListItemIcon>
               < FormatListNumberedIcon />
             </ListItemIcon>
@@ -82,7 +82,7 @@ function Informes() {
           </Collapse>
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickOT} >
+          <ListItem button className={classes.nested} onClick={handleClickOT} >
             <ListItemIcon>
               <ReorderIcon />
             </ListItemIcon>
@@ -144,7 +144,7 @@ function Informes() {
 
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickEQ} >
+          <ListItem button className={classes.nested} onClick={handleClickEQ} >
             <ListItemIcon>
               < ListAltIcon />
             </ListItemIcon>
@@ -154,23 +154,11 @@ function Informes() {
 
           <Collapse in={openEQ} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem component={Link} button to="/activos/areas" className={classes.nested}>
+              <ListItem component={Link} button to="/flotarenta/ListarMT" className={classes.nested}>
                 <ListItemIcon>
                   < ListAltIcon />
                 </ListItemIcon>
                 <ListItemText primary="Listar Información de la MT" />
-              </ListItem>
-              <ListItem component={Link} button to="/activos/areas" className={classes.nested} >
-                <ListItemIcon>
-                  < ListAltIcon />
-                </ListItemIcon>
-                <ListItemText primary="Listar Todas las MT" />
-              </ListItem>
-              <ListItem component={Link} button to="/activos/cencostos" className={classes.nested}>
-                <ListItemIcon>
-                  < ListAltIcon />
-                </ListItemIcon>
-                <ListItemText primary="Listar Todos los Accesorios" />
               </ListItem>
               <ListItem component={Link} button to="/flotarenta/informehojavidaequipos" className={classes.nested}>
                 <ListItemIcon>

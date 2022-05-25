@@ -270,20 +270,24 @@ function Rentabilidad(props) {
         <div className={classes.root}>
             <br />
             <Grid container spacing={1} >
-                <Grid item xs={12} md={3}> </Grid>
+                <Grid item xs={12} md={4}> </Grid>
                 <ButtonGroup>
                     <Button className={classes.button1} color="secondary" onClick={() => abrirCerrarModalSeleccionarMes()}>
                         Comparativa Facturacion vs Gastos
                     </Button>
+                    {/*
                     <Button className={classes.button} color="secondary" onClick={() => abrirCerrarModalMargenContribucion()}>
                         Margen de Contribución
                     </Button>
+                    */}
                     <Button className={classes.button1} color="secondary" onClick={() => abrirCerrarModalCumplimientoOT()}>
                         Cumplimiento OT
                     </Button>
+                    {/*
                     <Button className={classes.button} color="secondary" onClick={() => abrirCerrarModalCumplimientoEquipo()}>
                        Comparativo x Equipo
                     </Button>
+                    */}
                 </ButtonGroup>
             </Grid>
             <br />

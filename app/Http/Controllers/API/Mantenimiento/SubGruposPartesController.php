@@ -56,12 +56,31 @@ class SubGruposPartesController extends Controller
           return $response;
     }
 
-    public function listar_subgrupospartesequipos(){  
+    public function listar_subgrupospartesequipos($grupo){  
       try {
 
         $data = DB::select("SELECT t0.*, t1.nombre_emp, t2.nombre_est, t3.descripcion_grp
         FROM subgrupopartes as t0 INNER JOIN empresa as t1 INNER JOIN estados as t2 INNER JOIN gruposequipos as t3
-        WHERE t0.tipo_sgre = 'EQM' and t0.empresa_sgre = t1.id_emp and t0.estado_sgre = t2.id_est  and t0.grupo_sgre = t3.id_grp");
+        WHERE t0.tipo_sgre = $grupo and t0.empresa_sgre = t1.id_emp and t0.estado_sgre = t2.id_est  and t0.grupo_sgre = t3.id_grp");
+
+        $response['data'] = $data;
+        // $response['data'] = $data1;
+        $response['message'] = "load successful";
+        $response['success'] = true;
+    
+      } catch (\Exception $e) {
+        $response['message'] = $e->getMessage();
+        $response['success'] = false;
+      }
+        return $response;
+    }
+
+    public function listar_consecutivogruposubgrupo($codigo){  
+      try {
+
+        $data = DB::select("SELECT t0.*, t1.nombre_emp, t2.nombre_est, t3.descripcion_grp
+        FROM subgrupopartes as t0 INNER JOIN empresa as t1 INNER JOIN estados as t2 INNER JOIN gruposequipos as t3
+        WHERE t0.tipo_sgre = $codigo and t0.empresa_sgre = t1.id_emp and t0.estado_sgre = t2.id_est  and t0.grupo_sgre = t3.id_grp");
 
         $response['data'] = $data;
         // $response['data'] = $data1;

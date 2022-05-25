@@ -69,52 +69,7 @@ function Ordenes() {
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-
-          <ListItem button className={classes.nested} button onClick={handleClickPO} >
-            <ListItemIcon>
-              <ViewHeadlineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Parametros" />
-            {openPO ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openPO} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem component={Link} button to="/mantenimiento/tiposmtto" className={classes.nested}>
-                <ListItemIcon>
-                  <SettingsApplicationsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Tipos de Actividad" />
-              </ListItem>
-              <ListItem component={Link} button to="/mantenimiento/tiposestados" className={classes.nested}>
-                <ListItemIcon>
-                  <SyncIcon />
-                </ListItemIcon>
-                <ListItemText primary="Tipos de Estados" />
-              </ListItem>
-              <ListItem component={Link} button to="/mantenimiento/tipooperacion" className={classes.nested}>
-                <ListItemIcon>
-                  <CategoryIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Tipos de Operaciones" />
-              </ListItem>
-              <ListItem component={Link} button to="/mantenimiento/tiposservicio" className={classes.nested}>
-                <ListItemIcon>
-                  <CategoryIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Tipos de Servicios" />
-              </ListItem>
-              <ListItem component={Link} button to="/mantenimiento/topoactividad" className={classes.nested}>
-                <ListItemIcon>
-                  <CategoryIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Actvidades Ordenes" />
-              </ListItem>
-            </List>
-          </Collapse>
-
-          <Divider />
-
-          <ListItem button className={classes.nested} button onClick={handleClickGO} >
+          <ListItem button className={classes.nested} onClick={handleClickGO} >
             <ListItemIcon>
               < PermDataSettingIcon />
             </ListItemIcon>
@@ -124,18 +79,6 @@ function Ordenes() {
 
           <Collapse in={openGO} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem component={Link} button to="/gestionordenes/ordenes" className={classes.nested}>
-                <ListItemIcon>
-                  <AddBoxOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary="Crear/Listar/Modificar" />
-              </ListItem>
-              <ListItem component={Link} button to="/gestionordenes/gestionarpendientes" className={classes.nested}>
-                <ListItemIcon>
-                  <AddBoxOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary="Gestionar Pendientes" />
-              </ListItem>
               <ListItem  component={Link} button to="/pdf/imprimirotcliente" className={classes.nested}>
                 <ListItemIcon>
                   <ReceiptIcon />
@@ -152,7 +95,7 @@ function Ordenes() {
           </Collapse>
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickIN} >
+          <ListItem button className={classes.nested} onClick={handleClickIN} >
             <ListItemIcon>
               < FindInPageIcon />
             </ListItemIcon>
@@ -167,36 +110,12 @@ function Ordenes() {
                 </ListItemIcon>
                 <ListItemText primary="Generadas" />
               </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <LocalShippingIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cerradas" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <LocalShippingIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pendientes" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <ReceiptIcon />
-                </ListItemIcon>
-                <ListItemText primary="Gastos" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <LocalShippingIcon />
-                </ListItemIcon>
-                <ListItemText primary="Ingresos" />
-              </ListItem>
             </List>
           </Collapse>
 
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickRP} >
+          <ListItem button className={classes.nested} onClick={handleClickRP} >
             <ListItemIcon>
               < ReportIcon />
             </ListItemIcon>

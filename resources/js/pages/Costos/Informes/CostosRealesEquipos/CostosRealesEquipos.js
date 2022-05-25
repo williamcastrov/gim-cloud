@@ -162,7 +162,7 @@ function CostosRealesEquipos() {
                     Generar Informe
                 </Button>
 
-                <Button className={styles.button} className={styles.button} color="primary" >
+                <Button className={styles.button} color="primary" >
                     <ReactHTMLTableToExcel
                         table="costosreales"
                         filename="InformacionCostosReales"
@@ -220,6 +220,8 @@ function CostosRealesEquipos() {
                                 let rentabilidad = 0;
                                 let totalgastos = 0;
                                 let rentames = 1;
+                                let contrataciones = 0;
+                                let logistica = 0;
 
                                 if (informecostos.departamento_ciu === '05') {
                                     gas = Math.round(listarCostoVariablePeriodo[0].valorcosto_cvp / equiposrentaantioquia);
@@ -235,10 +237,16 @@ function CostosRealesEquipos() {
                                 else
                                     gas = 0;
 
-                                if(informecostos.valorrentames_ctr < 10)
-                                   rentames = 1;
+                                if (informecostos.tipogasto == "2")
+                                    logistica = informecostos.costomtto;
                                 else
-                                   rentames = informecostos.valorrentames_ctr;
+                                    contrataciones = informecostos.costomtto;
+                                //if (informecostos.tipogasto == "2")
+                                    
+                                if (informecostos.valorrentames_ctr < 10)
+                                    rentames = 1;
+                                else
+                                    rentames = informecostos.valorrentames_ctr;
 
                                 rentabilidad = rentames -
                                     (gas + gasolina + peajes + insumos + informecostos.costomtto + informecostos.costototal_cre + 0 +
@@ -246,8 +254,8 @@ function CostosRealesEquipos() {
                                         motocarro + motocubico + lineacelular + (informecostos.valorcomercial_seg * 0.009 * 0.0821917));
 
                                 totalgastos = (gas + gasolina + peajes + insumos + informecostos.costomtto + informecostos.costototal_cre + 0 +
-                                        informecostos.depreciacionmensual_act + 0 + softwaremtto + nomina + rentingcamioneta +
-                                        motocarro + motocubico + lineacelular + (informecostos.valorcomercial_seg * 0.009 * 0.0821917));
+                                    informecostos.depreciacionmensual_act + 0 + softwaremtto + nomina + rentingcamioneta +
+                                    motocarro + motocubico + lineacelular + (informecostos.valorcomercial_seg * 0.009 * 0.0821917));
 
                                 return (
                                     <tr>
@@ -260,10 +268,10 @@ function CostosRealesEquipos() {
                                         <td>{gasolina}</td>
                                         <td>{peajes}</td>
                                         <td>{insumos}</td>
-                                        <td>{informecostos.costomtto}</td>
+                                        <td>{contrataciones}</td>
                                         <td>{informecostos.costototal_cre}</td>
+                                        <td>{logistica}</td>
                                         <td>{0}</td>
-                                        <td>{informecostos.depreciacionmensual_act}</td>
                                         <td>{informecostos.valorcomercial_seg}</td>
                                         <td>{Math.round(informecostos.valorcomercial_seg * 0.009 * 0.0821917)}</td>
                                         <td>{0}</td>
@@ -286,5 +294,7 @@ function CostosRealesEquipos() {
         </div>
     );
 }
+
+// <td>{informecostos.depreciacionmensual_act}</td>
 
 export default CostosRealesEquipos;

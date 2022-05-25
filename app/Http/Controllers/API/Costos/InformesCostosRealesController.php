@@ -137,11 +137,11 @@ class InformesCostosRealesController extends Controller
           $data = DB::select("SELECT t0.*, vista_activoscostos.valorenlibros_act, t2.valorrentames_ctr, 
           vista_activoscostos.depreciacionacumulada_act, vista_activoscostos.depreciacionmensual_act, t4.nombre_ciu,
           t4.departamento_ciu, vista_contrataciones.codigo, vista_contrataciones.valorcontrataciones as costomtto,
-          vista_consumosrepuestos.valorconsumosrepuestos as costototal_cre,
+          vista_consumosrepuestos.valorconsumosrepuestos as costototal_cre, vista_contrataciones.tipogasto as tipogasto,
           seguros.valorcomercial_seg
    FROM   equipos as t0 INNER JOIN vista_activoscostos INNER JOIN contratos as t2 INNER JOIN ubicaciones as t3
           INNER JOIN ciudades as t4
-          left join vista_contrataciones on (vista_contrataciones.documentoref = t0.codigo_equ AND 
+          left join vista_contrataciones on (vista_contrataciones.codigo = t0.codigo_equ AND 
           vista_contrataciones.periodo = $periodo)   
           left join vista_consumosrepuestos on (vista_consumosrepuestos.idequipo_cre = t0.codigo_equ and 
           vista_consumosrepuestos.periodo_cre = $periodo)

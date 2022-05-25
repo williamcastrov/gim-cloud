@@ -40,6 +40,7 @@ cumplimientooserv.listar_actividadesotrevision = async () => {
 }
 
 cumplimientooserv.listUnCumplimiento = async (id_actividad) => {
+    console.log("DATO ACTIVIDAD : ",id_actividad)
     const urlList = baseUrl+"/get/"+id_actividad
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })

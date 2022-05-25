@@ -84,11 +84,13 @@ function Management() {
             <Tab value="2" label="Dias Facturación" {...selectTab('2')} icon={<MonetizationOnIcon/>} />
             <Tab value="3" label="Estados Equipos" {...selectTab('3')} icon={ <PanToolIcon />}  />
             <Tab value="4" label="Estados Ordenes" {...selectTab('4')} icon={ <EqualizerIcon />} />
+            {/*
             <Tab value="5" label="Vencen Hoy" {...selectTab('5')} icon={<AlarmIcon />}  />
             <Tab value="6" label="Vencen en 8 dias" {...selectTab('6')} icon={<NextWeekIcon />}  />
             <Tab value="7" label="Ord Propias" {...selectTab('7')} icon={<MyLocationIcon />}  />
             <Tab value="8" label="Ord Terceros" {...selectTab('8')} icon={<DevicesOtherIcon />}  />
-          </Tabs>
+    */}
+            </Tabs>
           </div>
             <TabPanel value={value} index="1">  
               <VencimientoContratos />

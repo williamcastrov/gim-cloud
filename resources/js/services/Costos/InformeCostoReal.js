@@ -50,7 +50,7 @@ informecostoreal.equipostotalesrenta = async () => {
 }
 
 informecostoreal.equipostotales = async () => {
-    const urlList = baseUrl+"/  "
+    const urlList = baseUrl+"/equipostotales"
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })
     .catch(error=>{ return error; })

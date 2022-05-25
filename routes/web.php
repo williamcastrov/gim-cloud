@@ -84,6 +84,7 @@ Route::get('/gestionordenes/crearordenes', 'App\Http\Controllers\GimController@i
 Route::get('/gestionordenes/actividadrealizada', 'App\Http\Controllers\GimController@index');
 Route::get('/gestionordenes/registroactividadoperario', 'App\Http\Controllers\GimController@index');
 Route::get('/gestionordenes/gestionarpendientes', 'App\Http\Controllers\GimController@index');
+Route::get('/gestionordenes/notificacionpendientes', 'App\Http\Controllers\GimController@index');
 
 Route::get('/mantenimiento/tiposmtto', 'App\Http\Controllers\GimController@index');
 Route::get('/mantenimiento/fallasmtto', 'App\Http\Controllers\GimController@index');
@@ -155,6 +156,8 @@ Route::get('/flotarenta/informehojavidaequipos', 'App\Http\Controllers\GimContro
 Route::get('/flotarenta/informeubicacionesequipos', 'App\Http\Controllers\GimController@index');
 Route::get('/flotarenta/confiabilidadMT', 'App\Http\Controllers\GimController@index');
 Route::get('/flotarenta/calificacionot', 'App\Http\Controllers\GimController@index');
+Route::get('/flotarenta/ListarMT', 'App\Http\Controllers\GimController@index');
+
 Route::get('/rentabilidad/conceptosrentabilidad', 'App\Http\Controllers\GimController@index');
 Route::get('/rentabilidad/conceptosrentabilidadperiodo', 'App\Http\Controllers\GimController@index');
 
@@ -163,6 +166,8 @@ Route::get('/costos/costosvariables', 'App\Http\Controllers\GimController@index'
 Route::get('/costos/tipocostovariable', 'App\Http\Controllers\GimController@index');
 Route::get('/costos/costorealperiodo', 'App\Http\Controllers\GimController@index');
 Route::get('/costos/costorealequipoacumulado', 'App\Http\Controllers\GimController@index');
+Route::get('/costos/consumosrepuestos', 'App\Http\Controllers\GimController@index');
+Route::get('/costos/contrataciones', 'App\Http\Controllers\GimController@index');
 
 // Rutas Dashboard
 Route::get('/dashboard/rentabilidad', 'App\Http\Controllers\GimController@index');

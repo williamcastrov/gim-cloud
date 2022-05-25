@@ -146,6 +146,15 @@ equipos.listUnEquipo = async (id_equ) => {
     return res;
 }
 
+equipos.listar_combogrupoequipo = async (codigo_equ) => {
+    const urlList = baseUrl+"/listar_combogrupoequipo/"+codigo_equ
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 equipos.fecharetornaequipo = async (id_equ) => {
     const urlList = baseUrl+"/fecharetornaequipo/"+id_equ
     const res = await axios.get(urlList)

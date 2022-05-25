@@ -94,12 +94,13 @@ class OrdenesController extends Controller
  //exit;
  
           $data1 = DB::select("SELECT t0.*, t1.descripcion_tope, t2.descripcion_are,  t3.descripcion_fmt, t4.descripcion_tfa,
-                                           t5.nombre_est
-          FROM cumplimientooserv   as t0 INNER JOIN tipooperacion as t1 INNER JOIN actividadrealizada as t2
-          INNER JOIN fallasdemtto  as t3 INNER JOIN tiposdefallas as t4
-          INNER JOIN estados       as t5
-          WHERE t0.id_actividad = $id and t0.tipooperacion_cosv = t1.id_tope and t0.servicio_cosv = t2.id_are  and 
-                t0.tipofallamtto_cosv = t3.id_fmt and t3.tipodefalla_fmt = t4.id_tfa and t0.estadooperacionequipo_cosv = t5.id_est");
+                              t5.nombre_est, t6.descripcion_tmt
+                              FROM cumplimientooserv   as t0 INNER JOIN tipooperacion as t1 INNER JOIN actividadrealizada as t2
+                              INNER JOIN fallasdemtto  as t3 INNER JOIN tiposdefallas as t4 INNER JOIN tiposmantenimiento AS t6
+                              INNER JOIN estados       as t5
+                              WHERE t0.id_actividad = $id and t0.tipooperacion_cosv = t1.id_tope and t0.servicio_cosv = t2.id_are  
+                                and t0.tipofallamtto_cosv = t3.id_fmt and t3.tipodefalla_fmt = t4.id_tfa 
+                                and t0.estadooperacionequipo_cosv = t5.id_est AND t0.tipo_cosv = t6.id_tmt");
  
  $orden = $data1[0]->id_cosv;
  //echo json_encode($orden);
@@ -120,7 +121,7 @@ INNER JOIN equipos        as t10 INNER JOIN clasificacionABC   as t11
 INNER JOIN tiposmantenimiento as t12 INNER JOIN marcas         as t13 INNER JOIN tiposservicio      as t15
 INNER JOIN tipooperacion  as t16
 left join datosadicionalequipos on (datosadicionalequipos.id_dequ = ordenservicio.equipo_otr)
-left join contactos on (contactos.nitinterlocutor_con = ordenservicio.nitcliente_otr)
+left join contactos on (contactos.id_con = ordenservicio.contactocliente_otr)
 WHERE ordenservicio.id_otr             = $orden    and 
 ordenservicio.empresa_otr        = t1.id_emp  and ordenservicio.estado_otr       = t2.id_est   and
 t5.ciudad_cli                    = t3.id_ciu  and ordenservicio.proveedor_otr    = t4.id_int   and
@@ -161,15 +162,15 @@ ORDER BY id_otr DESC");
           
           if($longitud === 1){
               $fecha1 = $data1[0]->fechafinal_cosv;
-              $actividad1 = substr($data1[0]->descripcion_cosv, 0, 300);
-              $palabra = substr($data1[0]->observacion_cosv, 0, 500); 
+              $actividad1 = substr($data1[0]->descripcion_cosv, 0, 600);
+              $palabra = substr($data1[0]->observacion_cosv, 0, 700); 
               $fechainicia1 = $data1[0]->fechainicia_cosv;
               $fechafinal1  = $data1[0]->fechafinal_cosv;
           }
 
           if($longitud === 2){
             $fecha2 = $data1[1]->fechafinal_cosv;
-            $actividad2 = substr($data1[1]->descripcion_cosv, 0, 200);
+            $actividad2 = substr($data1[1]->descripcion_cosv, 0, 500);
             //echo $data1[0]->descripcion_cosv;
             //exit;
             $fechainicia2 = $data1[1]->fechainicia_cosv;
@@ -184,7 +185,7 @@ ORDER BY id_otr DESC");
            
           $subtable = '<table border="1" cellspacing="6" cellpadding="4"><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></table>';
    
-          PDF::Image('/var/www/bc-gim/resources/js/server/server/src/images/logologistral.jpeg', 5, 5, 40, 20, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
+          PDF::Image('/var/www/bc-gim/resources/js/server/server/src/images/logologistral.jpeg', 165, 5, 40, 30, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
           $html = '
           <br/>
           <h4 align="center" > LOGISTRAL S.A. Nit 900.161.726-3 - ACTIVIDAD #  '.$data1[0]->id_actividad.'</h4>
@@ -230,7 +231,7 @@ ORDER BY id_otr DESC");
               ID INTERNO: '.$data2[0]->codigo_equ.'
             </th>
             <th width="200px"  align="left">
-            '.$data2[0]->descripcion_tmt.'
+            '.$data1[0]->descripcion_tmt.'
             </th>
           </tr>
           <tr>
@@ -250,7 +251,7 @@ ORDER BY id_otr DESC");
           <tr>
           <br/>
           
-            <th style="text-align: right !important; background-color: #F5F5F5; font-size: 9px !important" width="400px" >
+            <th style="text-align: center !important; background-color: #F5F5F5; font-size: 9px !important" width="560px" >
               TIEMPOS DE LA ACTIVIDAD
             </th> 
             </tr>
@@ -259,12 +260,12 @@ ORDER BY id_otr DESC");
           <table border="0" cellspacing="1" cellpadding="1" style="font-family: Arial, Helvetica, sans-serif !important; font-size: 10px !important;">
           
             <tr style="text-align: center !important; background-color: #F5F5F5; font-size: 9px !important " >
-              <td width="210px">ACTIVIDAD REALIZADA</td>
-              <td>FECHA_HORA_INICIAL</td>
-              <td>FECHA_HORA_FINAL</td>
+              <td width="350px">ACTIVIDAD REALIZADA</td>
+              <td width="105px">FECHA_HORA_INICIAL</td>
+              <td width="105px">FECHA_HORA_FINAL</td>
             </tr>
             <tr style="text-align: center !important; background-color: #F5F5F5; font-size: 9px !important" >
-              <td  width="210px">
+              <td  width="350px">
                 '.$actividad1.'
               </td>  
               <td >
@@ -273,18 +274,17 @@ ORDER BY id_otr DESC");
               <td >
                 '.$fechafinal1.'
               </td>
-              <td>FECHA_HORA_INICIAL</td>
-              <td>FECHA_HORA_FINAL</td>
+             
             </tr>
             
           </table>
           <table border="0" cellspacing="1" cellpadding="1" style="font-family: Arial, Helvetica, sans-serif !important; font-size: 9px !important;">
            <br />
           <tr style="text-align: center !important; background-color: #F5F5F5"  >
-            <td >HORA INICIA EL SERVICIO</td>
-            <td>HORA DE LLEGADA CLIENTE</td>
-            <td>TIEMPO TRANSPORTE</td>
-            <td>TIEMPO ACTIVIDAD</td>
+            <td width="150px">HORA INICIA EL SERVICIO</td>
+            <td width="150px">HORA DE LLEGADA CLIENTE</td>
+            <td width="129px">TIEMPO TRANSPORTE</td>
+            <td width="129px">TIEMPO ACTIVIDAD</td>
           </tr>';
 
           $html .= 
@@ -305,15 +305,15 @@ ORDER BY id_otr DESC");
          PDF::writeHTML($html, true, false, true, false, '');
          
          if(isset($data[0]->name)){
-         PDF::Image('/var/www/bc-gim/public/images/'.$data[0]->name, 10, 130, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
+         PDF::Image('/var/www/bc-gim/public/images/'.$data[0]->name, 15, 125, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
          }
 
          if(isset($data[1]->name)){
-         PDF::Image('/var/www/bc-gim/public/images/'.$data[1]->name, 75, 130, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
+         PDF::Image('/var/www/bc-gim/public/images/'.$data[1]->name, 80, 125, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
          }
 
          if(isset($data[2]->name)){
-         PDF::Image('/var/www/bc-gim/public/images/'.$data[2]->name, 140, 130, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
+         PDF::Image('/var/www/bc-gim/public/images/'.$data[2]->name, 145, 125, 45, 45, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 0, false, false, false);
          }
 
          $html1 = '
@@ -358,7 +358,7 @@ ORDER BY id_otr DESC");
            FIRMA CLIENTE : 
          </th>
          <th align="left">
-          FIRMA TECNICO : 
+          
          </th>
        </tr>
        </table>
@@ -554,8 +554,8 @@ ORDER BY id_otr DESC");
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
           $data = DB::select("SELECT COUNT(*) as totalotmes
-                              FROM   ordenservicio
-                              WHERE  fechaprogramada_otr >= DATE_FORMAT(now(), '%Y-%m-01') AND fechaprogramada_otr <= LAST_DAY(NOW())");
+          FROM   cumplimientooserv
+          WHERE  fechaprogramada_cosv >= DATE_FORMAT(now(), '%Y-%m-01') AND fechaprogramada_cosv <= LAST_DAY(NOW())");
 
           $response['data'] = $data;  
 
@@ -578,9 +578,9 @@ ORDER BY id_otr DESC");
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
           $data = DB::select("SELECT count(*) as totalotterminadasmes
-                              FROM   ordenservicio
-                              WHERE  fechafinal_otr >= DATE_FORMAT(now(), '%Y-%m-01') and fechafinal_otr <= LAST_DAY(NOW())
-                                and  ordenservicio.estado_otr IN (27)");
+          FROM   cumplimientooserv
+          WHERE  fechainicia_cosv >= DATE_FORMAT(now(), '%Y-%m-01') and fechainicia_cosv <= LAST_DAY(NOW())
+            and  cumplimientooserv.estado_cosv IN (27)");
 
 // fechafinal_otr >= DATE_FORMAT(now(), '%Y-%m-01') and fechafinal_otr <= LAST_DAY(NOW())
 //fechafinal_otr >= DATE_FORMAT('2021/04/01', '%Y-%m-01') and fechafinal_otr <= LAST_DAY('2021/04/30')
@@ -600,9 +600,12 @@ ORDER BY id_otr DESC");
       public function cumplimientotalotmes($periodo){  
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
+          //$mes = substr($periodo, 6, 2);
+          //$anno = substr($periodo, 1, 4);
           $data = DB::select("SELECT COUNT(*) as cumplimientototalotmes
-                  FROM  ordenservicio, rangomeses
-                  WHERE fechaprogramada_otr >= fechainicial_rme AND fechaprogramada_otr <= fechafinal_rme and periodo_rme = $periodo;");
+          FROM   ordenservicio
+          WHERE  fechaprogramada_otr >= DATE_FORMAT($periodo, '%Y-%m-01') AND fechaprogramada_otr <= LAST_DAY($periodo)
+            AND  estado_otr != 32");
 
           $response['data'] = $data;  
 
@@ -619,10 +622,11 @@ ORDER BY id_otr DESC");
       public function cumplimientootterminadasmes($periodo){  
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
-          $data = DB::select("SELECT count(*) as cumplimientototalotterminadasmes
-                              FROM   ordenservicio, rangomeses
-                              WHERE  fechafinal_otr >= fechainicial_rme AND fechafinal_otr <= fechafinal_rme and periodo_rme = $periodo
-                                and  ordenservicio.estado_otr IN (27);");
+          $data = DB::select("SELECT COUNT(*) as cumplimientototalotterminadasmes
+                              FROM   ordenservicio
+                              WHERE  fechaprogramada_otr >= DATE_FORMAT($periodo, '%Y-%m-01') 
+                                AND  fechaprogramada_otr <= LAST_DAY($periodo)
+                                AND  estado_otr IN (26, 27)");
 
           $response['data'] = $data;
           
@@ -771,33 +775,37 @@ ORDER BY id_otr DESC");
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
           $data = DB::select("SELECT ordenservicio.*,    t1.nombre_emp,       t2.nombre_est,       t3.nombre_ciu, t4.razonsocial_int,
-                                     t5.razonsocial_cli,  t5.razonsocial_cli,  t5.telefono_cli,     t5.email_cli,  t6.primer_nombre_emp,
-                                     t6.primer_apellido_emp,  concat(t6.primer_nombre_emp,' ',t6.primer_apellido_emp) as nombretecnico,
-                                     t8.descripcion_sgre, contactos.primer_nombre_con, contactos.primer_apellido_con, contactos.telefono_con,
-                                     contactos.email_con, t10.codigo_equ,      t10.antiguedad_equ,  t10.marca_equ,  t11.descripcion_abc,
-                                     t12.descripcion_tmt, t13.descripcion_mar, t15.descripcion_tser,t16.descripcion_tope,
-                                     datosadicionalequipos.modelo_dequ, datosadicionalequipos.serie_dequ, datosadicionalequipos.referencia_dequ,
-                                     datosadicionalequipos.nombrealterno_dequ, t17.*, t18.descripcion_fmt, ' ' as blanco,
-                                     CONCAT(vista_empleados1.primer_nombre_emp,' ',vista_empleados1.primer_apellido_emp) as nombretecnicodos
-                              FROM   ordenservicio  INNER JOIN empresa as t1 INNER JOIN estados        as t2 
-                                     INNER JOIN ciudades           as t3  INNER JOIN interlocutores    as t4  INNER JOIN interlocutores_cli as t5
-                                     INNER JOIN interlocutores_emp as t6  INNER JOIN subgrupopartes    as t8
-                                     INNER JOIN equipos            as t10 INNER JOIN clasificacionABC  as t11
-                                     INNER JOIN tiposmantenimiento as t12 INNER JOIN marcas            as t13 INNER JOIN tiposservicio as t15
-                                     INNER JOIN tipooperacion      as t16 INNER JOIN cumplimientooserv as t17 INNER JOIN fallasdemtto  as t18
-                                     left join datosadicionalequipos on (datosadicionalequipos.id_dequ = ordenservicio.equipo_otr)
-                                     left join contactos on (contactos.identificacion_con = ordenservicio.nitcliente_otr and estado_con = 31 )
-                                     LEFT JOIN vista_empleados1 ON (t17.operariodos_cosv = vista_empleados1.id_emp)
-                              WHERE ((ordenservicio.tipooperacion_otr != 3)         and (ordenservicio.tipooperacion_otr != 4))         and  
-                                      ordenservicio.empresa_otr        = t1.id_emp  and ordenservicio.estado_otr          = t2.id_est   and
-                                      ordenservicio.ciudad_otr         = t3.id_ciu  and ordenservicio.proveedor_otr       = t4.id_int   and
-                                      ordenservicio.cliente_otr        = t5.id_cli  and t17.operario_cosv           	    = t6.id_emp   and
-                                      ordenservicio.subgrupoequipo_otr = t8.id_sgre and ordenservicio.equipo_otr          = t10.id_equ  and
-                                      ordenservicio.prioridad_otr 	   = t11.id_abc and ordenservicio.tipo_otr      	    = t12.id_tmt  and
-                                      t10.marca_equ  	                 = t13.id_mar and ordenservicio.tiposervicio_otr    = t15.id_tser and
-                                      ordenservicio.tipooperacion_otr  = t16.id_tope and ordenservicio.id_otr             = t17.id_cosv and
-                                      t17.tipofallamtto_cosv           = t18.id_fmt
-                              ORDER BY id_otr DESC");
+          t5.razonsocial_cli,  t5.razonsocial_cli,  t5.telefono_cli,     t5.email_cli,  t6.primer_nombre_emp,
+          t6.primer_apellido_emp,  concat(t6.primer_nombre_emp,' ',t6.primer_apellido_emp) as nombretecnico,
+          t8.descripcion_sgre, contactos.primer_nombre_con, contactos.primer_apellido_con, contactos.telefono_con,
+          contactos.email_con, t10.codigo_equ,      t10.antiguedad_equ,  t10.marca_equ,  t11.descripcion_abc,
+          t12.descripcion_tmt, t13.descripcion_mar, t15.descripcion_tser,t16.descripcion_tope,
+          datosadicionalequipos.modelo_dequ, datosadicionalequipos.serie_dequ, datosadicionalequipos.referencia_dequ,
+          datosadicionalequipos.nombrealterno_dequ, t17.*, t18.descripcion_fmt, ' ' as blanco,
+          CONCAT(vista_empleados1.primer_nombre_emp,' ',vista_empleados1.primer_apellido_emp) as nombretecnicodos,
+          placasvehiculos.tipovehiculo, placasvehiculos.placa
+   FROM   ordenservicio  INNER JOIN empresa as t1 INNER JOIN estados        as t2 
+          INNER JOIN ciudades           as t3  INNER JOIN interlocutores    as t4  
+          INNER JOIN interlocutores_cli as t5  INNER JOIN interlocutores_emp as t6  
+          INNER JOIN subgrupopartes    as t8   INNER JOIN equipos            as t10 
+          INNER JOIN clasificacionABC  as t11  INNER JOIN tiposmantenimiento as t12 
+          INNER JOIN marcas            as t13 INNER JOIN tiposservicio as t15
+          INNER JOIN tipooperacion      as t16 INNER JOIN cumplimientooserv as t17
+          INNER JOIN fallasdemtto  as t18 
+          left join datosadicionalequipos on (datosadicionalequipos.id_dequ = ordenservicio.equipo_otr)
+          left join contactos on (contactos.identificacion_con = ordenservicio.nitcliente_otr and estado_con = 31 )
+          LEFT JOIN vista_empleados1 ON (t17.operariodos_cosv = vista_empleados1.id_emp)
+          LEFT JOIN placasvehiculos ON (t17.placavehiculo_cosv = placasvehiculos.id)
+   WHERE ((ordenservicio.tipooperacion_otr != 3)          and (ordenservicio.tipooperacion_otr != 4))         and  
+           ordenservicio.empresa_otr        = t1.id_emp   and ordenservicio.estado_otr          = t2.id_est   and
+           ordenservicio.ciudad_otr         = t3.id_ciu   and ordenservicio.proveedor_otr       = t4.id_int   and
+           ordenservicio.cliente_otr        = t5.id_cli   and t17.operario_cosv           	    = t6.id_emp   and
+           ordenservicio.subgrupoequipo_otr = t8.id_sgre  and ordenservicio.equipo_otr          = t10.id_equ  and
+           ordenservicio.prioridad_otr 	    = t11.id_abc  and t17.tipo_cosv      	              = t12.id_tmt  and
+           t10.marca_equ  	                = t13.id_mar  and ordenservicio.tiposervicio_otr    = t15.id_tser and
+           ordenservicio.tipooperacion_otr  = t16.id_tope and ordenservicio.id_otr              = t17.id_cosv and
+           t17.tipofallamtto_cosv           = t18.id_fmt 
+   ORDER BY id_otr DESC");
 
           $response['data'] = $data;
           

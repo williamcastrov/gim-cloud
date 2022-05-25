@@ -62,7 +62,7 @@ function Costos() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           
-          <ListItem button className={classes.nested} button onClick={handleClickPA} >
+          <ListItem button className={classes.nested} onClick={handleClickPA} >
             <ListItemIcon>
               <ViewHeadlineIcon />
             </ListItemIcon>
@@ -89,28 +89,7 @@ function Costos() {
           </Collapse>
           <Divider />
           
-          <ListItem button className={classes.nested} button onClick={handleClickGA} >
-            <ListItemIcon>
-              <MonetizationOnIcon />
-            </ListItemIcon>
-            <ListItemText primary="Gestión Costos" />
-            {openGA ? <ExpandLess /> : <ExpandMore />}  
-          </ListItem>
-          <Collapse in={openGA} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem component={Link} button to="" className={classes.nested} >
-                <ListItemIcon>
-                  <StoreIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pendiente" />
-              </ListItem>
-              
-            </List>
-          </Collapse>
-
-          <Divider />
-          
-          <ListItem button className={classes.nested} button onClick={handleClickIF} >
+          <ListItem button className={classes.nested}  onClick={handleClickIF} >
             <ListItemIcon>
               <ViewHeadlineIcon />
             </ListItemIcon>
@@ -130,6 +109,18 @@ function Costos() {
                   <ViewHeadlineIcon />
                 </ListItemIcon>
                 <ListItemText primary="Informe Costo Acumulado x Equipo" />
+              </ListItem>
+              <ListItem component={Link} button to="/costos/consumosrepuestos" className={classes.nested} >
+                <ListItemIcon>
+                  <ViewHeadlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="Consumos Repuestos" />
+              </ListItem>
+              <ListItem component={Link} button to="/costos/contrataciones" className={classes.nested} >
+                <ListItemIcon>
+                  <ViewHeadlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="Costos Contrataciones" />
               </ListItem>
               
             </List>

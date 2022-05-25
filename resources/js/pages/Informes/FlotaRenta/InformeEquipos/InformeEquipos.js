@@ -82,7 +82,6 @@ function InformeEquipos() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-
         async function fetchDataEquipos() {
             setLoading(true);
             const res = await equiposServices.listReporteEquipos();

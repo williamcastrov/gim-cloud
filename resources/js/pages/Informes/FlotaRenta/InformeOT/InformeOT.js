@@ -82,7 +82,7 @@ function InformeOT() {
         async function fetchDataOT() {
             const res = await ordenesServices.listOrdenesServCumplimiento();
             setListarOT(res.data);
-            //console.log("EQUIPOS DEL SISTEMA : ", res.data);
+            console.log("EQUIPOS DEL SISTEMA : ", res.data);
         }
         fetchDataOT();
     }, [])
@@ -112,6 +112,7 @@ function InformeOT() {
                         <th>TIPO SERVICIO</th>
                         <th>TIPO DE FALLA</th>
                         <th>ESTADO DE LA ORDEN</th>
+                        <th>#COMBO</th>
                         <th>ACTIVIDAD REALIZADA</th>
                         <th>TIEMPO DE ACTIVIDAD</th>
                         <th>TIEMPO DE TRANSPORTE</th>
@@ -121,6 +122,8 @@ function InformeOT() {
                         <th>LADO CAMBIADO</th>
                         <th>TECNICO UNO</th>
                         <th>TECNICO DOS</th>
+                        <th>TIPO VEHICULO</th>
+                        <th>PLACA VEHICULO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,20 +136,23 @@ function InformeOT() {
                                     <td>{ordenes.id_actividad}</td>
                                     <td>{ordenes.razonsocial_cli}</td>
                                     <td>{ordenes.serie_dequ}</td>
-                                    <td>{ordenes.horometro_otr}</td>
+                                    <td>{ordenes.horometro_cosv}</td>
                                     <td>{ordenes.fechainicia_otr}</td>
                                     <td>{ordenes.descripcion_tmt}</td>
                                     <td>{ordenes.descripcion_fmt}</td>
                                     <td>{ordenes.nombre_est}</td>
+                                    <td>{ordenes.combogrupo_cosv}</td>
                                     <td>{ordenes.descripcion_cosv}</td>
                                     <td>{ordenes.tiempoactividad_cosv}</td>
-                                    <td>{ordenes.tiempotransporte_otr}</td>
+                                    <td>{ordenes.tiempotransporte_cosv}</td>
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.blanco}</td>
                                     <td>{ordenes.primer_nombre_emp}{" "} {ordenes.primer_apellido_emp}</td>
                                     <td>{ordenes.nombretecnicodos}</td>
+                                    <td>{ordenes.tipovehiculo}</td>
+                                    <td>{ordenes.placa}</td>
                                 </tr>
                             )
                         })

@@ -75,14 +75,18 @@ class RentabilidadPeriodoController extends Controller
         return $response;
       }
 
+  
       public function listar_factcontratacionrepuestosperiodo($periodo){
         try {
             //$data = Especialidades::with("empresa")->get();
             //echo $periodo;
+            $anno = substr($periodo, 0, 4); 
+            $mes = substr($periodo, 4, 1); 
+            //echo $mes;
             //exit;
             $data = DB::select("SELECT t0.id_equ as idequipo, t0.codigo_equ as codigomt, 
-            t0.descripcion_equ as descripcionmt, vista_consumosrepuestos.anno_cre as anno,
-            vista_consumosrepuestos.mes_cre as mes, vista_consumosrepuestos.periodo_cre as periodo, 
+            t0.descripcion_equ as descripcionmt, $anno as anno,
+            $mes as mes, $periodo as periodo, 
             concat(vista_consumosrepuestos.anno_cre,t0.codigo_equ) as codigomtanno,
             concat(vista_consumosrepuestos.periodo_cre,t0.codigo_equ) as codigoperiodo,
             vista_consumosrepuestos.periodo_cre as codigoperiodo, 
@@ -91,7 +95,7 @@ class RentabilidadPeriodoController extends Controller
             FROM equipos as t0 INNER JOIN vista_facturacionequipos as t1
                                left join vista_consumosrepuestos on (vista_consumosrepuestos.idequipo_cre = t0.codigo_equ
                                      and vista_consumosrepuestos.periodo_cre = $periodo)
-                                left join vista_contrataciones on (vista_contrataciones.documentoref = t0.codigo_equ
+                                left join vista_contrataciones on (vista_contrataciones.codigo = t0.codigo_equ
                                      and vista_contrataciones.periodo = $periodo)
             WHERE t0.tipo_equ = 8 and t1.codigo_equ = t0.codigo_equ
             GROUP BY t0.codigo_equ, vista_consumosrepuestos.periodo_cre, vista_consumosrepuestos.idequipo_cre, t0.id_equ, 

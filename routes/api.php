@@ -184,6 +184,7 @@ Route::get('/contrataciones/listar_contratacionesmesequipo/{id}', 'App\Http\Cont
 Route::get('/contrataciones/paretoconsolidadocontra/{id}', 'App\Http\Controllers\API\Importar\ContratacionesController@paretoconsolidadocontra');
 Route::get('/contrataciones/consolidadocontrames/{id}', 'App\Http\Controllers\API\Importar\ContratacionesController@consolidadocontrames');
 Route::get('/contrataciones/get/{id}', 'App\Http\Controllers\API\Importar\ContratacionesController@get');
+Route::get('/contrataciones/listar_contratacionesperiodo/{id}', 'App\Http\Controllers\API\Importar\ContratacionesController@listar_contratacionesperiodo');
 
 Route::post('/consumos/importarconsumosrepuestos', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@importarconsumosrepuestos');
 Route::get('/consumos/listar_consumosrepuestos', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@listar_consumosrepuestos');
@@ -192,6 +193,7 @@ Route::get('/consumos/paretoconsolidadoconsumosrep/{id}', 'App\Http\Controllers\
 Route::get('/consumos/consolidadoconsumosrepmes/{id}', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@consolidadoconsumosrepmes');
 Route::get('/consumos/listar_consumosmesequipo/{id}', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@listar_consumosmesequipo');
 Route::get('/consumos/get/{id}', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@get');
+Route::get('/consumos/listar_consumosrepuestosperiodo/{id}', 'App\Http\Controllers\API\Importar\ConsumosRepuestosController@listar_consumosrepuestosperiodo');
 
 Route::post('/facturacion/importarfacturacion', 'App\Http\Controllers\API\Importar\FacturacionController@importarfacturacion');
 Route::get('/facturacion/listar_facturacion', 'App\Http\Controllers\API\Importar\FacturacionController@listar_facturacion');
@@ -253,7 +255,9 @@ Route::delete('/gruposequipos/delete/{id}', 'App\Http\Controllers\API\Mantenimie
 Route::put('/gruposequipos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\GruposEquiposController@update');
 
 Route::get('/subgrupospartes/listar_subgrupospartes', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_subgrupospartes');
-Route::get('/subgrupospartes/listar_subgrupospartesequipos', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_subgrupospartesequipos');
+Route::get('/subgrupospartes/listar_subgrupospartesequipos/{id}', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_subgrupospartesequipos');
+Route::get('/subgrupospartes/listar_consecutivogruposubgrupo/{id}', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_consecutivogruposubgrupo');
+
 Route::get('/subgrupospartes/listar_subgrupospartescomponentes', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_subgrupospartescomponentes');
 Route::get('/subgrupospartes/listar_consecutivocontratos', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_consecutivocontratos');
 Route::get('/subgrupospartes/listar_consecutivoseguros', 'App\Http\Controllers\API\Mantenimiento\SubGruposPartesController@listar_consecutivoseguros');
@@ -299,6 +303,7 @@ Route::post('/cambioelementos/create', 'App\Http\Controllers\API\Mantenimiento\C
 Route::get('/cambioelementos/get/{id}', 'App\Http\Controllers\API\Mantenimiento\CambioElementosController@get');
 Route::delete('/cambioelementos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\CambioElementosController@delete');
 Route::put('/cambioelementos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\CambioElementosController@update');
+Route::get('/cambioelementos/generarPdf/{id}', 'App\Http\Controllers\API\Mantenimiento\CambioElementosController@generarPdf');
 
 Route::get('/incremento/listar_incrementocanon', 'App\Http\Controllers\API\Mantenimiento\IncrementoCanonController@listar_incrementocanon');
 Route::post('/incremento/create', 'App\Http\Controllers\API\Mantenimiento\IncrementoCanonController@create');
@@ -331,6 +336,7 @@ Route::delete('/equipos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\Eq
 Route::put('/equipos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposController@update');
 Route::get('/equipos/informecomfiabilidad', 'App\Http\Controllers\API\Mantenimiento\EquiposController@informecomfiabilidad');
 Route::get('/equipos/totalcorrectivomtperiodo', 'App\Http\Controllers\API\Mantenimiento\EquiposController@totalcorrectivomtperiodo');
+Route::get('/equipos/listar_combogrupoequipo/{id}', 'App\Http\Controllers\API\Mantenimiento\EquiposController@listar_combogrupoequipo');
 
 Route::get('/extrasequipos/listar_extrasequipos', 'App\Http\Controllers\API\Mantenimiento\ExtrasEquiposController@listar_extrasequipos');
 Route::post('/extrasequipos/create', 'App\Http\Controllers\API\Mantenimiento\ExtrasEquiposController@create');
@@ -619,3 +625,18 @@ Route::post('/fotosequipos/create', 'App\Http\Controllers\API\Mantenimiento\Foto
 Route::get('/fotosequipos/get/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosEquiposController@get');
 Route::delete('/fotosequipos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosEquiposController@delete');
 Route::put('/fotosequipos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosEquiposController@update');
+
+Route::get('/fotosbajashistoricos/listar_fotosequipos/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosBajasHistoricosController@listar_fotosequipos');
+Route::post('/fotosbajashistoricos/create', 'App\Http\Controllers\API\Mantenimiento\FotosBajasHistoricosController@create');
+Route::get('/fotosbajashistoricos/get/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosBajasHistoricosController@get');
+Route::delete('/fotosbajashistoricos/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosBajasHistoricosController@delete');
+Route::put('/fotosbajashistoricos/update/{id}', 'App\Http\Controllers\API\Mantenimiento\FotosBajasHistoricosController@update');
+
+Route::get('/notificacionpendientes/listar_notificacionpendientes', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@listar_notificacionpendientes');
+Route::get('/notificacionpendientes/listar_solicitonotificacionpendientes', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@listar_solicitonotificacionpendientes');
+Route::get('/notificacionpendientes/listar_ingresonotificacionpendientes', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@listar_ingresonotificacionpendientes');
+Route::get('/notificacionpendientes/listar_notificacionpendiente/{id}', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@listar_notificacionpendiente');
+Route::post('/notificacionpendientes/create', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@create');
+Route::delete('/notificacionpendientes/delete/{id}', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@delete');
+Route::put('/notificacionpendientes/update/{id}', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@update');
+Route::put('/notificacionpendientes/actualizanotificacion/{id}', 'App\Http\Controllers\API\Mantenimiento\NotificacionPendientesController@actualizanotificacion');

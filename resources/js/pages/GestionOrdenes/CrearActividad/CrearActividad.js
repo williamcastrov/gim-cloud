@@ -111,7 +111,8 @@ function CrearActividad(props) {
         cofreseriecomponentes: 0,
         estadocomponentes: 0,
         estadooperacionequipo_cosv: 81,
-        comentarios_cosv: comentarios
+        comentarios_cosv: comentarios,
+        placavehiculo_cosv: 0
     });
 
     const agregarActividad = (e) => {
@@ -171,7 +172,8 @@ function CrearActividad(props) {
                     cofreseriecomponentes: 0,
                     estadocomponentes: 0,
                     estadooperacionequipo_cosv: 81,
-                    comentarios_cosv: comentarios
+                    comentarios_cosv: comentarios,
+                    placavehiculo_cosv: 0
                 }])
             ))
         }

@@ -21,6 +21,15 @@ consumosrepuestos.listarconsumosrepuestos = async () => {
     return res;
 }
 
+consumosrepuestos.listar_consumosrepuestosperiodo = async (periodo) => {
+    const urlList = baseUrl+"/listar_consumosrepuestosperiodo/"+periodo
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 consumosrepuestos.paretoconsolidadoconsumosrep = async (periodo) => {
     console.log("DATA : ", periodo)
     const urlList = baseUrl+"/paretoconsolidadoconsumosrep/"+periodo

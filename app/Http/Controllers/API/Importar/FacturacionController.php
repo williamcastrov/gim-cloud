@@ -156,8 +156,8 @@ class FacturacionController extends Controller
         public function leerfactcodigomes($codigo_fac){
         try {
             $data = DB::select("SELECT t0.*
-            FROM  facturacion as t0      
-            where t0.codigo_fac = $codigo_fac");
+            FROM  datoscostoscontratacionesconsumos as t0      
+            where t0.codigoperiodo = $codigo_fac");
             
             $response['data'] = $data;
             $response['message'] = "load successful";

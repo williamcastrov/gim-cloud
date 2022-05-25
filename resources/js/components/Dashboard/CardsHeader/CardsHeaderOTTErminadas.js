@@ -23,6 +23,7 @@ const Styles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    overflow:'hidden',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)'
@@ -34,6 +35,7 @@ const Styles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    overflow:'scroll',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)'
@@ -478,6 +480,7 @@ function CardsHeaderOTTerminadas(props) {
       <Modal
         open={modalConsultarOT}
         onClose={abrirCerrarModalConsultarOT}
+        style={{ overflow: 'scroll' }}
       >
         {consultarOT}
       </Modal>

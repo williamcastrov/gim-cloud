@@ -58,6 +58,7 @@ facturacion.listarfactmesequipo = async (mes_fac) => {
 }
 
 facturacion.listarfactperiodo = async (periodo_fac) => {
+    console.log("DATA : ", periodo_fac)
     const urlList = baseUrl+"/listar_factperiodo/"+periodo_fac
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })
@@ -67,7 +68,7 @@ facturacion.listarfactperiodo = async (periodo_fac) => {
 }
 
 facturacion.leerfactcodigomes = async (mes_fac) => {
-    //console.log("DATA : ", mes_fac)
+    console.log("DATA : ", mes_fac)
     const urlList = baseUrl+"/leerfactcodigomes/"+mes_fac
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })

@@ -33,8 +33,7 @@ function Usuarios() {
         <ListItemText primary="Usuarios" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-
-
+      
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem component={Link} button to="/auth/usuarios" className={classes.nested}>

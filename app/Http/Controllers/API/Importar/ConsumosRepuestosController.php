@@ -63,6 +63,26 @@ class ConsumosRepuestosController extends Controller
         return $response;
       }
 
+      
+      public function listar_consumosrepuestosperiodo($periodo){
+        try {
+            //$data = Especialidades::with("empresa")->get();
+            $data = DB::select("SELECT t0.*
+            FROM consumosrepuestos as t0
+            WHERE t0.periodo_cre = $periodo");
+  
+            $response['data'] = $data;
+            $response['message'] = "load successful";
+            $response['success'] = true;
+    
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['success'] = false;
+        }
+        return $response;
+      }
+
+
       public function listar_consolidaconsrep(){
         try {
             //$data = Especialidades::with("empresa")->get();

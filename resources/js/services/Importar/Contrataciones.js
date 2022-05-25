@@ -21,6 +21,15 @@ contrataciones.listarcontrataciones = async () => {
     return res;
 }
 
+contrataciones.listarcontratacionesperiodo = async (periodo) => {
+    const urlList = baseUrl+"/listar_contratacionesperiodo/"+periodo
+    const res = await axios.get(urlList)
+    .then(response=>{ return response.data; })
+    .catch(error=>{ return error; })
+   
+    return res;
+}
+
 contrataciones.listarcontratacionesmesequipo = async (codigo) => {
     const urlList = baseUrl+"/listar_contratacionesmesequipo/"+codigo
     const res = await axios.get(urlList)

@@ -140,6 +140,7 @@ import InformeHojaVidaEquipos from "./pages/Informes/FlotaRenta/HojaVidaEquipo";
 import InformeUbicacionesEquipos from "./pages/Informes/FlotaRenta/UbicacionesEquipos";
 import InformeCalificacionOT from "./pages/Informes/FlotaRenta/CalificacionOT";
 import ConfiabilidadMT from "./pages/Informes/FlotaRenta/ConfiabilidadMT";
+import ListarMT from "./pages/Informes/FlotaRenta/ListarMT";
 
 //Imagenes
 import Images from "./pages/Images";
@@ -169,6 +170,8 @@ import CostosVariables from "./pages/Costos/CostosVariables";
 import TipoCostoVariable from "./pages/Costos/TipoCostoVariable";
 import CostosRealesEquipos from "./pages/Costos/Informes/CostosRealesEquipos";
 import CostosRealEquipoAcumulado from "./pages/Costos/Informes/CostosRealesEquipos/CostosRealEquipoAcumulado";
+import ConsumosRepuestos from "./pages/Informes/FlotaRenta/InformeConsumosRepuestos";
+import CostosContrataciones from "./pages/Informes/FlotaRenta/InformeContrataciones";
 
 function Main(props) {
   const { metadata, componente, tipousuario, user, idUsu } = props;
@@ -274,7 +277,9 @@ function Main(props) {
               <Route path="/gestionordenes/actividadrealizada" component={ActividadRealizada} />
               <Route path="/gestionordenes/registroactividadoperario" component={RegistroActividadOperario} />
               <Route path="/gestionordenes/actividadespendiente" component={ActividadesPendiente} />
-              <Route path="/gestionordenes/gestionarpendientes" component={GestionarPendientes} />
+              <Route path="/gestionordenes/gestionarpendientes">
+                <GestionarPendientes  metadata={metadata} idUsu={idUsu} />
+              </Route>
 
               <Route path="/mantenimiento/tiposmtto" component={Tiposmtto} />
               <Route path="/mantenimiento/tiposestados" component={TiposEstados} />
@@ -319,6 +324,8 @@ function Main(props) {
               <Route path="/costos/tipocostovariable" component={TipoCostoVariable} />
               <Route path="/costos/costorealperiodo" component={CostosRealesEquipos} />
               <Route path="/costos/costorealequipoacumulado" component={CostosRealEquipoAcumulado} />
+              <Route path="/costos/consumosrepuestos" component={ConsumosRepuestos} />
+              <Route path="/costos/contrataciones" component={CostosContrataciones} />
               
               <Route path="/flotarenta/activosrenta" component={ActivosRenta} />
               <Route path="/flotarenta/informeseguros" component={InformeSeguros} />
@@ -329,7 +336,8 @@ function Main(props) {
               <Route path="/flotarenta/informeubicacionesequipos" component={InformeUbicacionesEquipos} />
               <Route path="/flotarenta/calificacionot" component={InformeCalificacionOT} />
               <Route path="/flotarenta/controlalzas" component={ControlAlzas} />
-              <Route path="/flotarenta/confiabilidadMT" component={ConfiabilidadMT } />
+              <Route path="/flotarenta/confiabilidadMT" component={ConfiabilidadMT} />
+              <Route path="/flotarenta/listarMT" component={ListarMT } />
 
               <Route path="/rentabilidad/cardsheader" component={CardsHeader} />
               <Route path="/rentabilidad/cards" component={Cards} />

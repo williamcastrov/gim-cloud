@@ -8,6 +8,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import ForwardIcon from '@material-ui/icons/Forward';
 import NumberFormat from 'react-number-format';
 import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
@@ -30,6 +31,7 @@ import unidadesServices from "../../../services/Parameters/Unidades";
 
 // Datos Adicionales de los Equipos
 import MenuEquipos from "../../DatosEquipos/MenuEquipos";
+import MenuEquiposFacturacion from "../../DatosEquipos/MenuEquipos/MenuEquiposFacturacion";
 import FotosEquipos from "../../Images/FotosEquipos";
 import ConsultarFotosEquipos from "../../Images/FotosEquipos/ConsultarFotosEquipos";
 
@@ -37,6 +39,17 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     position: 'absolute',
     width: 700,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  modal2: {
+    position: 'absolute',
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -67,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
   formControlManeja: {
     margin: theme.spacing(0),
     minWidth: 140,
+  },
+  formControlGrupo: {
+    margin: theme.spacing(0),
+    minWidth: 420,
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
@@ -137,19 +154,16 @@ function Equipos(props) {
   const [prefijo, setPrefijo] = useState("");
   const history = useHistory();
 
-  useEffect(() => {
-    async function fetchDataSubGruposEquipos() {
-      const res = await subgruposequiposServices.listSubGrupospartesequipos();
-      let valor = res.data[0].tipoconsecutivo_sgre + (res.data[0].consecutivo_sgre + 1);
-      //console.log("DATOS SUBGRUPOS : ", res.data[0].tipoconsecutivo_sgre);
-      //console.log("DATOS CONSECUTIVO : ", valor);
-      setConsecutivo(valor)
-      //setConsecutivoActivo(res.data[0].codigoalterno_sgre)
-      setPrefijo(res.data[0].tipoconsecutivo_sgre)
-    }
-    fetchDataSubGruposEquipos();
-  }, []);
-
+  /*
+    useEffect(() => {
+      async function fetchDataEquipos() {
+        const res = await equiposServices.leerultimoequipo();
+        setConsecutivoActivo(res.data[0].codigosiguienteequipo);
+        console.log("ULTIMO CONSECUTIVO EQUIPO : ", res.data[0].codigosiguienteequipo)
+      }
+      fetchDataEquipos();
+    }, [])
+  */
   useEffect(() => {
     async function fetchDataEquipos() {
       const res = await equiposServices.leerultimoequipo();
@@ -161,19 +175,21 @@ function Equipos(props) {
 
   return (
     <div>
-      <RegistraEquipos consecutivo={consecutivo} prefijo={prefijo} idUsu={idUsu} consecutivoActivo={consecutivoActivo} />
+      <RegistraEquipos consecutivo={consecutivo} prefijo={prefijo} idUsu={idUsu} consecutivoActivo={consecutivoActivo}
+        setPrefijo={setPrefijo} setConsecutivo={setConsecutivo} />
     </div>
   )
 }
 
 function RegistraEquipos(props) {
-  const { consecutivo, prefijo, idUsu, consecutivoActivo } = props;
+  const { consecutivo, prefijo, idUsu, consecutivoActivo, setPrefijo, setConsecutivo } = props;
   const history = useHistory();
   //console.log("CONSECUTIVO : ", prefijo)
   const styles = useStyles();
   const [listarActivos, setListarActivos] = useState([]);
   const [listarEquipos, setListarEquipos] = useState([]);
   const [listarSubEquipos, setListarSubEquipos] = useState([]);
+  const [modalGrupoEquipo, setModalGrupoEquipo] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEditarTipoEquipo, setModalEditarTipoEquipo] = useState(false);
@@ -201,6 +217,8 @@ function RegistraEquipos(props) {
   const [vidautilact, setVidaUtilAct] = useState(0);
   const [valorResidualAct, setValorResidualAct] = useState(0);
   const [cuotaDepreciacionAct, setCuotaDepreciacionAct] = useState(0);
+  const [leeConsecutivo, setLeeConsecutivo] = useState(false);
+  const [grupo, setGrupo] = useState("");
 
   let frecuencia = 2
 
@@ -232,7 +250,7 @@ function RegistraEquipos(props) {
     'datoauxiliarcontabilidad_equ': 0,
     'datoauxiliaralza_equ': 0,
     'datoauxiliaraquimejora_equ': 0,
-    'datoauxiliarcalidad_equ': 0 
+    'datoauxiliarcalidad_equ': 0
   })
 
   const [activoSeleccionado, setActivoSeleccionado] = useState({
@@ -262,6 +280,33 @@ function RegistraEquipos(props) {
     estadodepre_act: "",
     observacion_act: ""
   })
+
+  useEffect(() => {
+    if (leeConsecutivo) {
+      console.log("GRUPO EQUIPO : ", grupo)
+    
+      async function fetchDataSubGruposEquipos() {
+        const res = await subgruposequiposServices.listConsecutivoGrupoSubGrupo(grupo);
+        //console.log("DATOS SUBGRUPOS : ", res.data[0]);
+        let valor = res.data[0].tipoconsecutivo_sgre + (res.data[0].consecutivo_sgre + 1);
+  
+        //console.log("DATOS CONSECUTIVO : ", valor);
+        setConsecutivo(valor);
+        validarConsecutivo(valor);
+        //setConsecutivoActivo(res.data[0].codigoalterno_sgre)
+        setPrefijo(res.data[0].tipoconsecutivo_sgre)
+      }
+      fetchDataSubGruposEquipos();
+
+      async function fetchDataSubGrupos() {
+        const res = await subgruposequiposServices.listSubGrupospartesequipos(grupo);
+        setListarSubGruposEquipos(res.data)
+      }
+      fetchDataSubGrupos();
+
+      setLeeConsecutivo(false);
+    }
+  }, [leeConsecutivo]);
 
   useEffect(() => {
     async function fetchDataEquipos() {
@@ -354,6 +399,7 @@ function RegistraEquipos(props) {
     fetchDataGruposEquipos();
   }, [])
 
+  /*
   useEffect(() => {
     async function fetchDataSubGruposEquipos() {
       const res = await subgruposequiposServices.listSubGrupospartesequipos();
@@ -361,7 +407,7 @@ function RegistraEquipos(props) {
     }
     fetchDataSubGruposEquipos();
   }, [])
-  
+*/
   useEffect(() => {
     async function fetchDataUnidades() {
       const res = await unidadesServices.listTiposEquipos();
@@ -396,6 +442,10 @@ function RegistraEquipos(props) {
     (caso === "GrabarFoto") ? abrirCerrarModalGrabarFoto() : abrirCerrarModalConsultarFotoEquipo()
   }
 
+  const leerDatosGrupo = () => {
+    setModalGrupoEquipo(!modalGrupoEquipo);
+  }
+
   const abrirCerrarModalInsertar = () => {
     setModalInsertar(!modalInsertar);
   }
@@ -423,7 +473,7 @@ function RegistraEquipos(props) {
   useEffect(() => {
     async function grabarEquipo() {
 
-      
+
       if (grabar) {
         console.log("EQUIPO SELECCIONADO : ", equiposSeleccionado)
         console.log("ACTIVO SELECCIONADO : ", activoSeleccionado)
@@ -436,9 +486,9 @@ function RegistraEquipos(props) {
 
           const result = await subgruposequiposServices.actualizaConsecutivo(prefijo);
 
-          if (result.success){
+          if (result.success) {
             swal("Consecutivo", "Consecutivo MT Actualizado de forma Correcta!", "success", { button: "Aceptar" });
- 
+
             console.log("CREAR ACTIVO SELECCIONADO : ", activoSeleccionado)
             const resact = await activosServices.save(activoSeleccionado[0]);
 
@@ -475,13 +525,13 @@ function RegistraEquipos(props) {
       errors.descripcion_equ = true;
       formOk = false;
     }
-/*
-    if (!equiposSeleccionado.frecuencia_equ) {
-      alert("2");
-      errors.frecuencia_equ = true;
-      formOk = false;
-    }
-*/
+    /*
+        if (!equiposSeleccionado.frecuencia_equ) {
+          alert("2");
+          errors.frecuencia_equ = true;
+          formOk = false;
+        }
+    */
     if (!equiposSeleccionado.propietario_equ) {
       alert("3");
       errors.propietario_equ = true;
@@ -773,8 +823,15 @@ function RegistraEquipos(props) {
     }
   ]
 
+  const validarConsecutivo = async (codigo) => {
+    console.log("CONSECUTIVO : ", codigo)
+  }
+
   const equipoInsertar = (
     <div className={styles.modal}>
+      {
+        console.log("CONSECUTIVO 2: ", consecutivo)
+      }
       <Typography align="center" className={styles.typography} variant="button" display="block"> Agregar Nuevo Equipo </Typography>
       <Grid container spacing={2} >
         <Grid item xs={12} md={3}>
@@ -1229,9 +1286,9 @@ function RegistraEquipos(props) {
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.descripcion_equ} />
         </Grid>
         <Grid item xs={12} md={4}>
-            <TextField type="date" InputLabelProps={{ shrink: true }} name="fecharetornaequipo_equ" disabled
-              defaultValue={Moment(equiposSeleccionado.fecharetornaequipo_equ).format('YYYY-MM-DD')} label="Fecha Venta Maquina"
-              fullWidth onChange={handleChange} />
+          <TextField type="date" InputLabelProps={{ shrink: true }} name="fecharetornaequipo_equ" disabled
+            defaultValue={Moment(equiposSeleccionado.fecharetornaequipo_equ).format('YYYY-MM-DD')} label="Fecha Venta Maquina"
+            fullWidth onChange={handleChange} />
         </Grid>
         <Grid item xs={12} md={3}>
           <FormControl className={styles.formControlEstados}>
@@ -1328,27 +1385,38 @@ function RegistraEquipos(props) {
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaradmon_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcontabilidad_equ" label="Dato Auxiliar Contabilidad"
-          fullWidth onChange={handleChange}  value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcontabilidad_equ} />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcontabilidad_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliaralza_equ" label="Dato Auxiliar Alza"
-          fullWidth onChange={handleChange}  value={equiposSeleccionado && equiposSeleccionado.datoauxiliaralza_equ} />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaralza_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliaraquimejora_equ" label="Dato RPTO/Mejora"
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaraquimejora_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcalidad_equ" label="Dato Auxiliar de Calidad"
-          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ}  />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcalidad_equ} />
         </Grid>
       </Grid>
       <div align="right">
-        <Button className={styles.button} color="primary" onClick={() => actualizarEquipo()} >Editar</Button>
+        {
+
+          idUsu == 54 ?
+            null
+            :
+            <Button className={styles.button} color="primary" onClick={() => actualizarEquipo()} >Editar</Button>
+        }
         <Button className={styles.button2} onClick={() => abrirCerrarModalEditar()}>Cancelar</Button>
       </div>
-      <MenuEquipos equipoID={equiposSeleccionado.id_equ} equipoCodigo={equiposSeleccionado.codigo_equ} tipo={tipo} />
+      {
+        idUsu === 55 ?
+          <MenuEquiposFacturacion equipoID={equiposSeleccionado.id_equ} equipoCodigo={equiposSeleccionado.codigo_equ} tipo={tipo} idUsu={idUsu} />
+          :
+          <MenuEquipos equipoID={equiposSeleccionado.id_equ} equipoCodigo={equiposSeleccionado.codigo_equ} tipo={tipo} idUsu={idUsu} />
+      }
     </div>
   )
 
-  const equipoEditarTipoEquipo = (  
+  const equipoEditarTipoEquipo = (
     <div className={styles.modal}>
       <Typography align="center" className={styles.typography} variant="button" display="block" > Actualizar Equipo -- </Typography>
       <Grid container spacing={2} >
@@ -1635,10 +1703,10 @@ function RegistraEquipos(props) {
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaradmon_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliarcontabilidad_equ" label="Dato Auxiliar Contabilidad"
-          fullWidth onChange={handleChange}  value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcontabilidad_equ} />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliarcontabilidad_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliaralza_equ" label="Dato Auxiliar Alza"
-          fullWidth onChange={handleChange}  value={equiposSeleccionado && equiposSeleccionado.datoauxiliaralza_equ} />
+          fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaralza_equ} />
         </Grid>
         <Grid item xs={12} md={6}> <TextField name="datoauxiliaraquimejora_equ" label="Dato RPTO/Mejora"
           fullWidth onChange={handleChange} value={equiposSeleccionado && equiposSeleccionado.datoauxiliaraquimejora_equ} />
@@ -1673,11 +1741,59 @@ function RegistraEquipos(props) {
     <ConsultarFotosEquipos codigoequipo={listarCodigoEquipo} />
   )
 
+  const DatosGrupo = (grupo) => {
+    let codigo = '"' + grupo + '"'
+    setGrupo(codigo);
+    setLeeConsecutivo(true);
+  }
+
+  const grupoEquipo = (
+    <div className="App" >
+      <div className={styles.modal2}>
+        <Typography align="center" className={styles.typography} variant="button" display="block" >
+          Seleccionar Grupo Equipo
+        </Typography>
+        <Grid item xs={12} md={4}>
+          <FormControl className={styles.formControlGrupo}>
+            <InputLabel id="idselectequipo_otr">Equipo</InputLabel>
+            <Select
+              labelId="selectequipo_otr"
+              name="equipo_otr"
+              id="idselectequipo_otr"
+              fullWidth
+              onChange={handleChange}
+              onClick={(e) => DatosGrupo(e.target.value)}
+            >
+              <MenuItem value=""> <em>None</em> </MenuItem>
+              {
+                listarGruposEquipos && listarGruposEquipos.map((itemselect) => {
+                  return (
+                    <MenuItem className="tamañofuente" value={itemselect.codigoconsecutivo_grp}>{itemselect.descripcion_grp}</MenuItem>
+                  )
+                })
+              }
+            </Select>
+          </FormControl>
+        </Grid>
+        <br />
+        <div align="center">
+          <Button className={styles.button} variant="contained" startIcon={<SaveIcon />} color="primary"
+            onClick={() => abrirCerrarModalInsertar()}>  Crear Equipo
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="App">
       <br />
       <Button variant="contained" startIcon={<SaveIcon />} color="primary" onClick={() => abrirCerrarModalInsertar()} >Agregar Equipo</Button>
       <br />
+      <Button className={styles.button}
+        variant="contained" startIcon={<ForwardIcon />} color="primary" onClick={() => leerDatosGrupo()}
+      > Seleccionar Grupo
+      </Button>
       <MaterialTable
         columns={columnas}
         data={listarEquipos}
@@ -1762,6 +1878,12 @@ function RegistraEquipos(props) {
         ]}
       />
       { }
+      <Modal
+        open={modalGrupoEquipo}
+        onClose={leerDatosGrupo}
+      >
+        {grupoEquipo}
+      </Modal>
       <Modal
         open={modalInsertar}
         onClose={abrirCerrarModalInsertar}

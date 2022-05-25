@@ -56,17 +56,7 @@ function Activos() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           
-          <ListItem button className={classes.nested} button onClick={handleClickPA} >
-            <ListItemIcon>
-              <ViewHeadlineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Parametros Activos" />
-            {openPA ? <ExpandLess /> : <ExpandMore />}  
-          </ListItem>
-
-          <Divider />
-          
-          <ListItem button className={classes.nested} button onClick={handleClickGA} >
+          <ListItem button className={classes.nested} onClick={handleClickGA} >
             <ListItemIcon>
               <MonetizationOnIcon />
             </ListItemIcon>

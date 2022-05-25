@@ -14,11 +14,23 @@ import empresasServices from "../../../services/Empresa";
 import ordenesServices from "../../../services/GestionOrdenes/CrearOrdenes";
 import empleadosServices from "../../../services/Interlocutores/Empleados";
 import equiposServices from "../../../services/Mantenimiento/Equipos";
+import notificacionServices from "../../../services/Mantenimiento/NotificacionPendientes";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
     position: 'absolute',
     width: 500,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  modal2: {
+    position: 'absolute',
+    width: 1500,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -74,13 +86,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GestionarPendientes() {
+function GestionarPendientes(props) {
+  const { metadata, idUsu } = props;
   const styles = useStyles();
   const [listPendientes, setListPendientes] = useState([]);
+  const [listNotificaciones, setListNotificaciones] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalCrearPendienteOT, setModalCrearPendienteOT] = useState(false);
+  const [modalNotificacion, setModalNotificacion] = useState(false);
   const [formError, setFormError] = useState(false);
   const [listarOrdenes, setListarOrdenes] = useState([]);
   const [listarEmpleados, setListarEmpleados] = useState([]);
@@ -94,7 +109,9 @@ function GestionarPendientes() {
   const [colorCrearPendiente, setColorCrearPendiente] = React.useState(false);
   const [colorConsultarPendiente, setColorConsultarPendiente] = React.useState(false);
   const [colorTodosPendiente, setColorTodosPendiente] = React.useState(false);
+  const [colorNotificaciones, setColorNotificaciones] = React.useState(false);
   const [listarEquipos, setListarEquipos] = useState([]);
+  const [notificacion, setNotificacion] = React.useState(false);
   const [pendientesSeleccionado, setPendientesSeleccionado] = useState({
     id: "",
     id_pot: "",
@@ -109,6 +126,15 @@ function GestionarPendientes() {
     novedad_pot: "",
     fechacierre_pot: "",
     descripcion_pot: ""
+  })
+
+  const [notificacionPendientes, setNotificacionesPendientes] = useState({
+    id: "",
+    descripcion: "",
+    fechanotificacion: "",
+    estado: 31,
+    codigopendiente: "",
+    tiponotificacion: 0
   })
 
   useEffect(() => {
@@ -181,6 +207,14 @@ function GestionarPendientes() {
     setModalCrearPendienteOT(!modalCrearPendienteOT);
   }
 
+  const abrirCerrarModalNotificacion = () => {
+    setColorCrearPendiente(false);
+    setColorConsultarPendiente(false);
+    setColorTodosPendiente(false);
+    setColorNotificaciones(false);
+    setModalNotificacion(!modalNotificacion);
+  }
+
   const crearPendiente = () => {
     {
       var caracteres = "012346789";
@@ -216,7 +250,6 @@ function GestionarPendientes() {
 
       async function grabarPendiente() {
         console.log("DATOS PENDIENTE : ", pendientesSeleccionado)
-
         const res = await pendienteotServices.save(pendientesSeleccionado[0]);
 
         if (res.success) {
@@ -260,6 +293,31 @@ function GestionarPendientes() {
     fetchDataPendientes();
   }
 
+  const consultarNotificaciones = async () => {
+    async function fetchDataNotificaciones() {
+      if(idUsu === 3){
+        const res = await notificacionServices.listar_solicitonotificacionpendientes();
+        setListNotificaciones(res.data);
+        //console.log(res.data);
+      }else
+      if(idUsu === 7){
+        const res = await notificacionServices.listar_ingresonotificacionpendientes();
+        setListNotificaciones(res.data);
+        //console.log(res.data);
+      }else{
+        const res = await notificacionServices.listar_notificacionpendientes();
+        setListNotificaciones(res.data);
+        //console.log(res.data);
+      }
+    }
+    fetchDataNotificaciones();
+
+    setColorCrearPendiente(false);
+    setColorConsultarPendiente(false);
+    setColorTodosPendiente(false);
+    setColorNotificaciones(true);
+    setModalNotificacion(!modalNotificacion);
+  }
 
   const actualizarPendiente = async () => {
 
@@ -298,8 +356,7 @@ function GestionarPendientes() {
           icon: "success",
           button: "Aceptar"
         });
-        console.log(res.message)
-        abrirCerrarModalEditar();
+        grabarNotificacion();
         delete pendientesSeleccionado.fecha_pot;
         delete pendientesSeleccionado.repuesto_pot;
         delete pendientesSeleccionado.estado_pot;
@@ -326,6 +383,81 @@ function GestionarPendientes() {
       abrirCerrarModalEditar();
     }
     setActualiza(true);
+  }
+
+  useEffect(() => {
+
+    if (notificacion) {
+      const grabarNotificacion = async () => {
+        console.log("DATOS NOTIFICACION : ", notificacionPendientes[0])
+        const res = await notificacionServices.save(notificacionPendientes[0]);
+
+        if (res.success) {
+          swal({
+            title: "Pendiente Notificación",
+            text: "Notificación pendiente creada de forma correcta!",
+            icon: "success",
+            button: "Aceptar"
+          });
+        } else {
+          swal({
+            title: "Pendiente Notificación",
+            text: "Error Creando Notificación pendiente!",
+            icon: "error",
+            button: "Aceptar"
+          });
+
+          console.log(res.message)
+          abrirCerrarModalEditar();
+        }
+      }
+      grabarNotificacion();
+    }
+  }, [notificacion])
+
+  const grabarNotificacion = async () => {
+    let comentario = "";
+    if (pendientesSeleccionado.estado_pot == 90) {
+      comentario = " Repuesto ya fue solicitado ";
+    } else
+      if (pendientesSeleccionado.estado_pot == 91) {
+        comentario = " Ingreso del repuesto al Inventario - Disponible ";
+      } else
+        comentario = " ";
+
+    setNotificacionesPendientes([{
+      id: 0,
+      descripcion: pendientesSeleccionado.descripcion_pot + comentario,
+      fechanotificacion: fechaactual,
+      estado: 31,
+      codigopendiente: pendientesSeleccionado.id,
+      tiponotificacion: pendientesSeleccionado.estado_pot
+    }])
+    setNotificacion(true);
+  }
+
+  const actualizarNotificacion = async(notificacion, caso) => {
+    //console.log("DATOS ACTUALIZA NOTIFICACION : ", notificacion)
+    
+    const res = await notificacionServices.actualizanotificacion(notificacion);
+
+    if (res.success) {
+      swal({
+        title: "Notificacion",
+        text: "Actualizado de forma Correcta!",
+        icon: "success",
+        button: "Aceptar"
+      });
+    } else {
+      swal({
+        title: "Notificacion",
+        text: "Error Actualizando el Pendiente!",
+        icon: "error",
+        button: "Aceptar"
+      });
+      console.log(res.message);
+      abrirCerrarModalNotificacion();
+    }
   }
 
   const borrarPendiente = async () => {
@@ -427,6 +559,27 @@ function GestionarPendientes() {
       title: 'Estado',
       field: 'nombre_est'
     },
+  ]
+
+  const columnasnotificacion = [
+    {
+      title: '#Pendiente',
+      field: 'codigopendiente',
+      cellStyle: { maxWidth: 50 }
+    },
+    {
+      title: 'Descripción',
+      field: 'descripcion',
+      cellStyle: { minWidth: 200 }
+    },
+    {
+      title: 'Fecha Notificación',
+      field: 'fechanotificacion'
+    },
+    {
+      title: 'Estado',
+      field: 'nombre_est',
+    }
   ]
 
   // value={pendientesSeleccionado && pendientesSeleccionado.fecha_pot}
@@ -618,6 +771,50 @@ function GestionarPendientes() {
   const [colorTodosPendiente, setColorTodosPendiente] = React.useState(false);
   */
 
+
+  const consultarNotificacion = (
+    <div className={styles.modal2}>
+      <MaterialTable
+        columns={columnasnotificacion}
+        data={listNotificaciones}
+        title="CONSULTAR NOTIFICACIONES"
+        actions={[
+          {
+            icon: 'edit',
+            tooltip: 'Actualiza Notificación',
+            onClick: (event, rowData) => actualizarNotificacion(rowData, "Editar")
+          }
+        ]}
+        options={{
+          actionsColumnIndex: -1
+        }}
+        localization={{
+          header: {
+            actions: "Acciones"
+          }
+        }}
+        detailPanel={[
+          {
+            tooltip: 'Información de Pendientes',
+            render: rowData => {
+              return (
+                <div
+                  style={{
+                    fontSize: 14,
+                    textAlign: 'center',
+                    color: 'white',
+                    backgroundColor: '#0277bd',
+                  }}
+                >
+                </div>
+              )
+            },
+          },
+        ]}
+      />
+    </div>
+  )
+
   return (
     <div className="App">
       <br />
@@ -662,6 +859,21 @@ function GestionarPendientes() {
           (
             <Button className={styles.button} onClick={() => consultarTodosPendientes()}>
               TODOS LOS PENDIENTES
+            </Button>
+          )
+      }
+
+      {
+        !colorNotificaciones ?
+          (
+            <Button className={styles.button3} onClick={() => consultarNotificaciones()}>
+              CONSULTAR NOTIFICACIONES
+            </Button>
+          )
+          :
+          (
+            <Button className={styles.button} onClick={() => consultarNotificaciones()}>
+              CONSULTAR NOTIFICACIONES
             </Button>
           )
       }
@@ -791,6 +1003,12 @@ function GestionarPendientes() {
         onClose={abrirCerrarModalCrearPendienteOT}
       >
         {crearPendienteOT}
+      </Modal>
+      <Modal
+        open={modalNotificacion}
+        onClose={abrirCerrarModalNotificacion}
+      >
+        {consultarNotificacion}
       </Modal>
     </div>
   );

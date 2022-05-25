@@ -58,16 +58,7 @@ function Activos() {
       </ListItem>
    
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          
-          <ListItem button className={classes.nested} button onClick={handleClickPA} >
-            <ListItemIcon>
-              <ViewHeadlineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Parametros Activos" />
-            {openPA ? <ExpandLess /> : <ExpandMore />}  
-          </ListItem>
-
+        <List component="div" disablePadding>    
           <Collapse in={openPA} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
@@ -92,7 +83,7 @@ function Activos() {
           </Collapse>
           <Divider />
           
-          <ListItem button className={classes.nested} button onClick={handleClickGA} >
+          <ListItem button className={classes.nested} onClick={handleClickGA} >
             <ListItemIcon>
               <MonetizationOnIcon />
             </ListItemIcon>
@@ -122,7 +113,7 @@ function Activos() {
             </List>
           </Collapse>
           <Divider />
-          <ListItem button className={classes.nested} button onClick={handleClickIF} >
+          <ListItem button className={classes.nested} onClick={handleClickIF} >
             <ListItemIcon>
               <MonetizationOnIcon />
             </ListItemIcon>

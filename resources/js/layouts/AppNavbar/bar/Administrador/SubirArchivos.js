@@ -67,15 +67,15 @@ function SubirArchivos() {
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-
-          <ListItem button className={classes.nested} button onClick={handleClickPO} >
+{/* 
+          <ListItem button className={classes.nested} onClick={handleClickPO} >
             <ListItemIcon>
               <ViewHeadlineIcon />
             </ListItemIcon>
             <ListItemText primary="Inventarios" />
             {openPO ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={openPO} timeout="auto" unmountOnExit>
+          <Collapse in={openPO} timeout="auto" unmountOnExit> 
             <List component="div" disablePadding>
               <ListItem component={Link} button to="/importar/inventariosalmacen" className={classes.nested}>
                 <ListItemIcon>
@@ -85,8 +85,9 @@ function SubirArchivos() {
               </ListItem>
             </List>
           </Collapse>
+*/}        
           <Divider />
-          <ListItem button className={classes.nested} button onClick={handleClickGO} >
+          <ListItem button className={classes.nested} onClick={handleClickGO} >
             <ListItemIcon>
               < PermDataSettingIcon />
             </ListItemIcon>
@@ -119,18 +120,11 @@ function SubirArchivos() {
                 </ListItemIcon>
                 <ListItemText primary="Subir Facturación" />
               </ListItem>
-              
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <ReceiptIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pendiente por Asignar" />
-              </ListItem>
             </List>
           </Collapse>
           <Divider />
 
-          <ListItem button className={classes.nested} button onClick={handleClickIN} >
+          <ListItem button className={classes.nested} onClick={handleClickIN} >
             <ListItemIcon>
               < FindInPageIcon />
             </ListItemIcon>
@@ -154,31 +148,6 @@ function SubirArchivos() {
             </List>
           </Collapse>
           <Divider />
-
-          <ListItem button className={classes.nested} button onClick={handleClickRP} >
-            <ListItemIcon>
-              < ReportIcon />
-            </ListItemIcon>
-            <ListItemText primary="Gantt" />
-            {openRP ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openRP} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <LocalShippingIcon />
-                </ListItemIcon>
-                <ListItemText primary="Por Asignar" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <ReceiptIcon />
-                </ListItemIcon>
-                <ListItemText primary="Por Asignar" />
-              </ListItem>
-            </List>
-          </Collapse>
-
         </List>
       </Collapse>
     </div>

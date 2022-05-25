@@ -45,6 +45,7 @@ app.use('/api/imagenes', require('./routes/imagenes'));
 app.use('/api/pdfscontratos', require('./routes/pdfscontratos'));
 app.use('/api/fotosequipos', require('./routes/fotosequipos'));
 app.use('/api/imprimirOT', require('./routes/imprimirOT'));
+app.use('/api/fotosbajashistoricos', require('./routes/fotosbajashistoricos'));
 //app.use('/api/whatsapp', require('./routes/whats-app'));
 
 //starting the server

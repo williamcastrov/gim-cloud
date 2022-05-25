@@ -65,10 +65,6 @@ export default function CumplimientoOT() {
         setGrabar(true);
     }
 
-    const handleChange = e => {
-        const { name, value } = e.target;
-    }
-
     useEffect(() => {
         if (grabar) {
             var periodo = "" + anno + mes;
@@ -111,11 +107,11 @@ console.log("OPTIONS : ", options)
             <Grid container spacing={2} >
                 <Grid item xs={12} md={3}></Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth
                         onChange={(e) => setAnno(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth
                         onChange={(e) => setMes(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>
@@ -137,10 +133,10 @@ function IndicadorOT(props) {
     const { totalotmes, totalotterminadas } = props;
     //console.log("TOTAL OT MES : ", totalotmes)
     //console.log("TOTAL OT TERMINADAS MES : ", totalotterminadas)
-
-    const [modalCumplimientoOT, setModalCumplimientoOT] = useState(true);
     const classes = useStyles();
     const [leyenda, setLeyenda] = useState('Cumplimiento OT');
+    var cumplimiento = totalotterminadas / totalotmes
+    console.log("CUMPLIMIENTO : ", cumplimiento);
 
     const data = {
         labels: ['CUMPLIMIENTO OT MES'],
@@ -170,34 +166,20 @@ function IndicadorOT(props) {
         },
     };
 
-
-    const abrirCerrarModalCumplimientoOT = () => {
-        setModalCumplimientoOT(!modalCumplimientoOT);
-    }
-
-    const cumplimientoOT = (
-        <div className={classes.modal}>
+    return (
+        <div>
             <Grid container spacing={3} >
                 <Grid item xs={12} md={12}  >
                     <Typography align="center" className={classes.typography} variant="button" display="block" >
                         Total OT Mes Vs OT Terminadas
-                </Typography>
+                    </Typography >
+                    <Typography variant="h2" align="center">
+                         {`${(cumplimiento * 100).toFixed(0)} %`}
+                    </Typography>
+               
                     <Bar data={data} options={options} />
                 </Grid>
             </Grid>
-        </div>
-    )
-
-    return (
-        <div>
-            <div>
-                <Modal
-                    open={modalCumplimientoOT}
-                    onClose={abrirCerrarModalCumplimientoOT}
-                >
-                    {cumplimientoOT}
-                </Modal>
-            </div>
         </div>
     );
 }

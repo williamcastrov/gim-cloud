@@ -65,28 +65,18 @@ export default function CumplimientoOT() {
         setGrabar(true);
     }
 
-    const handleChange = e => {
-        const { name, value } = e.target;
-    }
-
     useEffect(() => {
         if (grabar) {
-            var periodo = "" + anno + mes;
+            var periodo = '"'+anno+'-'+mes+'-'+'01"';
             console.log("PERIODO TOTAL MES : ", periodo);
 
             async function fetchDataTotalOTMes() {
                 const res = await ordenesServices.cumplimientototalotmes(periodo);
-                //console.log("TOTAL OT MES : ", res.data[0].cumplimientototalotmes);
+                console.log("TOTAL OT MES : ", res.data[0].cumplimientototalotmes);
                 setTotalOTMes(res.data[0].cumplimientototalotmes);
             }
             fetchDataTotalOTMes();
-
-        }
-    }, [grabar])
-
-    useEffect(() => {
-        if (grabar) {
-            var periodo = "" + anno + mes;
+            
             //console.log("PERIODO TOTAL TERMINADOS : ", periodo);
             async function fetchDataTotalOTTerminadas() {
                 const res = await ordenesServices.cumplimientootterminadasmes(periodo);
@@ -95,6 +85,7 @@ export default function CumplimientoOT() {
                 //setModalCumplimientoOT(true);
             }
             fetchDataTotalOTTerminadas();
+            setGrabar(false);
         }
     }, [grabar])
 
@@ -111,11 +102,11 @@ console.log("OPTIONS : ", options)
             <Grid container spacing={2} >
                 <Grid item xs={12} md={3}></Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Año" name="anno" fullWidth
                         onChange={(e) => setAnno(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth onChange={handleChange}
+                    <TextField type="numeric" className={classes.inputMaterial} label="Mes" name="mes" fullWidth
                         onChange={(e) => setMes(e.target.value)} />
                 </Grid>
                 <Grid item xs={12} md={2}>

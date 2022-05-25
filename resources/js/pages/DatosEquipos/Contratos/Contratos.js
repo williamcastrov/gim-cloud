@@ -147,7 +147,7 @@ NumberFormatCustom2.propTypes = {
 };
 
 function Contratos(props) {
-  const { equipoID, equipoCodigo } = props;
+  const { equipoID, equipoCodigo, idUsu } = props;
   //console.log(equipoCodigo);
 
   //const valorcontrato_ctr = 1480900123.9898
@@ -274,7 +274,11 @@ function Contratos(props) {
 
   const seleccionarContratos = (contrato, caso) => {
     setContratoSeleccionado(contrato);
-    (caso === "Editar") ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+
+    if (idUsu == 54)
+      null
+    else
+      (caso === "Editar") ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
   }
 
   const seleccionarPdfContratos = (pdf, caso) => {

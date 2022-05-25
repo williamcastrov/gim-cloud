@@ -49,7 +49,8 @@ class CumplimientoOServ extends Model
 		'cofreseriecomponentes',
 		'estadocomponentes',
 		'estadooperacionequipo_cosv',
-		'comentarios_cosv'
+		'comentarios_cosv',
+		'placavehiculo_cosv'
     ];
 
     public $timestamps = false;

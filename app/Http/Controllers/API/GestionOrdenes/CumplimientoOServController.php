@@ -51,6 +51,7 @@ class CumplimientoOServController extends Controller
           $insert['estadocomponentes']          = $request['estadocomponentes'];
           $insert['estadooperacionequipo_cosv'] = $request['estadooperacionequipo_cosv'];
           $insert['comentarios_cosv']           = $request['comentarios_cosv'];
+          $insert['placavehiculo_cosv']         = $request['placavehiculo_cosv'];
 
           CumplimientoOServ::insert($insert);
       
@@ -108,7 +109,6 @@ class CumplimientoOServController extends Controller
 
       public function listar_actividadesotrevision(){  
         try {
-          
             $data = DB::select("SELECT t0.*, t1.descripcion_tope, t2.descripcion_are, t3.descripcion_fmt, t4.nombre_est,
                                        t5.*, t6.codigo_equ, concat(t7.primer_nombre_emp,' ',t7.primer_apellido_emp) as nombretecnico,
                                        t8.descripcion_tmt, t9.razonsocial_cli, t9.telefono_cli, t9.email_cli, t10.nombre_ciu,
@@ -126,9 +126,10 @@ class CumplimientoOServController extends Controller
             left join datosadicionalequipos on (datosadicionalequipos.id_dequ = t5.equipo_otr)
             WHERE t0.tipooperacion_cosv = t1.id_tope and t0.servicio_cosv = t2.id_are and t0.id_cosv = t5.id_otr
               and t0.tipofallamtto_cosv = t3.id_fmt  and t0.estado_cosv   = 26     and t5.equipo_otr = t6.id_equ 
-              and t0.estadooperacionequipo_cosv = t4.id_est and t5.operario_otr = t7.id_emp and t0.tipo_cosv = t8.id_tmt
+              and t0.estadooperacionequipo_cosv = t4.id_est and t0.operario_cosv = t7.id_emp and t0.tipo_cosv = t8.id_tmt
               and t5.cliente_otr        = t9.id_cli  and t9.ciudad_cli   = t10.id_ciu and t5.empresa_otr = t11.id_emp 
-              and t6.marca_equ  	      = t12.id_mar and t5.contactocliente_otr = t13.id_con");
+              and t6.marca_equ  	      = t12.id_mar and t5.contactocliente_otr = t13.id_con
+              ORDER BY t0.id_actividad DESC");
   
           $response['data'] = $data;
           // $response['data'] = $data1;
@@ -393,6 +394,7 @@ class CumplimientoOServController extends Controller
           $data['estadocomponentes']          = $request['estadocomponentes'];
           $data['estadooperacionequipo_cosv'] = $request['estadooperacionequipo_cosv'];
           $data['comentarios_cosv']           = $request['comentarios_cosv'];
+          $data['placavehiculo_cosv']         = $request['placavehiculo_cosv'];
     
           $res = CumplimientoOServ::where("id",$id)->update($data);
     

@@ -325,7 +325,7 @@ function CrearOrdenes(props) {
     async function fetchDataClientes() {
       const res = await clientesServices.listClientes();
       setListarClientes(res.data)
-      console.log("INFORMACION CLIENTE ",res.data);
+      //console.log("INFORMACION CLIENTE ",res.data);
     }
     fetchDataClientes();
   }, [])
@@ -941,12 +941,7 @@ function CrearOrdenes(props) {
     {
       field: 'nombre_est',
       title: 'Estado',
-      cellStyle: { minWidth: 100 }
-    },
-    {
-      field: 'descripcion_tmt',
-      title: 'Tipo de Orden',
-      cellStyle: { minWidth: 100 }
+      cellStyle: { minWidth: 150 }
     },
     {
       field: 'fechaprogramada_otr',
@@ -959,6 +954,16 @@ function CrearOrdenes(props) {
       cellStyle: { minWidth: 150 }
     },
     {
+      field: 'modelo_dequ',
+      title: 'Modelo',
+      cellStyle: { minWidth: 100 }
+    },
+    {
+      field: 'nombre_ciu',
+      title: 'Ciudad',
+      cellStyle: { minWidth: 150 }
+    },
+    {
       field: 'nombrealterno_dequ',
       title: 'Bodega',
       cellStyle: { minWidth: 150 }
@@ -966,17 +971,12 @@ function CrearOrdenes(props) {
     {
       field: 'razonsocial_cli',
       title: 'Cliente',
-      cellStyle: { width: 100, maxWidth: 100 },
-      headerStyle: { width: 100, maxWidth: 100 }
+      cellStyle: { width: 200, maxWidth: 200 },
+      headerStyle: { width: 200, maxWidth: 200 }
     },
     {
-      field: 'nombre_ciu',
-      title: 'Ciudad',
-      cellStyle: { minWidth: 100 }
-    },
-    {
-      field: 'descripcion_abc',
-      title: 'Prioridad de la Orden',
+      field: 'telefono_cli',
+      title: 'Teléfono',
       cellStyle: { minWidth: 100 }
     }
   ]
