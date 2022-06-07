@@ -241,8 +241,8 @@ function RegistraEquipos(props) {
     'estadocalidad_equ': "",
     'ctacontable_equ': "",
     'ctadepreciacion_equ': "",
-    'manejamatricula_equ': "",
-    'manejamarcacion_equ': "",
+    'manejamatricula_equ': "N",
+    'manejamarcacion_equ': "N",
     'fecharetornaequipo_equ': "",
     'combogrupo_equ': 0,
     'datoauxiliarpropietario_equ': 0,
@@ -1787,8 +1787,9 @@ function RegistraEquipos(props) {
 
   return (
     <div className="App">
-      <br />
-      <Button variant="contained" startIcon={<SaveIcon />} color="primary" onClick={() => abrirCerrarModalInsertar()} >Agregar Equipo</Button>
+      {
+      //<Button variant="contained" startIcon={<SaveIcon />} color="primary" onClick={() => abrirCerrarModalInsertar()} >Agregar Equipo</Button>
+      }
       <br />
       <Button className={styles.button}
         variant="contained" startIcon={<ForwardIcon />} color="primary" onClick={() => leerDatosGrupo()}
