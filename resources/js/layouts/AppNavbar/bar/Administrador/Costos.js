@@ -98,6 +98,12 @@ function Costos() {
           </ListItem>
           <Collapse in={openIF} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
+              <ListItem component={Link} button to="/costos/facturacion" className={classes.nested} >
+                <ListItemIcon>
+                  <ViewHeadlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="Informe Facturacion" />
+              </ListItem>
               <ListItem component={Link} button to="/costos/costorealperiodo" className={classes.nested} >
                 <ListItemIcon>
                   <ViewHeadlineIcon />

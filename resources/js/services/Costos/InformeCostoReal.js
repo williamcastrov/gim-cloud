@@ -31,7 +31,7 @@ informecostoreal.costosvariableanno = async (anno) => {
 }
 
 informecostoreal.leeinformacionacumuladaequipos = async (codigo) => {
-    console.log("PERIODO COSTOS: ", codigo)
+    //console.log("PERIODO COSTOS: ", codigo)
     const urlList = baseUrl+"/leeinformacionacumuladaequipos/"+codigo
     const res = await axios.get(urlList)
     .then(response=>{ return response.data; })

@@ -177,7 +177,7 @@ function ConsumosRepuestos() {
                 <td>{d.tr_cre}</td>
                 <td>{d.concepto_cre}</td>
                 <td>{d.documento_cre}</td>
-                <td>{d.fecha_cre}</td>   
+                <td>{d.fecha_cre}</td>
                 <td>{d.idequipo_cre}</td>
                 <td>{d.codigo_cre}</td>
                 <td>{d.documentodest_cre}</td>

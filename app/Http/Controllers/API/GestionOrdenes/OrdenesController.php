@@ -533,10 +533,10 @@ ORDER BY id_otr DESC");
       public function totalotrevision(){  
         try {
           //Muestra Unicamente los tipos de Interlocutores PROVEEDORES = 1
-          $data = DB::select("SELECT count(*) as totalotrevision
+          $data = DB::select("SELECT count(*) as totalotrevision          
                               FROM   ordenservicio
                               WHERE  ordenservicio.estado_otr IN (26)");
-
+          
           $response['data'] = $data;
           
           // $response['data'] = $data1;

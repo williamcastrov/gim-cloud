@@ -76,6 +76,29 @@ class ContratosController extends Controller
           return $response;
     }
 
+
+    public function listar_datosfacturacion($periodo){  
+      try {
+        $data = DB::select("SELECT t0.*, t1.primer_nombre_emp, t1.primer_apellido_emp, t2.razonsocial_cli, t3.nombre_ciu,
+                                   t4.descripcion_tpf, t5.codigo_equ as equipo
+        FROM facturacion AS t0 INNER JOIN interlocutores_emp AS t1 INNER JOIN interlocutores_cli AS t2
+                               INNER JOIN ciudades           AS t3 INNER JOIN tipofacturacion    AS t4
+                               INNER JOIN equipos            AS t5
+        WHERE t0.asesorcomercial_ctr = t1.id_emp AND t0.cliente_ctr = t2.id_cli AND t0.ciudad_ctr  = t3.id_ciu 
+          and t0.periodo_fac = $periodo and t4.id_tpf = t0.tipofacturas_fac AND t0.equipo_fac = t5.id_equ");
+
+        $response['data'] = $data;
+        // $response['data'] = $data1;
+        $response['message'] = "load successful";
+        $response['success'] = true;
+    
+      } catch (\Exception $e) {
+        $response['message'] = $e->getMessage();
+        $response['success'] = false;
+      }
+        return $response;
+  }
+
     public function listar_alertasestadoscontratos(){  
       try {
         $data = DB::select("SELECT t0.*, t2.nombre_est, t3.descripcion_equ, t4.razonsocial_cli, t5.primer_nombre_emp,

@@ -93,7 +93,7 @@ function InformeOT() {
                 <Button className={styles.button} color="primary" >
                     <ReactHTMLTableToExcel
                         table="seguros"
-                        filename="Informacion Flota de Equipos"
+                        filename="Informe de OT"
                         sheet="Sheet"
                         buttonText="Exportar a Excel"
                     />

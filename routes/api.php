@@ -202,8 +202,12 @@ Route::get('/facturacion/listar_factconsomes', 'App\Http\Controllers\API\Importa
 Route::get('/facturacion/listar_factmesequipo/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@listar_factmesequipo');
 Route::get('/facturacion/listar_factperiodo/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@listar_factperiodo');
 Route::get('/facturacion/leerfactcodigomes/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@leerfactcodigomes');
+Route::get('/facturacion/leerfactcodigomes/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@leerfactcodigomes');
 Route::get('/facturacion/listar_factmes/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@listar_factmes');
 Route::get('/facturacion/get/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@get');
+Route::put('/facturacion/update/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@update');
+Route::post('/facturacion/create', 'App\Http\Controllers\API\Importar\FacturacionController@create');
+Route::put('/facturacion/itemfacturado/{id}', 'App\Http\Controllers\API\Importar\FacturacionController@itemfacturado');
 
 // Rutas Gestión Mantenimiento
 Route::get('/marcas/listar_marcas', 'App\Http\Controllers\API\Mantenimiento\MarcasController@listar_marcas');
@@ -364,6 +368,7 @@ Route::delete('/garantias/delete/{id}', 'App\Http\Controllers\API\DatosEquipos\G
 Route::put('/garantias/update/{id}', 'App\Http\Controllers\API\DatosEquipos\GarantiasController@update');
 
 Route::get('/contratos/listar_contratos', 'App\Http\Controllers\API\DatosEquipos\ContratosController@listar_contratos');
+Route::get('/contratos/listar_datosfacturacion/{id}', 'App\Http\Controllers\API\DatosEquipos\ContratosController@listar_datosfacturacion');
 Route::get('/contratos/listar_alertasestadoscontratos', 'App\Http\Controllers\API\DatosEquipos\ContratosController@listar_alertasestadoscontratos');
 Route::get('/contratos/listar_consoestcontratos/{id}', 'App\Http\Controllers\API\DatosEquipos\ContratosController@listar_consoestcontratos');
 Route::get('/contratos/listar_vencimientofecha', 'App\Http\Controllers\API\DatosEquipos\ContratosController@listar_vencimientofecha');

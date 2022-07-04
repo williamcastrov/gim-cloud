@@ -83,8 +83,8 @@ function Ordenes(props) {
             <Tab value="1" label="Crear Orden" {...selectTab('1')} icon={<AddBoxOutlinedIcon />} />
             <Tab value="2" label="Actividades x OT" {...selectTab('2')} icon={<ExitToAppIcon />} />
             <Tab value="3" label="Revisar y Aprobar" {...selectTab('3')} icon={< CheckBoxIcon />} />
-            <Tab value="4" label="Mano de Obra" {...selectTab('4')} icon={<PeopleIcon />} />
-            <Tab value="5" label="Costos y Gastos" {...selectTab('5')} icon={< MonetizationOnIcon />} />
+           { /* <Tab value="4" label="Mano de Obra" {...selectTab('4')} icon={<PeopleIcon />} /> 
+            <Tab value="5" label="Costos y Gastos" {...selectTab('5')} icon={< MonetizationOnIcon /> } /> */}
           </Tabs>
         </div>
         <TabPanel value={value} index="1">
