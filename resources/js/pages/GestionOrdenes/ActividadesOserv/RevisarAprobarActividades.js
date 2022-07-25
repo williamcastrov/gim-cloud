@@ -409,11 +409,11 @@ function RevisarAprobarActividades(props) {
       tiempoactividad: tiempo
     }
   
-    console.log("OTRO TIEMPO : ", actualizaTiempoActividad)
+    console.log("ID USUARIO : ", props.idUsuario)
 
-    if (props.idUsuario != 1 && props.idUsuario != 2 && props.idUsuario != 3 && props.idUsuario != 4 && props.idUsuario != 26) {
-      if ((rest.data.length === 0 && (props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 26)) &&
-        (props.idUsuario != 1 || props.idUsuario != 2 || props.idUsuario != 3 || props.idUsuario != 4 || props.idUsuario != 26)
+    if (props.idUsuario != 1 && props.idUsuario != 2 && props.idUsuario != 7 && props.idUsuario != 4 && props.idUsuario != 26) {
+      if ((rest.data.length === 0 && (props.idUsuario != 2 || props.idUsuario != 7 || props.idUsuario != 26)) &&
+        (props.idUsuario != 1 || props.idUsuario != 2 || props.idUsuario != 7 || props.idUsuario != 4 || props.idUsuario != 26)
       ) {
         swal("Estado Orden", "La Actividad de la OT no Registra Firma, no se puede CERRAR", "warning", { button: "Aceptar" });
       }

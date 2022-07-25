@@ -17,7 +17,8 @@ import cumplimientooservServices from "../../../services/GestionOrdenes/Cumplimi
 const useStyles = makeStyles((theme) => ({
   modal: {
     position: 'absolute',
-    width: 600,
+    width: 700,
+    height: 100,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -37,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 250,
   },
   floatingbutton : {
-      margin: 55,
-      top: 'auto',
+      margin : 70,
+      top: -30,
       right: 20,
       bottom: 20,
-      left: 'auto',
+      left: 120,
       position: 'fixed',
   }
 }));

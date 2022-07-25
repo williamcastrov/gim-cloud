@@ -125,6 +125,7 @@ import ImprimirIncrementoCanon from './pages/Mantenimiento/Listar/IncrementoCano
 //Importar Archivos
 import InventariosAlmacen from './pages/Importar/Inventarios/InventariosAlmacen';
 import Contrataciones from './pages/Importar/Contrataciones';
+import ImportarActivos from './pages/Importar/Activos';
 import Repuestos from './pages/Importar/ConsumosRepuestos';
 import ConceptosRentabilidad from './pages/Informes/Parameters/ConceptosRentabilidad';
 import ConceptosRentabilidadPeriodo from './pages/Informes/Parameters/ConceptosRentabilidadPeriodo';
@@ -316,6 +317,7 @@ function Main(props) {
 
               <Route path="/importar/inventariosalmacen" component={InventariosAlmacen} />
               <Route path="/importar/contrataciones" component={Contrataciones} />
+              <Route path="/importar/activos" component={ImportarActivos} />
               <Route path="/importar/repuestos" component={Repuestos} />
 
               <Route path="/rentabilidad/conceptosrentabilidad" component={ConceptosRentabilidad} />

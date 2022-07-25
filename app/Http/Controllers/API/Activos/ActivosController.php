@@ -16,31 +16,28 @@ class ActivosController extends Controller
     //
     public function create(Request $request){
         try { 
-          $insert['id_act']                     = $request['id_act'];
-          $insert['codigo_act']                 = $request['codigo_act'];
-          $insert['codigocontable_act']         = $request['codigocontable_act'];
-          $insert['descripcion_act']            = $request['descripcion_act'];
-          $insert['empresa_act']                = $request['empresa_act'];
-          $insert['propietario_act']            = $request['propietario_act'];
-          $insert['marca_act']                  = $request['marca_act'];
-          $insert['antiguedad_act']             = $request['antiguedad_act'];
-          $insert['valoradquisicion_act']       = $request['valoradquisicion_act'];
-          $insert['estadocontable_act']         = $request['estadocontable_act'];
-          $insert['ctacontable_act']            = $request['ctacontable_act'];
-          $insert['ctadepreciacion_act']        = $request['ctadepreciacion_act'];
-          $insert['valorresidual_act']          = $request['valorresidual_act'];
-          $insert['costosiniva_act']            = $request['costosiniva_act'];
-          $insert['depreciacionacumulada_act']  = $request['depreciacionacumulada_act'];
-          $insert['valorneto_act']              = $request['valorneto_act'];
-          $insert['valornovedad_act']           = $request['valornovedad_act'];
-          $insert['duracion_act']               = $request['duracion_act'];
-          $insert['depreciacionmensual_act']    = $request['depreciacionmensual_act'];
-          $insert['fechainiciadepre_act']       = $request['fechainiciadepre_act'];
-          $insert['fechaultimadepre_act']       = $request['fechaultimadepre_act'];
-          $insert['valorenlibros_act']          = $request['valorenlibros_act'];
-          $insert['numerocombo_act']            = $request['numerocombo_act'];
-          $insert['estadodepre_act']            = $request['estadodepre_act'];
-          $insert['observacion_act']            = $request['observacion_act'];
+          $insert['id_act']                    = $request['id_act'];
+          $insert['numeroactivo_act']          = $request['numeroactivo_act'];
+          $insert['cuentaactivo_act']          = $request['cuentaactivo_act'];
+          $insert['ctadepreciacion_act']       = $request['ctadepreciacion_act'];
+          $insert['nombreactivo_act']          = $request['nombreactivo_act'];
+          $insert['descripcion_act']           = $request['descripcion_act'];
+          $insert['nitproveedor_act']          = $request['nitproveedor_act'];
+          $insert['nombreproveedor_act']       = $request['nombreproveedor_act'];
+          $insert['fechaadquisicion_act']      = $request['fechaadquisicion_act'];
+          $insert['fechacontable_act']         = $request['fechacontable_act'];
+          $insert['fechafinalcontable_act']    = $request['fechafinalcontable_act'];
+          $insert['placaempresa_act']          = $request['placaempresa_act'];
+          $insert['factura_act']               = $request['factura_act'];
+          $insert['annostranscurridos_act']    = $request['annostranscurridos_act'];
+          $insert['diastranscurridos_act']     = $request['diastranscurridos_act'];
+          $insert['costoadquisicion_act']      = $request['costoadquisicion_act'];
+          $insert['valorresidual_act']         = $request['valorresidual_act'];
+          $insert['depreciacionacumulada_act'] = $request['depreciacionacumulada_act'];
+          $insert['ajustepreciacion_act']      = $request['ajustepreciacion_act'];
+          $insert['valorneto_act']             = $request['valorneto_act'];
+          $insert['depreciacionmensual_act']   = $request['depreciacionmensual_act'];
+        
               
           Activos::insert($insert);
       
@@ -61,7 +58,7 @@ class ActivosController extends Controller
                                              t4.nombre_est, t5.codigo_equ
             FROM activos as t0 INNER JOIN empresa as t1 INNER JOIN interlocutores as t2 INNER JOIN equipos as t5
                                INNER JOIN marcas  as t3 INNER JOIN estados        as t4
-            WHERE t0.empresa_act = t1.id_emp and t0.propietario_act    = t2.id_int  and t0.codigo_act = t5.id_equ and
+            WHERE t0.empresa_act = t1.id_emp and t0.descripcion_act    = t2.id_int  and t0.codigo_act = t5.id_equ and
                   t0.marca_act   = t3.id_mar and t0.estadocontable_act = t4.id_est");
   
           $response['data'] = $data;
@@ -210,30 +207,26 @@ class ActivosController extends Controller
     
     public function update(Request $request, $id_act){
         try {
-            $data['codigo_act']                 = $request['codigo_act'];
-            $data['codigocontable_act']         = $request['codigocontable_act'];
-            $data['descripcion_act']            = $request['descripcion_act'];
-            $data['empresa_act']                = $request['empresa_act'];
-            $data['propietario_act']            = $request['propietario_act'];
-            $data['marca_act']                  = $request['marca_act'];
-            $data['antiguedad_act']             = $request['antiguedad_act'];
-            $data['valoradquisicion_act']       = $request['valoradquisicion_act'];
-            $data['estadocontable_act']         = $request['estadocontable_act'];
-            $data['ctacontable_act']            = $request['ctacontable_act'];
-            $data['ctadepreciacion_act']        = $request['ctadepreciacion_act'];
-            $data['valorresidual_act']          = $request['valorresidual_act'];
-            $data['costosiniva_act']            = $request['costosiniva_act'];
-            $data['depreciacionacumulada_act']  = $request['depreciacionacumulada_act'];
-            $data['valorneto_act']              = $request['valorneto_act'];
-            $data['valornovedad_act']           = $request['valornovedad_act'];
-            $data['duracion_act']               = $request['duracion_act'];
-            $data['depreciacionmensual_act']    = $request['depreciacionmensual_act'];
-            $data['fechainiciadepre_act']       = $request['fechainiciadepre_act'];
-            $data['fechaultimadepre_act']       = $request['fechaultimadepre_act'];
-            $data['valorenlibros_act']          = $request['valorenlibros_act'];
-            $data['numerocombo_act']            = $request['numerocombo_act'];
-            $data['estadodepre_act']            = $request['estadodepre_act'];
-            $data['observacion_act']            = $request['observacion_act'];
+          $data['numeroactivo_act']          = $request['numeroactivo_act'];
+          $data['cuentaactivo_act']          = $request['cuentaactivo_act'];
+          $data['ctadepreciacion_act']       = $request['ctadepreciacion_act'];
+          $data['nombreactivo_act']          = $request['nombreactivo_act'];
+          $data['descripcion_act']           = $request['descripcion_act'];
+          $data['nitproveedor_act']          = $request['nitproveedor_act'];
+          $data['nombreproveedor_act']       = $request['nombreproveedor_act'];
+          $data['fechaadquisicion_act']      = $request['fechaadquisicion_act'];
+          $data['fechacontable_act']         = $request['fechacontable_act'];
+          $data['fechafinalcontable_act']    = $request['fechafinalcontable_act'];
+          $data['placaempresa_act']          = $request['placaempresa_act'];
+          $data['factura_act']               = $request['factura_act'];
+          $data['annostranscurridos_act']    = $request['annostranscurridos_act'];
+          $data['diastranscurridos_act']     = $request['diastranscurridos_act'];
+          $data['costoadquisicion_act']      = $request['costoadquisicion_act'];
+          $data['valorresidual_act']         = $request['valorresidual_act'];
+          $data['depreciacionacumulada_act'] = $request['depreciacionacumulada_act'];
+          $data['ajustepreciacion_act']      = $request['ajustepreciacion_act'];
+          $data['valorneto_act']             = $request['valorneto_act'];
+          $data['depreciacionmensual_act']   = $request['depreciacionmensual_act'];
     
           $res = Activos::where("id_act",$id_act)->update($data);
     

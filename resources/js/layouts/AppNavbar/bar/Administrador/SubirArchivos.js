@@ -67,25 +67,6 @@ function SubirArchivos() {
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-{/* 
-          <ListItem button className={classes.nested} onClick={handleClickPO} >
-            <ListItemIcon>
-              <ViewHeadlineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Inventarios" />
-            {openPO ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openPO} timeout="auto" unmountOnExit> 
-            <List component="div" disablePadding>
-              <ListItem component={Link} button to="/importar/inventariosalmacen" className={classes.nested}>
-                <ListItemIcon>
-                  <SyncIcon />
-                </ListItemIcon>
-                <ListItemText primary="Importar Inventarios Almacen" />
-              </ListItem>
-            </List>
-          </Collapse>
-*/}        
           <Divider />
           <ListItem button className={classes.nested} onClick={handleClickGO} >
             <ListItemIcon>
@@ -96,6 +77,12 @@ function SubirArchivos() {
           </ListItem>
           <Collapse in={openGO} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
+              <ListItem component={Link} button to="/importar/activos" className={classes.nested}>
+                <ListItemIcon>
+                  <LocalShippingIcon />
+                </ListItemIcon>
+                <ListItemText primary="Activos" />
+              </ListItem>
               <ListItem component={Link} button to="/importar/contrataciones" className={classes.nested}>
                 <ListItemIcon>
                   <LocalShippingIcon />

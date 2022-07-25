@@ -4,6 +4,7 @@ import axios from "axios";
 const activos = {};
 
 activos.save = async (data) => {
+    console.log("DATA : ", data)
     const urlSave = baseUrl + "/create"
     const res = await axios.post(urlSave, data)
         .then(response => { return response.data })

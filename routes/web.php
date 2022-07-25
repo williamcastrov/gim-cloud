@@ -140,6 +140,7 @@ Route::get('/email/enviaremailotcliente', 'App\Http\Controllers\GimController@in
 // Rutas Importación de Archivos
 Route::get('/importar/inventariosalmacen', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/contrataciones', 'App\Http\Controllers\GimController@index');
+Route::get('/importar/activos', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/repuestos', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/facturacion', 'App\Http\Controllers\GimController@index');
 Route::get('/importar/datosfacturacion', 'App\Http\Controllers\GimController@index');

@@ -146,9 +146,9 @@ class InformesCostosRealesController extends Controller
           left join vista_consumosrepuestos on (vista_consumosrepuestos.idequipo_cre = t0.codigo_equ and 
           vista_consumosrepuestos.periodo_cre = $periodo)
    left join seguros on (seguros.equipo_seg = t0.id_equ and activo_seg = 'S' and seguros.estado_seg != 45)   
-WHERE  t0.tipo_equ = 8 and vista_activoscostos.codigo_act = t0.id_equ and t2.id_ctr = t0.id_equ and t3.equipo_ubi = t0.id_equ
-and  t4.id_ciu   = t3.ciudad_ubi and t3.estado_ubi = 31 and t2.estado_ctr != 60");
-      
+   WHERE t0.tipo_equ = 8 and vista_activoscostos.codigo_act = t0.id_equ and t2.id_ctr = t0.id_equ and t3.equipo_ubi = t0.id_equ
+     and t4.id_ciu   = t3.ciudad_ubi and t3.estado_ubi = 31 and t2.estado_ctr != 60");
+  
           if ($data) {
               $response['data'] = $data;
               $response['message'] = "Load successful";

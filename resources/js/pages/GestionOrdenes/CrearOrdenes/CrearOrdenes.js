@@ -32,6 +32,7 @@ import tiposmttoServices from "../../../services/Mantenimiento/Tiposmtto";
 import tipooperacionServices from "../../../services/GestionOrdenes/TipoOperacion";
 import contactosServices from "../../../services/Interlocutores/Contactos";
 import usuariosServices from "../../../services/Usuarios";
+import cumplimientoServices from "../../../services/GestionOrdenes/CumplimientoOserv";
 
 //Componentes Gestion de Ordenes
 import MenuCrearOrden from "../MenuCrearOrden";
@@ -151,6 +152,7 @@ function CrearOrdenes(props) {
   const [modalPendiente, setModalPendiente] = useState(false);
 
   const [listarUsuarios, setListUsuarios] = useState([]);
+  const [listarCumplimiento, setListCumplimiento] = useState([]);
   const [listarEmpresas, setListarEmpresas] = useState([]);
   const [listarEstados, setListarEstados] = useState([]);
   const [listarTipoServicio, setListarTipoServicio] = useState([]);
@@ -277,12 +279,33 @@ function CrearOrdenes(props) {
 
   useEffect(() => {
     async function fetchDataOrdenes() {
-      const res = await crearordenesServices.listOrdenesServActivas();
-      setListarOrdenes(res.data);
-      setActualiza(false);
-      //console.log("Lee Ordenes Automaticas", res.data);
+      const res = await crearordenesServices.listOrdenesServCreadas();
+
+      if (res) {
+        const rest = await cumplimientoServices.listCumplimiento();
+        setListCumplimiento(res.data);
+
+        const newDet = [];
+        res.data &&
+          res.data.map((orden, index) => {
+            let valida = true;
+            rest.data &&
+              rest.data.map((item, index) => {
+                if (orden.id_otr == item.id_cosv) {
+                  valida = false;
+                }
+              });
+
+            if (valida) {
+              newDet.push(orden);
+            }
+          });
+        setListarOrdenes(newDet);
+        //console.log("Lee Ordenes", newDet);
+      }
     }
     fetchDataOrdenes();
+    setActualiza(false);
   }, [actualiza])
 
   useEffect(() => {
@@ -604,13 +627,13 @@ function CrearOrdenes(props) {
       errors.tipooperacion_otr = true;
       formOk = false;
     }
-/*
-    if (!ordenSeleccionado.tiposervicio_otr) {
-      alert("2")
-      errors.tiposervicio_otr = true;
-      formOk = false;
-    }
-*/
+    /*
+        if (!ordenSeleccionado.tiposervicio_otr) {
+          alert("2")
+          errors.tiposervicio_otr = true;
+          formOk = false;
+        }
+    */
     if (!ordenSeleccionado.fechaprogramada_otr) {
       alert("3")
       errors.fechaprogramada_otr = true;
@@ -638,14 +661,14 @@ function CrearOrdenes(props) {
         //Asignar Valores al Estado Cumplimiento
         let codigocontacto = 24;
         const res = await contactosServices.contactosInterlocutor(cliente);
-        
-        if(res.data.length > 0){
+
+        if (res.data.length > 0) {
           console.log("DATOS CONTACTO GRABAR : ", res.data[0].id_con);
           codigocontacto = res.data[0].id_con;
-        }else{
+        } else {
           codigocontacto = 24;
         }
-        
+
         let estadoope = 21;
 
         if (asignaOperario > 1) {

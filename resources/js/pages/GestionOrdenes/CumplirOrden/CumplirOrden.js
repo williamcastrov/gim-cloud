@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from 'react-number-format';
 import CachedIcon from '@material-ui/icons/Cached';
 import ReplayIcon from '@material-ui/icons/Replay';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import { green, blue, blueGrey, red } from '@material-ui/core/colors';
 import swal from 'sweetalert';
@@ -18,7 +19,6 @@ import ActividadesOservOperario from "../ActividadesOserv/RegistroActividadesOpe
 import ActividadesOserv from "../ActividadesOserv/ActividadesOserv";
 import FirmarOT from "../FirmarOT/FirmarOT";
 
-
 // hooks react redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,6 +26,7 @@ import { obtenerOrdenesAccion } from "../../../redux/ordenservicioDucks";
 
 //Componentes Gestion de Ordenes
 import MenuCrearOrden from "../MenuCrearOrden";
+import CrearActividad from "../CrearActividad";
 
 //import MenuCrearOrden from "../../DatosEquipos/MenuEquipos";
 
@@ -33,6 +34,17 @@ const useStyles = makeStyles((theme) => ({
   modal2: {
     position: 'absolute',
     width: 1500,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  modal: {
+    position: 'absolute',
+    width: 300,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -233,15 +245,12 @@ function CumplirOrden(props) {
 
   const seleccionarOrden = (orden, caso) => {
     //console.log("DATOS ORDEN : ", orden)
-    if (orden.estado_otr === 24 || orden.estado_otr === 27 || orden.estado_otr === 32) {
-      swal("Cumplimiento OT", "El estado de la OT no permite cambios", "warning", { button: "Aceptar" });
-    } else {
-      setOrdenServicio(orden);
-      setOrdenSeleccionado(orden);
-      setCambio(true);
-      //console.log("CLIENTE SELECCIONADO : ", listarClientes);
-      (caso === "Editar") ? abrirCerrarModalEditar() : abrirCerrarModalEditar()
-    }
+    setOrdenServicio(orden);
+    setOrdenSeleccionado(orden);
+    setCambio(true);
+    //console.log("CLIENTE SELECCIONADO : ", listarClientes);
+    (caso === "Editar") ? abrirCerrarModalEditar() : abrirCerrarModalEditar()
+
   }
 
   const FirmarOrden = (orden, caso) => {
@@ -378,6 +387,7 @@ function CumplirOrden(props) {
     </div>
   )
 
+  /*
   const ordenEditar = (
     <div className="App" >
       <div className={styles.modal}>
@@ -391,6 +401,21 @@ function CumplirOrden(props) {
               <ActividadesOservOperario ordenSeleccionado={ordenSeleccionado} operario={operario} idUsuario={idUsuario} />
             )
         }
+      </div>
+    </div>
+  )
+*/
+
+  const ordenEditar = (
+    <div className="App" >
+      <div className="menuasignartecnico">
+        <div className={styles.modal}>
+        <Typography align="center" className={styles.typography} variant="button" display="block" >
+          Asignar Tecnico Actividad
+        </Typography>
+        <MenuCrearOrden ordenServicio={ordenSeleccionado.id_otr} />
+        
+        </div>
       </div>
     </div>
   )
@@ -417,6 +442,11 @@ function CumplirOrden(props) {
         data={listarOrdenes}
         title="GESTIONAR ORDENES DE SERVICIO"
         actions={[
+          {
+            icon: AssignmentIndIcon,
+            tooltip: 'Asignar Técnico',
+            onClick: (event, rowData) => seleccionarOrden(rowData, "Firmar")
+          },
           {
             icon: PlaylistAddCheckIcon,
             tooltip: 'Firmar Orden',

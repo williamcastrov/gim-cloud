@@ -116,20 +116,20 @@ function EnviarEmail(props) {
     const {id_otr, nombre_emp, razonsocial_cli, telefono_cli, nombre_ciu, email_cli, descripcion_mar, modelo_dequ,
            fechainicia_otr, descripcion_tser, descripcion_tmt, serie_dequ, codigo_equ, descripcion_con, primer_apellido_con,
            primer_nombre_con, horometro_otr, iniciatransporte_otr, finaltransporte_otr, tiempotransporte_otr, tiempoorden_otr,
-           estado_otr
+           estado_otr, id_actividad
     } = props.ordenSeleccionado;
-    console.log("ORDEN SELECCIONADA : ", id_otr);
+    console.log("ACTIVIDAD SELECCIONADA : ", id_actividad);
 
     const onSubmit = values => console.log(values);
     const [enviar, setEnviar] = useState(false);
     const [nombre, setNombre] = useState(primer_nombre_con+' '+primer_apellido_con);
     //const [email, setEmail] = useState("claudiaholguinarroyave@gmail.com");
-    const [comentario, setComentario] = useState("https://gimcloud.co/api/ordenesserv/generarPdf/"+id_otr);
+    const [comentario, setComentario] = useState("https://gimcloud.co/api/ordenesserv/generarPdf/"+id_actividad);
     const [contacto, setContacto] = useState({
         nombre: primer_nombre_con+' '+primer_apellido_con,
         email: email_cli,
         //email: 'williamcastrov@gmail.com',
-        comentario: "https://gimcloud.co/api/ordenesserv/generarPdf/"+id_otr
+        comentario: "https://gimcloud.co/api/ordenesserv/generarPdf/"+id_actividad
     });
 
     const handleChange = e => {
@@ -155,7 +155,7 @@ function EnviarEmail(props) {
                         nombre: nombre,
                         email: email_cli,
                         //email: 'williamcastrov@gmail.com',
-                        comentario: "https://gimcloud.co/api/ordenesserv/generarPdf/"+id_otr
+                        comentario: "https://gimcloud.co/api/ordenesserv/generarPdf/"+id_actividad
                     }])
                 }
                 agregarTarea();
@@ -170,7 +170,7 @@ function EnviarEmail(props) {
         const templateId = 'template_2ccp785';
         const serviceID = 'mantenimientogimcloud';
         sendFeedback(serviceID, templateId, { to_name: contacto.nombre, from_name: contacto.nombre, message_html: contacto.comentario, 
-                                              reply_to: contacto.email, email: contacto.email, id_otr: id_otr, razonsocial_cli: razonsocial_cli })
+                                              reply_to: contacto.email, email: contacto.email, id_otr: id_actividad, razonsocial_cli: razonsocial_cli })
         return;
     }
 
@@ -187,7 +187,7 @@ function EnviarEmail(props) {
     return (
         <div className="App">
             <Typography align="center" className={styles.typography} variant="button" display="block" >
-                - ORDEN DE SERVICIO # {props.ordenSeleccionado.id_otr}
+                - ORDEN DE SERVICIO # {props.ordenSeleccionado.id_actividad}
             </Typography>
             <ButtonGroup orientation="vertical" className={styles.button} color="primary" aria-label="outlined primary button group">
                 <Button>EMPRESA : {nombre_emp} </Button>

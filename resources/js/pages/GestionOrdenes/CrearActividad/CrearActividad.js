@@ -99,8 +99,8 @@ function CrearActividad(props) {
         iniciatransporte_cosv: fechainicial,
         finaltransporte_cosv: fechainicial,
         tiempotransporte_cosv: 0,
-        horometro_cosv:0,
-        combogrupo_cosv:0,
+        horometro_cosv: 0,
+        combogrupo_cosv: 0,
         estado_cosv: 23,
         idcomponente: 0,
         seriecomponente: 0,
@@ -122,7 +122,7 @@ function CrearActividad(props) {
             swal("Asignar Orden de Trabajo", "Debe asignar un Técnico!", "warning", { button: "Aceptar" });
             return;
         }
-        
+
         // SE Comenta por solicitud de Logistral, la OT puede tener mas de una actividad abierta.
         /*
         if (actividadesActivasOT > 0) {
@@ -213,18 +213,28 @@ function CrearActividad(props) {
         async function crearActividad() {
             if (grabar) {
                 //console.log("DATOS CREAR ACTIVIDAD : ", cumplimientoSeleccionado[0])
-                
+
                 const res = await cumplimientooservServices.save(cumplimientoSeleccionado[0]);
 
                 if (res.success) {
                     swal("Crear Actividad OT", "Actividad de la OT Creada de forma Correcta!", "success", { button: "Aceptar" });
-                    console.log(res.message)
-                    window.location.reload();
+                    
+                    const rest = await crearordenesServices.asignarot(cumplimientoSeleccionado[0].id_cosv);
+
+                    if (rest.success) {
+                        swal("Orden de Servicio", "Asignada de forma Correcta!", "success", { button: "Aceptar" });
+                        console.log(rest.message)
+                        window.location.reload();
+                    }
+                    else {
+                        swal("Orden de Servicio", "Error Asignando la Orden de Servicio!", "error", { button: "Aceptar" });
+                        console.log(rest.message);
+                    }
                 } else {
                     swal("Crear actividad OT", "Error Creando la Actividad de la OT!", "error", { button: "Aceptar" });
                     console.log(res.message);
                 }
-                
+
             }
         }
         crearActividad();
@@ -313,7 +323,7 @@ function CrearActividad(props) {
                             </Select>
                         </FormControl>
                         <TextField name="comentarios_cosv" label="Comentarios para el Técnico" fullWidth
-                                   onChange={(e) => setComentarios(e.target.value)} />
+                            onChange={(e) => setComentarios(e.target.value)} />
                         <div >
                             <Button className={styles.button} variant="contained" type="submit" size="small" color="secondary" >
                                 Actualizar
